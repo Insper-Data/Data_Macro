@@ -51,6 +51,8 @@ debt_prop <- debt_prop %>%
   mutate(year = as.integer(year), quarter = as.integer(quarter)) %>% 
   select(1,2,3,4,16,17,18,19, 20,21,22,23,24,25, 26)
 
+debt_prop <- debt_prop %>% 
+  filter(quarter == 4)
 
 ##arrumando weo_am
 weo_am <- weo_am %>%
