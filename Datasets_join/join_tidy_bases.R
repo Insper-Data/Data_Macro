@@ -6,9 +6,10 @@ library(tidyverse)
 library(transformr)
 library(stringi)
 library(skimr)
+library(transformr)
 
-#chegando no wd do computador (modificar)
-setwd("C:/Users/gutao/OneDrive - Insper - Institudo de Ensino e Pesquisa/Documents/Insper/Insper Data/Projeto Macro 2020.1/Data/Bases.csv")
+#chegando no wd do computador obs.: modificar para o seu endereço
+setwd("C:/Users/gabri/Documents/Insper_Data/Macro/projeto_econometria/bases.csv")
 
 
 ##puxando as bases
@@ -17,6 +18,16 @@ debt_prop <- read.csv("tsuda_tidy.csv")  # ja esta tidy
 weo_am <- readxl::read_xlsx("WEO_Data_Paises_AM.xlsx")  # Observar que esta em .xlsx
 
 weo_em <- readxl::read_xlsx("WEO_Data_Paises_EM.xlsx")  # Observar que esta em .xlsx
+
+taxes <- readxl::read_xlsx("taxes.xlsx")  # Observar que esta em .xlsx
+
+gov_index <- readxl::read_xlsx("gov_index.xlsx")  # Observar que esta em .xlsx
+
+real_interest_rate <- readxl::read_xlsx("real_interest_rates.xlsx")  # Observar que esta em .xlsx
+
+
+
+ 
 
 
 ##arrumando weo_am
@@ -74,12 +85,46 @@ dataset_total <- debt_prop %>%
   left_join(weo, by = c("country", "Year"))
 # Obs. paises que nÃ£o estavam na weo: Latvia, Lithuania, Norway
 
+#Mudando os nomes das variáveis que vieram da WEO
+
+dataset_total <- dataset_total %>% 
+  rename (woe_country_code='WEO Country Code',
+          GDP_cte='Gross domestic product, constant prices',
+          GDP_cur='Gross domestic product, current prices',
+          GDP_per_cap_cte='Gross domestic product per capita, constant prices',
+          inflation_mean='Inflation, average consumer prices',
+          inflation_end='Inflation, end of period consumer prices',
+          unemployment='Unemployment rate',
+          lending_borroeing_rate='General government net lending/borrowing',
+          account_balance='Current account balance')
+
+
+#base de impostos
+dataset_total <- dataset_total %>% 
+  left_join(taxes, by = c("country", "Year"))
+
+#base de indicadores diversos no World Bank
+
+dataset_total <- dataset_total %>% 
+  left_join(gov_index, by = c("country", "Year"))
+
+
+#base de taxa de juros real
+
+dataset_total <- dataset_total %>% 
+  left_join(real_interest_rate, by = c("country", "Year"))
+
+
+#colocando NA nas observações
+
+dataset_total<- dataset_total %>% 
+  na_if("..")
 
 # Escrevendo um arquivo csv para dataset_total:
 #write_csv(dataset_total, "dataset_total.csv")
 
 
-# Agora precisamos arrumar os nomes das colunas que vieram da WEO, estao muito grandes
+
 
 
 
