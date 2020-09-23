@@ -10,7 +10,7 @@ library(skimr)
 library(transformr)
 library(imfr)
 
-#chegando no wd do computador obs.: modificar para o seu endereço
+#chegando no wd do computador obs.: modificar para o seu endere?o
 setwd("C:/Users/gabri/Documents/Insper_Data/Macro/projeto_econometria/bases.csv")
 
 
@@ -105,7 +105,7 @@ dataset_total <- debt_prop %>%
   left_join(weo, by = c("country", "year"))
 # Obs. paises que nÃ£o estavam na weo: Latvia, Lithuania, Norway
 
-#Mudando os nomes das variáveis que vieram da WEO
+#Mudando os nomes das vari?veis que vieram da WEO
 
 dataset_total <- dataset_total %>% 
   rename (woe_country_code='WEO Country Code',
@@ -157,7 +157,7 @@ dataset_total <- dataset_total %>%
 
 
 
-#colocando NA nas observações
+#colocando NA nas observa??es
 
 dataset_total<- dataset_total %>% 
   na_if("..")
@@ -167,9 +167,21 @@ dataset_total<- dataset_total %>%
 
 
 
+#puxando a base de taxa de juros nominais
+
+interest_rates <- read_xlsx ("Interest_Rate_Nom.xlsx")
+
+interest_rates_tidy <-  interest_rates %>% 
+  pivot_longer(("2000":"2020M08"), 
+               names_to = "Year",
+               values_to = "nominal_rate")
 
 
+interest_rates_tidy <- interest_rates_tidy %>% 
+  filter(str_length(Year)<=4)
 
+interest_rates_tidy <- interest_rates_tidy %>% 
+  na_if("...")
 
 
 
