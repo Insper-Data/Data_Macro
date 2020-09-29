@@ -10,8 +10,8 @@ library(skimr)
 library(transformr)
 library(imfr)
 
-#chegando no wd do computador obs.: modificar para o seu endereço
-setwd("C:/Users/gabri/Documents/Insper_Data/Macro/projeto_econometria/bases.csv")
+#chegando no wd do computador obs.: modificar para o seu endere?o
+setwd("/Users/mariaclara/Documents/InsperData/DataMacro")
 
 
 ##puxando as bases
@@ -105,7 +105,7 @@ dataset_total <- debt_prop %>%
   left_join(weo, by = c("country", "year"))
 # Obs. paises que nÃ£o estavam na weo: Latvia, Lithuania, Norway
 
-#Mudando os nomes das variáveis que vieram da WEO
+#Mudando os nomes das vari?veis que vieram da WEO
 
 dataset_total <- dataset_total %>% 
   rename (woe_country_code='WEO Country Code',
@@ -156,26 +156,39 @@ dataset_total <- dataset_total %>%
 
 
 
+#puxando a base de taxa de juros nominais
 
-#colocando NA nas observações
+interest_rates <- read_xlsx ("Interest_Rate_Nom.xlsx")
 
-dataset_total<- dataset_total %>% 
-  na_if("..")
+interest_rates_tidy <-  interest_rates %>% 
+  pivot_longer(("2000":"2020M08"), 
+               names_to = "year",
+               values_to = "nominal_rate") %>% 
+  rename(country=1) %>% 
+  mutate(year=as.numeric(year))
+
+
+interest_rates_tidy <- interest_rates_tidy %>% 
+  filter(str_length(year)<=4)
+
+interest_rates_tidy <- interest_rates_tidy %>% 
+  na_if("...")
+
+
+
+dataset_total <- dataset_total %>% 
+  left_join(interest_rates_tidy, by = c("year", "country"))
+
+
 
 # Escrevendo um arquivo csv para dataset_total:
 #write_csv(dataset_total, "dataset_total.csv")
 
-
-
-
-
-
-
-
-
-
-
  
+#colocando NA nas observaÃ§Ãµes
+
+dataset_total<- dataset_total %>% 
+  na_if("..")
 
 
 
