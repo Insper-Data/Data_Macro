@@ -11,7 +11,7 @@ library(transformr)
 library(imfr)
 
 #chegando no wd do computador obs.: modificar para o seu endere?o
-setwd("/Users/mariaclara/Documents/InsperData/DataMacro")
+setwd("C:/Users/gabri/Documents/Insper_Data/Macro/projeto_econometria/bases.csv")
 
 
 ##puxando as bases
@@ -27,6 +27,7 @@ gov_index <- readxl::read_xlsx("gov_index.xlsx")  # Observar que esta em .xlsx
 
 vix <- readxl::read_xlsx("vix.xlsx")  # Observar que esta em .xlsx
 
+continents <- read.csv("continents.csv")
 
 #'anualizando' os dados da base do tsuda
 
@@ -127,18 +128,6 @@ taxes <- taxes %>%
 dataset_total <- dataset_total %>% 
   left_join(taxes, by = c("country", "year"))
 
-#base de indicadores diversos no World Bank
-
-gov_index <- gov_index %>% 
-  select(1,3,7,13, 19, 25, 31, 37)
-
-gov_index <- gov_index %>% 
-  rename(year=1, country=2, control_corruption_rank=3, effectiveness_rank=4, politial_stavility_rank=5, regulatory_quality=6, rule_of_law_rank=7, voice_rank=8)
-
-dataset_total <- dataset_total %>% 
-  left_join(gov_index, by = c("country", "year"))
-
-
 #VIX
 
 vix<-vix %>% 
@@ -158,7 +147,7 @@ dataset_total <- dataset_total %>%
 
 #puxando a base de taxa de juros nominais
 
-interest_rates <- read_xlsx ("Interest_Rate_Nom.xlsx")
+interest_rates <- readxl::read_xlsx("Interest_Rate_Nom.xlsx")
 
 interest_rates_tidy <-  interest_rates %>% 
   pivot_longer(("2000":"2020M08"), 
@@ -179,10 +168,38 @@ interest_rates_tidy <- interest_rates_tidy %>%
 dataset_total <- dataset_total %>% 
   left_join(interest_rates_tidy, by = c("year", "country"))
 
+#adicionando os continentes
 
+continents <- continents %>% 
+  rename(continent=1) %>% 
+  rename(country=2)
 
-# Escrevendo um arquivo csv para dataset_total:
-#write_csv(dataset_total, "dataset_total.csv")
+dataset_total <- dataset_total %>% 
+  left_join(continents, by="country")
+  
+dataset_total <-dataset_total %>% 
+  mutate(nominal_rate=as.numeric(nominal_rate))
+
+#base de indicadores diversos no World Bank
+
+gov_index <- gov_index %>% 
+  select(1,3,7,13, 19, 25, 31, 37)
+
+gov_index <- gov_index %>% 
+  rename(year=1, country=2, control_corruption_rank=3, effectiveness_rank=4, political_stability_rank=5, regulatory_quality_rank=6, rule_of_law_rank=7, voice_rank=8)
+
+dataset_total_index <- dataset_total %>% 
+  left_join(gov_index, by = c("country", "year"))
+
+dataset_total_index <- dataset_total %>% 
+  mutate(taxes = as.numeric(taxes)) %>% 
+  mutate(control_corruption_rank = as.numeric(control_corruption_rank)) %>% 
+  mutate(effectiveness_rank = as.numeric(effectiveness_rank)) %>% 
+  mutate(political_stability_rank = as.numeric(political_stability_rank)) %>% 
+  mutate(regulatory_quality_rank = as.numeric(regulatory_quality_rank)) %>% 
+  mutate(rule_of_law_rank = as.numeric(rule_of_law_rank)) %>% 
+  mutate(voice_rank=as.numeric(voice_rank))
+
 
  
 #colocando NA nas observações
@@ -190,12 +207,18 @@ dataset_total <- dataset_total %>%
 dataset_total<- dataset_total %>% 
   na_if("..")
 
+dataset_total_index<- dataset_total_index %>% 
+  na_if("..")
 
 
 
 
+# Escrevendo um arquivo csv para dataset_total:
+write_csv(dataset_total, "dataset_total.csv")
 
-
+# Escrevendo um arquivo csv para dataset_total_index:
+write_csv(dataset_total_index, "dataset_total_index.csv")
+ #fim
 
 
 
