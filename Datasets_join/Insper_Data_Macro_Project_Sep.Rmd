@@ -1,0 +1,63 @@
+---
+output:
+  html_document:
+    df_print: paged
+    highlight: haddock
+    number_section: yes
+    theme: readable
+    toc: yes
+    toc_float:
+      collapsed: yes
+      smooth_scroll: yes
+  pdf_document:
+    toc: yes
+---
+
+
+Preliminary impressions about the relationship between the level of public debt and the countries ability to attract new foreign credits
+
+
+
+Insper Data
+
+Augusto Netto
+Gabriella Garcia
+Maria Clara Drzeviechi
+
+#Introduction and Motivation
+
+This study aims to investigate how a country’s level of public debt can be an obstacle to attract new foreign credits. If the country incurs a lot of debt, it is more likely that it will not be able to repay its creditor. Thus, in situations that a country’s level of public debt is too big, the creditors may choose to stop financing the country (Krugman, 1988), because of the fear of being defaulted. 
+
+In the past 50 years, emerging and developing economies experienced four big indebtedness waves, three of which ended up in financial crises. In the 1980s, the association of low real interest rates and growing debt market led certain economies to raise considerably its levels of indebtedness; the result was the well-known Latin America’s debt crisis. A decade later, the world would watch the Asian financial crisis, due to the liberalization of financial markets and capital flows, allowing these countries to acquire loans in foreign currencies. Finally, in 2007-09, both emerging and advanced economies faced major recessions as a result of the Global Financial Crisis.
+
+It is important to notice that although happening in different decades and locations, these three episodes share a common denominator: they all started in periods with low real interest rates and an escalating indebtedness. This scenario made the risk premium rise and subsequently there was a sudden stop of capital flows.
+
+In 2010, the fourth global wave of debt started, it is worth pointing out that it was the largest and fastest one. In accordance with the aforementioned ones, interest rates were low since the Global Financial Crisis and investors were seeking assets with greater profitability. It is also reasonable to consider that this wave has not yet met its end. By 2018, according to the IMF, global debt has reached 226% of GDP, representing an amount of 188 trillions of dollars.  Emerging and developing economies saw indebtedness grow 54 p.p. in 8 years, reaching 170% of GDP. Low income countries reached 67% of GDP in 2018 – that figure was 48% in 2010. A different situation is seen on advanced economies, once they have maintained the 265% ratio of debt to GDP on the same level since 2010.
+
+Considering budget deficits, corporate foreign debt and current account deficits, one will probably say that the situation in which emerging and developing countries are now is far worse than that in which they were in 2010. In addition, part of these economies have since then faced long periods of low growth and find now a weaker global economy, which puts them in a more vulnerable situation to external shocks.
+
+Despite low real interest rates, the constant rise in indebtedness can lead to a sudden rise in risk premia and consequently in interest rates, aggravating the perspectives of those countries. Something like that has already been experienced by Argentina and Turkey; both saw a rise in the cost of servicing the debt.
+There is a problem when investors begin to demand a higher premium due to those higher risks: it can possibly end up in a debt crisis once they consider a certain Debt/GDP level to be unsustainable (Blanchard 2019; Henderson 2019; Rogoff 2019a,b). When such a thing happens, it is expected a ‘flight-to-safety’, and weaker and highly indebted economies see huge capital outflows and a depreciation on the exchange rate.
+
+In this context, this study intends to analyse the impact of the variable debt-to-GDP ratio on the participation of foreign creditors in government bonds. Therefore, a worldwide analysis will be conducted using the database provided by Arslanalp and Takahiro Tsuda, previously affiliated with the Monetary and Capital Markets Department of the International Monetary Fund.
+
+#Literature Review
+
+Discussions on how indebtedness can affect the macroeconomic variables of a country are widely addressed in the literature. This review will focus on three topics: debt and growth; debt overhang and debt tolerance.
+
+The relationship between debt and growth was first found to be non-linear by Reinhart, Rogoff, and Savastano (2003). Later, Reinhart and Rogoff (2010) analyze countries distinguishing developed and emerging markets and they found out that, for both groups, a 90% debt to GDP ratio can be detrimental for growth. On the other hand, Kumar and Woo (2010) produced evidence that the negative impact of debt on growth is higher for developing countries when compared with developed countries. 
+Thinking about debt tolerance, Reinhart, Rogoff and Savastano (2003) introduce the concept of debt intolerance and analyze how emerging markets find it difficult to face high levels of debt, while advanced countries face this issue more easily.  Later, Catão and Kapur (2006) discussed the macroeconomic determinants of a country’s volatility and how it impacts the spread rate it has to pay.
+
+The concept of debt overhang refers to a debt burden so large that the country can not take any additional debt to finance itself. Krugman (1988) discussed the tradeoff for creditors when facing a debt overhang: financing or forgiving. Deshpande (1995) discusses how a situation of debt overhang can discourage investment. Reinhart, Reinhart, and Rogoff (2012) punctuated the main episodes in history about debt overhang.
+
+
+
+
+#Dataset Description
+
+Initially, the dataset used in this study is composed by the database provided by Arslanalp and Takahiro Tsuda and the World Economic Outlook from IMF. The dataset is composed of 45 countries sixteen years. 
+
+Firstly, some stylized facts will be explained in relation to our dataset.
+
+
+
