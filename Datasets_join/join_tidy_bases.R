@@ -1,6 +1,6 @@
 
 # Script para juntar as bases que vamos utilizar
-
+rm(list=ls())
 
 #libraries
 library(tidyverse)
@@ -8,7 +8,7 @@ library(transformr)
 library(stringi)
 library(skimr)
 library(transformr)
-library(imfr)
+
 
 #chegando no wd do computador obs.: modificar para o seu endere?o
 setwd("C:/Users/gabri/Documents/Insper_Data/Macro/projeto_econometria/bases.csv")
@@ -26,6 +26,8 @@ taxes <- readxl::read_xlsx("taxes.xlsx")  # Observar que esta em .xlsx
 gov_index <- readxl::read_xlsx("gov_index.xlsx")  # Observar que esta em .xlsx
 
 vix <- readxl::read_xlsx("vix.xlsx")  # Observar que esta em .xlsx
+
+GDP_per_cap <- readxl::read_xlsx("GDP_per_cap_WB.xlsx")  # Observar que esta em .xlsx
 
 continents <- read.csv("continents.csv")
 
@@ -73,6 +75,9 @@ weo_am <- weo_am %>%
   select(`WEO Country Code`, country, year, sub_description, value) %>% 
   pivot_wider(names_from = sub_description, values_from = value)
 
+weo_am <- weo_am %>% 
+  mutate(develop="AM")
+
 
 ##arrumando weo_em
 weo_em <- weo_em %>%
@@ -91,6 +96,9 @@ weo_em <- weo_em %>%
 weo_em <- weo_em %>%
   select(`WEO Country Code`, country, year, sub_description, value) %>% 
   pivot_wider(names_from = sub_description, values_from = value)
+
+weo_em <- weo_em %>% 
+  mutate(develop="EM")
 
 
 # Bind em weo_am e weo_am:
@@ -179,6 +187,21 @@ dataset_total <- dataset_total %>%
   
 dataset_total <-dataset_total %>% 
   mutate(nominal_rate=as.numeric(nominal_rate))
+
+#GDP per cap
+GDP_per_cap <- GDP_per_cap %>% 
+  rename(year = 1 , country = 3 , GDP_per_cap_cur_USD = 5)
+
+GDP_per_cap <- GDP_per_cap %>% 
+  mutate(GDP_per_cap_cur_USD=as.numeric(GDP_per_cap_cur_USD))
+
+GDP_per_cap <- GDP_per_cap %>% 
+  select(1,3,5)
+
+dataset_total <- dataset_total %>% 
+  left_join(GDP_per_cap, by=c("country", "year"))
+
+
 
 #base de indicadores diversos no World Bank
 
