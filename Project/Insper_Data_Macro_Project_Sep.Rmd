@@ -21,27 +21,29 @@ Preliminary impressions about the relationship between the level of public debt 
 Insper Data
 
 Augusto Netto
+
 Gabriella Garcia
+
 Maria Clara Drzeviechi
 
 #Introduction and Motivation
 
+This study aims to investigate how a country’s level of public debt can be an obstacle to attract new foreign credits. If the country incurs a lot of debt, it is more likely that it will not be able to repay its creditor. Thus, in situations that a country’s level of public debt is too large, the creditors may choose to stop financing the country (Krugman, 1988), because of the fear of default. 
 
-This study aims to investigate how a country's level of public debt can be an obstacle to attract new foreign credits. If the country incurs a lot of debt, it is more likely that it will not be able to repay its creditor. Thus, in situations that a country's level of public debt is too big, the creditors may choose to stop financing the country (Krugman, 1988), because of the fear of being defaulted. 
+In the past 50 years, emerging and developing economies experienced four big indebtedness waves, three of which ended up in financial crises. In the 1980s, the association of low real interest rates and growing debt market led certain economies to raise considerably their levels of indebtedness; the result was the well-known Latin America’s debt crisis. A decade later, the world would watch the Asian financial crisis, due to the liberalization of financial markets and capital flows, allowing these countries to acquire loans in foreign currencies. Finally, in 2007-09, both emerging and advanced economies faced major recessions as a result of the global financial crisis.
 
-In the past 50 years, emerging and developing economies experienced four big indebtedness waves, three of which ended up in financial crises. In the 1980s, the association of low real interest rates and growing debt market led certain economies to raise considerably its levels of indebtedness; the result was the well-known Latin America debt crisis. A decade later, the world would watch the Asian financial crisis, due to the liberalization of financial markets and capital flows, allowing these countries to acquire loans in foreign currencies. Finally, in 2007-09, both emerging and advanced economies faced major recessions as a result of the Global Financial Crisis.
-
-It is important to notice that although happening in different decades and locations, these three episodes share a common denominator: they all started in periods with low real interest rates and an escalating indebtedness. This scenario made the risk premium rise and subsequently there was a sudden stop of capital flows.
-
-In 2010, the fourth global wave of debt started, it is worth pointing out that it was the largest and fastest one. In accordance with the aforementioned ones, interest rates were low since the Global Financial Crisis and investors were seeking assets with greater profitability. It is also reasonable to consider that this wave has not yet met its end. By 2018, according to the IMF, global debt has reached 226% of GDP, representing an amount of 188 trillions of dollars.  Emerging and developing economies saw indebtedness grow 54 p.p. in 8 years, reaching 170% of GDP. Low income countries reached 67% of GDP in 2018, that figure was 48% in 2010. A different situation is seen on advanced economies, once they have maintained the 265% ratio of debt to GDP on the same level since 2010.
-
+It is important to notice that although happening in different decades and locations, these three episodes share a common denominator: they all started in periods with low real interest rates and an escalating indebtedness. This scenario made the risk premium rise and subsequently there was a sudden stop of capital flows. 
+            	
+In 2010, the fourth global wave of debt started, and it was the largest and fastest one. In accordance with the aforementioned ones, interest rates were low since the Global Financial Crisis and investors were seeking assets with greater profitability. It is also reasonable to consider that this wave has not yet met its end. By 2018, according to the IMF, global debt has reached 226% of GDP, representing an amount of 188 trillions of dollars.  Emerging and developing economies saw indebtedness grow 54 p.p. in 8 years, reaching 170% of GDP. Low income countries reached 67% of GDP in 2018 – that figure was 48% in 2010. A different situation is seen on advanced economies, once they have maintained the 265% ratio of debt to GDP on the same level since 2010.
+        	
 Considering budget deficits, corporate foreign debt and current account deficits, one will probably say that the situation in which emerging and developing countries are now is far worse than that in which they were in 2010. In addition, part of these economies have since then faced long periods of low growth and find now a weaker global economy, which puts them in a more vulnerable situation to external shocks.
 
 Despite low real interest rates, the constant rise in indebtedness can lead to a sudden rise in risk premia and consequently in interest rates, aggravating the perspectives of those countries. Something like that has already been experienced by Argentina and Turkey; both saw a rise in the cost of servicing the debt.
 
-There is a problem when investors begin to demand a higher premium due to those higher risks: it can possibly end up in a debt crisis once they consider a certain Debt/GDP level to be unsustainable (Blanchard 2019; Henderson 2019; Rogoff 2019a,b). When such a thing happens, it is expected a flight-to-safety, and weaker and highly indebted economies see huge capital outflows and a depreciation on the exchange rate.
+There is a problem when investors begin to demand a higher premium due to those higher risks: it can possibly end up in a debt crisis once they consider a certain Debt/GDP level to be unsustainable (Blanchard 2019; Henderson 2019; Rogoff 2019a,b). When such a thing happens, it is expected a ‘flight-to-safety’, and weaker and highly indebted economies see huge capital outflows and a depreciation on the exchange rate.
 
 In this context, this study intends to analyse the impact of the variable debt-to-GDP ratio on the participation of foreign creditors in government bonds. Therefore, a worldwide analysis will be conducted using the database provided by Arslanalp and Takahiro Tsuda, previously affiliated with the Monetary and Capital Markets Department of the International Monetary Fund.
+
 
 
 #Literature Review
@@ -49,17 +51,17 @@ In this context, this study intends to analyse the impact of the variable debt-t
 Discussions on how indebtedness can affect the macroeconomic variables of a country are widely addressed in the literature. This review will focus on three topics: debt and growth; debt overhang and debt tolerance.
 
 The relationship between debt and growth was first found to be non-linear by Reinhart, Rogoff, and Savastano (2003). Later, Reinhart and Rogoff (2010) analyze countries distinguishing developed and emerging markets and they found out that, for both groups, a 90% debt to GDP ratio can be detrimental for growth. On the other hand, Kumar and Woo (2010) produced evidence that the negative impact of debt on growth is higher for developing countries when compared with developed countries. 
-
-Thinking about debt tolerance, Reinhart, Rogoff and Savastano (2003) introduce the concept of debt intolerance and analyze how emerging markets find it difficult to face high levels of debt, while advanced countries face this issue more easily.  Later, CatÃ£o and Kapur (2006) discussed the macroeconomic determinants of a country's volatility and how it impacts the spread rate it has to pay.
+Thinking about debt tolerance, Reinhart, Rogoff and Savastano (2003) introduce the concept of debt intolerance and analyze how emerging markets find it difficult to face high levels of debt, while advanced countries face this issue more easily.  Later, Catão and Kapur (2006) discussed the macroeconomic determinants of a country’s volatility and how it impacts the spread rate it has to pay.
 
 The concept of debt overhang refers to a debt burden so large that the country can not take any additional debt to finance itself. Krugman (1988) discussed the tradeoff for creditors when facing a debt overhang: financing or forgiving. Deshpande (1995) discusses how a situation of debt overhang can discourage investment. Reinhart, Reinhart, and Rogoff (2012) punctuated the main episodes in history about debt overhang.
 
 
 
 
+
 #Dataset Description
 
-Initially, the dataset used in this study is composed by the database provided by Arslanalp and Takahiro Tsuda and the World Economic Outlook from IMF. The dataset is composed of 45 countries sixteen years. 
+Initially, the dataset used in this study is composed by the database provided by Arslanalp and Takahiro Tsuda and the World Economic Outlook from IMF. The dataset is composed of 45 countries for sixteen years (2004-2016). 
 
 ```{r, echo=FALSE, message=FALSE} 
 #adicionando libraries
@@ -70,6 +72,7 @@ library(spData)
 library(gganimate)
 library(readr)
 library(readxl)
+library(gganimate)
 library(plotly)
 
 #puaxando a dataset_total e a dataset_total_index
@@ -84,62 +87,90 @@ head(dataset_total, 5)
 Firstly, some stylized facts will be explained in relation to our dataset.
 
 
-##The level of indebtedness in the world has changed in recent years
+##The level of indebtedness in the world has varied considerably in recent years
 ```{r , echo=FALSE, message=FALSE}
-dataset_total %>% 
-  group_by(year) %>% 
+
+ graph_debt <- dataset_total %>% 
+  group_by(year) %>%
+   filter(!is.na(develop)) %>% 
   summarise(debt_to_GDP_mean = mean(debt_to_GDP_)) %>% 
-ggplot(aes(x = year, y = debt_to_GDP_mean, color = "develop" )) +
+ggplot(aes(x = year, y = debt_to_GDP_mean)) +
     geom_point() +
-    labs(x = "Year", y = "Debt to GDP ratio (%)", title = "                          Average debt to GDP ratio for 47 countries") +
+     geom_smooth(color="black")+
+    labs(x = "Year", y = "Debt to GDP Ratio (%)", title = "                          Average Debt to GDP Ratio for 45 Countries") +
     theme_bw()
-```
-```{r,  echo=FALSE, message=FALSE}
+
+graph_debt
+
+
 
 
 ```
-
-```{r, echo=FALSE, message=FALSE}
-
-
-```
-
 
 It is possible to observe that the average indebtedness in the countries fell a lot in 2008, rise until 2018 and has been showing a slight drop.
 
-##
-```{r}
+##Advanced markets are more indebted than emerging markets
 
-graf_GDP_debt_2005 <- dataset_total %>% 
-  filter(year==2005) %>% 
-  ggplot(aes(x = GDP_per_cap_cur_USD, y = debt_to_GDP_, color=country)) + 
-  labs(x = "GDP per capita", y = "Debt to GDP ratio (%)", title = "                    GDP per capita x Debt to GDP ratio (2005)")+
-  geom_point(show.legend = FALSE) +
-  theme_bw()
-   
-graf_GDP_debt_2005
+```{r, echo=FALSE, message=FALSE}
+ graph_debt_sep<-dataset_total %>% 
+   filter(!is.na(develop)) %>% 
+   rename(Type=25) %>% 
+  group_by(year, Type) %>% 
+  summarise(debt_to_GDP_mean = mean(debt_to_GDP_)) %>% 
+ggplot(aes(x = year, y = debt_to_GDP_mean, color=Type )) +
+   scale_color_manual(values = c("EM" = "red", "AM" = "blue"))+
+    geom_point() +
+    geom_smooth()+
+    labs(x = "Year", y = "Debt to GDP Ratio (%)", title = "  Average Debt to GDP Ratio for Advanced and Emerging Markets") +
+    theme_bw()
 
-  
-graf_GDP_debt_2015 <- dataset_total %>% 
-  filter(year==2015) %>% 
-  ggplot(aes(x = GDP_per_cap_cte, y = debt_to_GDP_, color=country)) + 
-  labs(x = "GDP per capita", y = "Debt to GDP ratio (%)", title = "                    GDP per capita x Debt to GDP ratio (2015)")+
-  geom_point(show.legend = FALSE) +
-  theme_bw()
+graph_debt_sep
 
-graf_GDP_debt_2015
+```
 
-graf_GDP_debt_2019 <- dataset_total %>% 
-  filter(year==2019) %>% 
-  ggplot(aes(x = GDP_per_cap_cte, y = debt_to_GDP_, color=country)) + 
-  labs(x = "GDP per capita", y = "Debt to GDP ratio (%)", title = "                    GDP per capita x Debt to GDP ratio (2019)")+
-  geom_point(show.legend = FALSE) +
-  theme_bw()
+##The relationship between debt and GDP is not clear
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 
-graf_GDP_debt_2019
 
-ggplotly(graf_GDP_debt_2005, tooltip = c("country", "debt_to_GDP"))
+animated_debt_gdp <- ggplot(
+  dataset_total, 
+  aes(x = GDP_per_cap_cur_USD , y= debt_to_GDP_ , size = GDP_cur, colour = country)
+  ) +
+  geom_point(show.legend = FALSE, alpha = 0.7) +
+  scale_color_viridis_d() +
+  scale_size(range = c(2, 12)) +
+  theme_bw() +
+  scale_x_log10() +
+  labs(x = "GDP per capita", y = "Debt to GDP Ratio (%)")
+
+ gif_debt <- animated_debt_gdp + transition_time(year) +
+  labs(title = "Year: {frame_time}")
+
+gif_debt
 
 
 ```
+
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+
+
+ graph_debt_GDP <- dataset_total %>% 
+   group_by(country) %>% 
+   filter(!is.na(develop)) %>% 
+  summarise(debt_to_GDP_mean = mean(debt_to_GDP_) , GDP_per_cap_mean = mean(GDP_per_cap_cur_USD)) %>% 
+ggplot(aes(x = GDP_per_cap_mean, y = debt_to_GDP_mean, color=country)) +
+    scale_color_viridis_d() +
+    geom_point(show.legend = FALSE) +
+    labs(x = "GDP per Capita", y = "Debt to GDP Ratio (%)", title = " Average for 45 Countries (2004-2019)") +
+    theme_bw()
+
+
+ggplotly(graph_debt_GDP, tooltip = c("country"))
+```
+
+
+Even though advanced markets have a higher debt level than emerging markets, the relationship between GDP per capita and debt to GDP ratio is not clear
 
