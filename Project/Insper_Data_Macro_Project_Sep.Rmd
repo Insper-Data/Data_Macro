@@ -42,7 +42,7 @@ Despite low real interest rates, the constant rise in indebtedness can lead to a
 
 There is a problem when investors begin to demand a higher premium due to those higher risks: it can possibly end up in a debt crisis once they consider a certain Debt/GDP level to be unsustainable (Blanchard 2019; Henderson 2019; Rogoff 2019a,b). When such a thing happens, it is expected a ‘flight-to-safety’, and weaker and highly indebted economies see huge capital outflows and a depreciation on the exchange rate.
 
-In this context, this study intends to analyse the impact of the variable debt-to-GDP ratio on the participation of foreign creditors in government bonds. Therefore, a worldwide analysis will be conducted using the database provided by Arslanalp and Takahiro Tsuda, previously affiliated with the Monetary and Capital Markets Department of the International Monetary Fund.
+In this context, this study intends to analyze the impact of the variable debt-to-GDP ratio on the participation of foreign creditors in government bonds. Therefore, a worldwide analysis will be conducted using the database provided by Arslanalp and Takahiro Tsuda, previously affiliated with the Monetary and Capital Markets Department of the International Monetary Fund.
 
 
 
@@ -76,6 +76,7 @@ library(readxl)
 library(spData)
 library(plotly)
 library(sf)
+library(viridis)
 
 #puaxando a dataset_total e a dataset_total_index
 dataset_total <- read.csv("dataset_total.csv") 
@@ -119,15 +120,15 @@ What follows is the details on some of the variables above shown:
 
 * **Develop** Variable to distinguish emerging markets (EM) and advanced markets (AM);
 
-* **Taxes** Tax aliquote for each country
+* **Taxes** Tax aliquote for each country;
 
-* **VIX (EUA)** Year average fot the Volatility Index (VIX) is a measure of expected price fluctuations in the S&P 500 Index options
+* **VIX (EUA)** Year average for the Volatility Index (VIX) is a measure of expected price fluctuations in the S&P 500 Index options;
 
-* **VIX (EUR)** Year average for the EuroCurrency Volatility Index ("Euro VIX") measures the market's expectation volatility of the $US/Euro exchange rate
+* **VIX (EUR)** Year average for the EuroCurrency Volatility Index ("Euro VIX") measures the market's expectation volatility of the $US/Euro exchange rate;
 
-* **Nominal Rate** Annual nominal interest rate
+* **Nominal Rate** Annual nominal interest rate;
 
-* **GDP per capita in current USD** 
+* **GDP per capita in current USD**.
 
 
 
@@ -135,6 +136,47 @@ What follows is the details on some of the variables above shown:
 #Stylized Facts
 
 Firstly, some stylized facts will be explained in relation to our dataset.
+
+
+##Countries have different indebtedness levels
+
+```{r , echo=FALSE, message=FALSE}
+
+mundo <- world %>%
+  mutate(name_long = str_replace_all(string = name_long, pattern = "Russian Federation", replacement = "Russia"),
+         name_long = str_replace_all(string = name_long, pattern = "Republic of Korea", replacement = "Korea"))
+
+mundo <- mundo %>% 
+  select(-c('continent':'gdpPercap')) %>% 
+  rename(country = name_long) %>% 
+  full_join(dataset_total, by = "country") %>% 
+  mutate(debt_to_GDP_ = as.numeric(debt_to_GDP_))
+
+mundo %>% 
+  filter(country != "Antarctica") %>% 
+  ggplot() +
+  geom_sf(data = mundo, aes(geometry = geom)) +
+  geom_sf(aes(fill = debt_to_GDP_)) +
+  scale_fill_viridis_c(name = "(%)", option = "magma", trans = "sqrt", direction = -1) +
+  ggtitle("Debt to GDP") +
+  labs(subtitle = "Mean 2004-2019") +
+  theme_map() +
+  theme(panel.background = element_rect(fill = "white"),
+        legend.title = element_text(face = "bold", size = 10),
+        legend.background = element_rect(fill = NA),
+        plot.title = element_text(face = "bold", size = 17)) +
+  #transition_states(year,
+                      #transition_length = 2,
+                      #state_length = 1) +
+  coord_sf(ylim = c(-50, 90))
+
+legend.title = element_text(colour="blue", size=10, 
+                            face="bold")
+  
+
+```
+
+As the map shown above makes clear, countries around the world have contrasting levels of debt to GDP. Nations in grey are not part of our sample. 
 
 
 ##The level of indebtedness in the world has varied considerably in recent years
@@ -226,6 +268,58 @@ ggplotly(graph_debt_GDP, tooltip = c("country"))
 
 Even though advanced markets have a higher debt level than emerging markets, the relationship between GDP per capita and debt to GDP ratio is not clear.
 
+
+## It is not possible to observe that countries with more than 90% debt to GDP grow less  
+
+```{r, echo=FALSE, message=FALSE}
+
+(ninety_rule_1_AM <- dataset_total %>% 
+    filter(year >= 2008, develop == "AM") %>% 
+    mutate(GDP_var = ifelse(year == 2019, (GDP_cte - lag(GDP_cte, k = 10))/(lag(GDP_cte, k = 10)), NA)) %>%
+    group_by(country) %>% 
+    mutate(media_debt_GDP = mean(debt_to_GDP_)) %>% 
+    filter(year == 2019, !is.na(develop)) %>% 
+    ggplot() +
+    geom_point(aes(x = media_debt_GDP, y = GDP_var), colour = "black") +
+    geom_text(aes(x = media_debt_GDP, y = GDP_var, colour = country, label = country, fontface = 2),
+              hjust = 0, vjust = 0, size = 5) +
+    geom_vline(xintercept = 90, linetype="dashed", colour = "red", size = 2) +
+    labs(title = "Relation between debt and growth - Advanced markets",
+         subtitle = "Past ten years") +
+    theme_bw() +
+    theme(legend.position = "none", plot.title = element_text(size = 20)) +
+    xlab("Debt to GDP (%)") +
+    ylab("GDP growth"))
+
+```
+
+Contrasting with Reinhart and Rogoff (2010), this dataset does not show a clear pattern of decreasing GDP growth beyond the 90% debt to GDP level for advanced economies (marked in red). 
+
+```{r, echo=FALSE, message=FALSE}
+
+
+(ninety_rule_1_EM <- dataset_total %>% 
+    filter(year >= 2008, develop == "EM") %>% 
+    mutate(GDP_var = ifelse(year == 2019, (GDP_cte - lag(GDP_cte, k = 10))/(lag(GDP_cte, k = 10)), NA)) %>%
+    group_by(country) %>% 
+    mutate(media_debt_GDP = mean(debt_to_GDP_)) %>% 
+    filter(year == 2019, !is.na(develop)) %>% 
+    ggplot() +
+    geom_point(aes(x = media_debt_GDP, y = GDP_var), colour = "black") +
+    geom_text(aes(x = media_debt_GDP, y = GDP_var, colour = country, label = country, fontface = 2),
+              hjust = 0, vjust = 0, size = 5) +
+    labs(title = "Relation between debt and growth - Emerging markets",
+         subtitle = "Past ten years") +
+    theme_bw() +
+    theme(legend.position = "none", plot.title = element_text(size = 20)) +
+    xlab("Debt to GDP (%)") +
+    ylab("GDP growth"))
+ 
+```
+
+Concerning emerging economies, Reinhart et. al (2003) finds that real growth might be constrained even with low levels of indebtedness - such as 15 or 20%. Once again, the selection of countries and time space here goes in a different direction.
+
+
 ##Foreign investors have a preference for allocating their resources to advanced market bond
 ```{r, echo=FALSE, message=FALSE}
  graph_debt_foreign_sep<-dataset_total %>% 
@@ -269,8 +363,8 @@ ggplot(aes(x = year, y = debt_domestic_mean, color=Type )) +
 
 In addition to the domestic participation in debt varying for both emerging and advanced countries, it is possible to infer for both groups, the variations are reversed.
 
-# References
 
+# References
 
 
 Krugman, Paul R. Financing vs. forgiving a debt overhang. No. w2486. National Bureau of Economic Research, 1988.
