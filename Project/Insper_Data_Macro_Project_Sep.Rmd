@@ -26,7 +26,7 @@ Gabriella Garcia
 
 Maria Clara Drzeviechi
 
-#Introduction and Motivation
+# Introduction and Motivation
 
 This study aims to investigate how a country’s level of public debt can be an obstacle to attract new foreign credit. If the country incurs high levels of debt, it is more likely that it will not be able to repay its creditor. Thus, in situations that a country’s level of public debt is too large, the creditors may choose to stop financing the country (Krugman, 1988), because of fearing a default. 
 
@@ -48,7 +48,7 @@ In this context, this study intends to analyze the impact of the variable debt-t
 
 
 
-#Literature Review
+# Literature Review
 
 Discussions on how indebtedness can affect the macroeconomic variables of a country are widely addressed in the literature. This review will focus on three topics: debt and growth; debt overhang and debt tolerance.
 
@@ -60,7 +60,7 @@ The concept of debt overhang refers to a debt burden so large that the country c
 
 
 
-#Dataset Description
+# Dataset Description
 
 The dataset used in this study is composed by the database provided by Arslanalp and Takahiro Tsuda, the World Economic Outlook from IMF and the WOrld Bank. The dataset is composed of 45 countries and covers sixteen years, from 2004 to 2019.  
 
@@ -133,12 +133,12 @@ What follows is the details on some of the variables above shown:
 
 
 
-#Stylized Facts
+# Stylized Facts
 
 Firstly, some stylized facts will be explained in relation to our dataset.
 
 
-##Countries have different indebtedness levels
+## Countries have different indebtedness levels
 
 ```{r , echo=FALSE, message=FALSE}
 
@@ -179,7 +179,7 @@ legend.title = element_text(colour="blue", size=10,
 As the map shown above makes clear, countries around the world have contrasting levels of debt to GDP. Nations in grey are not part of our sample. 
 
 
-##The level of indebtedness in the world has varied considerably in recent years
+## The level of indebtedness in the world has varied considerably in recent years
 ```{r , echo=FALSE, message=FALSE}
 
  graph_debt <- dataset_total %>% 
@@ -189,12 +189,10 @@ As the map shown above makes clear, countries around the world have contrasting 
 ggplot(aes(x = year, y = debt_to_GDP_mean)) +
     geom_point() +
      geom_smooth(color="black")+
-    labs(x = "Year", y = "Debt to GDP Ratio (%)", title = "                          Average Debt to GDP Ratio for 45 Countries") +
+    labs(x = "Year", y = "Debt to GDP Ratio (%)", title = "Average Debt to GDP Ratio for 45 Countries") +
     theme_bw()
 
 graph_debt
-
-
 
 
 ```
@@ -203,7 +201,7 @@ graph_debt
 
 It is possible to observe that the average indebtedness in the countries fell a lot in 2008, rise until 2018 and has been showing a slight drop.
 
-##Advanced markets are more indebted than emerging markets
+## Advanced markets are more indebted than emerging markets
 
 ```{r, echo=FALSE, message=FALSE}
  graph_debt_sep<-dataset_total %>% 
@@ -215,27 +213,26 @@ ggplot(aes(x = year, y = debt_to_GDP_mean, color=Type )) +
    scale_color_manual(values = c("EM" = "red", "AM" = "blue"))+
     geom_point() +
     geom_smooth()+
-    labs(x = "Year", y = "Debt to GDP Ratio (%)", title = "  Average Debt to GDP Ratio for Advanced and Emerging Markets") +
+    labs(x = "Year", y = "Debt to GDP Ratio (%)", title = "Average Debt to GDP Ratio for Advanced and Emerging Markets") +
     theme_bw()
 
 graph_debt_sep
 
 ```
 
-##The relationship between debt and GDP is not clear
+## The relationship between debt and GDP is not clear
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 
 
-animated_debt_gdp <- ggplot(
-  dataset_total, 
-  aes(x = GDP_per_cap_cur_USD , y= debt_to_GDP_ , size = GDP_cur, colour = country)
-  ) +
-  geom_point(show.legend = FALSE, alpha = 0.7) +
+animated_debt_gdp <- dataset_total %>% 
+  filter(!is.na(develop)) %>% 
+  ggplot(aes(x = GDP_per_cap_cur_USD , y= debt_to_GDP_ , colour = develop, size = GDP_per_cap_cur_USD)) +
+  geom_point(show.legend = TRUE, alpha = 0.7) +
   scale_color_viridis_d() +
   scale_size(range = c(2, 12)) +
   theme_bw() +
   scale_x_log10() +
-  labs(x = "GDP per capita", y = "Debt to GDP Ratio (%)")
+  labs(x = "GDP per capita", y = "Debt to GDP Ratio (%)", colour = "Type", size = "GDP per cap (USD)")
 
  gif_debt <- animated_debt_gdp + transition_time(year) +
   labs(title = "Year: {frame_time}")
@@ -282,12 +279,12 @@ Even though advanced markets have a higher debt level than emerging markets, the
     ggplot() +
     geom_point(aes(x = media_debt_GDP, y = GDP_var), colour = "black") +
     geom_text(aes(x = media_debt_GDP, y = GDP_var, colour = country, label = country, fontface = 2),
-              hjust = 0, vjust = 0, size = 5) +
-    geom_vline(xintercept = 90, linetype="dashed", colour = "red", size = 2) +
+              hjust = 0, vjust = 0, size = 4) +
+    geom_vline(xintercept = 90, linetype="dashed", colour = "red", size = 1) +
     labs(title = "Relation between debt and growth - Advanced markets",
          subtitle = "Past ten years") +
     theme_bw() +
-    theme(legend.position = "none", plot.title = element_text(size = 20)) +
+    theme(legend.position = "none", plot.title = element_text(size = 15)) +
     xlab("Debt to GDP (%)") +
     ylab("GDP growth"))
 
@@ -307,11 +304,11 @@ Contrasting with Reinhart and Rogoff (2010), this dataset does not show a clear 
     ggplot() +
     geom_point(aes(x = media_debt_GDP, y = GDP_var), colour = "black") +
     geom_text(aes(x = media_debt_GDP, y = GDP_var, colour = country, label = country, fontface = 2),
-              hjust = 0, vjust = 0, size = 5) +
+              hjust = 0, vjust = 0, size = 4) +
     labs(title = "Relation between debt and growth - Emerging markets",
          subtitle = "Past ten years") +
     theme_bw() +
-    theme(legend.position = "none", plot.title = element_text(size = 20)) +
+    theme(legend.position = "none", plot.title = element_text(size = 15)) +
     xlab("Debt to GDP (%)") +
     ylab("GDP growth"))
  
@@ -320,7 +317,7 @@ Contrasting with Reinhart and Rogoff (2010), this dataset does not show a clear 
 Concerning emerging economies, Reinhart et. al (2003) finds that real growth might be constrained even with low levels of indebtedness - such as 15 or 20%. Once again, the selection of countries and time space here goes in a different direction.
 
 
-##Foreign investors have a preference for allocating their resources to advanced market bond
+## Foreign investors have a preference for allocating their resources to advanced market bond
 ```{r, echo=FALSE, message=FALSE}
  graph_debt_foreign_sep<-dataset_total %>% 
    filter(!is.na(develop)) %>% 
@@ -341,7 +338,7 @@ graph_debt_foreign_sep
 
 It is possible to observe that foreign investors have allocated much more resources in bonds from advanced markets. In addition, we can see that since 2012, the participation of foreign investors in government bonds has accelerated.
 
-##The participation of domestic investors in the composition of debt it is not invariant over time
+## The participation of domestic investors in the composition of debt it is not invariant over time
 ```{r, echo=FALSE, message=FALSE}
  graph_debt_domestic_sep<-dataset_total %>% 
    filter(!is.na(develop)) %>% 
@@ -361,8 +358,27 @@ ggplot(aes(x = year, y = debt_domestic_mean, color=Type )) +
 ```
 
 
-In addition to the domestic participation in debt varying for both emerging and advanced countries, it is possible to infer for both groups, the variations are reversed.
+In addition to the domestic participation in debt varying for both emerging and advanced countries, it is possible to infer that those variations are inverse.
 
+
+## There is no clear relationship between debt and inflation
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+graph_debt_inflation <-  dataset_total %>% 
+  filter(!is.na(develop)) %>% 
+  ggplot() + 
+  geom_point(aes(inflation_mean, (total_debt_*fx_), color = develop)) +
+  scale_color_viridis_d() +
+  xlim(0,40)+
+  ylim(0,400) +
+  
+  xlab("Annual Inflation Rate (%)") + ylab("Total Debt (Billion USD)") + ggtitle("Total Debt X Inflation") +
+  theme_bw()
+
+graph_debt_inflation
+
+```
 
 # References
 
