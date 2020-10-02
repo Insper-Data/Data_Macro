@@ -193,7 +193,7 @@ animated_debt_gdp <- ggplot(
   scale_size(range = c(2, 12)) +
   theme_bw() +
   scale_x_log10() +
-  labs(x = "GDP per capita", y = "Debt to GDP Ratio (%)")
+  labs(x = "GDP per capita (USD)", y = "Debt to GDP Ratio (%)")
 
  gif_debt <- animated_debt_gdp + transition_time(year) +
   labs(title = "Year: {frame_time}")
@@ -216,7 +216,7 @@ gif_debt
 ggplot(aes(x = GDP_per_cap_mean, y = debt_to_GDP_mean, color=country)) +
     scale_color_viridis_d() +
     geom_point(show.legend = FALSE) +
-    labs(x = "GDP per Capita", y = "Debt to GDP Ratio (%)", title = " Average for 45 Countries (2004-2019)") +
+    labs(x = "GDP per Capita (USD)", y = "Debt to GDP Ratio (%)", title = " Average for 45 Countries (2004-2019)") +
     theme_bw()
 
  
