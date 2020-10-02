@@ -219,14 +219,14 @@ ggplot(aes(x = GDP_per_cap_mean, y = debt_to_GDP_mean, color=country)) +
     labs(x = "GDP per Capita", y = "Debt to GDP Ratio (%)", title = " Average for 45 Countries (2004-2019)") +
     theme_bw()
 
-
+ 
 ggplotly(graph_debt_GDP, tooltip = c("country"))
 ```
 
 
 Even though advanced markets have a higher debt level than emerging markets, the relationship between GDP per capita and debt to GDP ratio is not clear.
 
-##Foreign investors have a preference for allocating their resources to advanced market securities
+##Foreign investors have a preference for allocating their resources to advanced market bond
 ```{r, echo=FALSE, message=FALSE}
  graph_debt_foreign_sep<-dataset_total %>% 
    filter(!is.na(develop)) %>% 
