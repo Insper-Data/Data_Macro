@@ -234,6 +234,9 @@ dataset_total_index<- dataset_total_index %>%
   na_if("..")
 
 
+#arrumando a inflação
+dataset_total <- dataset_total %>% 
+  mutate(inflation_mean =(inflation_mean/1000), inflation_end=(inflation_end/1000))
 
 
 # Escrevendo um arquivo csv para dataset_total:
