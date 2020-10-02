@@ -28,21 +28,22 @@ Maria Clara Drzeviechi
 
 #Introduction and Motivation
 
-This study aims to investigate how a countryâs level of public debt can be an obstacle to attract new foreign credit. If the country incurs high levels of debt, it is more likely that it will not be able to repay its creditor. Thus, in situations that a countryâs level of public debt is too large, the creditors may choose to stop financing the country (Krugman, 1988), because of fearing a default. 
+This study aims to investigate how a country’s level of public debt can be an obstacle to attract new foreign credit. If the country incurs high levels of debt, it is more likely that it will not be able to repay its creditor. Thus, in situations that a country’s level of public debt is too large, the creditors may choose to stop financing the country (Krugman, 1988), because of fearing a default. 
 
-In the past 50 years, emerging and developing economies experienced four big indebtedness waves, three of which ended up in financial crises. In the 1980s, the association of low real interest rates and growing debt market led certain economies to raise considerably their levels of indebtedness; the result was the well-known Latin Americaâs debt crisis. A decade later, the world would watch the Asian financial crisis, due to the liberalization of financial markets and capital flows, allowing these countries to acquire loans in foreign currencies. Finally, in 2007-09, both emerging and advanced economies faced major recessions as a result of the global financial crisis.
+In the past 50 years, emerging and developing economies experienced four big indebtedness waves, three of which ended up in financial crises. In the 1980s, the association of low real interest rates and growing debt market led certain economies to raise considerably their levels of indebtedness; the result was the well-known Latin America’s debt crisis. A decade later, the world would watch the Asian financial crisis, due to the liberalization of financial markets and capital flows, allowing these countries to acquire loans in foreign currencies. Finally, in 2007-09, both emerging and advanced economies faced major recessions as a result of the global financial crisis.
 
 It is important to notice that although happening in different decades and locations, these three episodes share a common denominator: they all started in periods with low real interest rates and an escalating indebtedness. This scenario made the risk premium rise and subsequently there was a sudden stop of capital flows. 
 
-In 2010, the fourth global wave of debt started, and it was the largest and fastest one. In accordance with the aforementioned ones, interest rates were low since the Global Financial Crisis and investors were seeking assets with greater profitability. It is also reasonable to consider that this wave has not yet met its end. By 2018, according to the IMF, global debt has reached 226% of GDP, representing an amount of 188 trillions of dollars.  Emerging and developing economies saw indebtedness grow 54 p.p. in 8 years, reaching 170% of GDP. Low income countries reached 67% of GDP in 2018 â that figure was 48% in 2010. A different situation is seen on advanced economies, once they have maintained the 265% ratio of debt to GDP on the same level since 2010.
+In 2010, the fourth global wave of debt started, and it was the largest and fastest one. In accordance with the aforementioned ones, interest rates were low since the Global Financial Crisis and investors were seeking assets with greater profitability. It is also reasonable to consider that this wave has not yet met its end. By 2018, according to the IMF, global debt has reached 226% of GDP, representing an amount of 188 trillions of dollars.  Emerging and developing economies saw indebtedness grow 54 p.p. in 8 years, reaching 170% of GDP. Low income countries reached 67% of GDP in 2018 – that figure was 48% in 2010. A different situation is seen on advanced economies, once they have maintained the 265% ratio of debt to GDP on the same level since 2010.
 
 Considering budget deficits, corporate foreign debt and current account deficits, one will probably say that the situation in which emerging and developing countries are now is far worse than that in which they were in 2010. In addition, part of these economies have since then faced long periods of low growth and find now a weaker global economy, which puts them in a more vulnerable situation to external shocks.
 
 Despite low real interest rates, the constant rise in indebtedness can lead to a sudden rise in risk premia and consequently in interest rates, aggravating the perspectives of those countries. Something like that has already been experienced by Argentina and Turkey; both saw a rise in the cost of servicing the debt.
 
-There is a problem when investors begin to demand a higher premium due to those higher risks: it can possibly end up in a debt crisis once they consider a certain Debt/GDP level to be unsustainable (Blanchard 2019; Henderson 2019; Rogoff 2019a,b). When such a thing happens, it is expected a âflight-to-safetyâ, and weaker and highly indebted economies see huge capital outflows and a depreciation on the exchange rate.
+There is a problem when investors begin to demand a higher premium due to those higher risks: it can possibly end up in a debt crisis once they consider a certain Debt/GDP level to be unsustainable (Blanchard 2019; Henderson 2019; Rogoff 2019a,b). When such a thing happens, it is expected a ‘flight-to-safety’, and weaker and highly indebted economies see huge capital outflows and a depreciation on the exchange rate.
 
 In this context, this study intends to analyse the impact of the variable debt-to-GDP ratio on the participation of foreign creditors in government bonds. Therefore, a worldwide analysis will be conducted using the database provided by Arslanalp and Takahiro Tsuda, previously affiliated with the Monetary and Capital Markets Department of the International Monetary Fund.
+
 
 
 
@@ -52,11 +53,9 @@ In this context, this study intends to analyse the impact of the variable debt-t
 Discussions on how indebtedness can affect the macroeconomic variables of a country are widely addressed in the literature. This review will focus on three topics: debt and growth; debt overhang and debt tolerance.
 
 The relationship between debt and growth was first found to be non-linear by Reinhart, Rogoff, and Savastano (2003). Later, Reinhart and Rogoff (2010) analyze countries distinguishing developed and emerging markets and they found out that, for both groups, a 90% debt to GDP ratio can be detrimental for growth. On the other hand, Kumar and Woo (2010) produced evidence that the negative impact of debt on growth is higher for developing countries when compared with developed countries. 
-
-Thinking about debt tolerance, Reinhart, Rogoff and Savastano (2003) introduce the concept of debt intolerance and analyze how emerging markets find it difficult to face high levels of debt, while advanced countries face this issue more easily.  Later, CatÃ£o and Kapur (2006) discussed the macroeconomic determinants of a countryâs volatility and how it impacts the spread rate it has to pay.
+Thinking about debt tolerance, Reinhart, Rogoff and Savastano (2003) introduce the concept of debt intolerance and analyze how emerging markets find it difficult to face high levels of debt, while advanced countries face this issue more easily.  Later, Catão and Kapur (2006) discussed the macroeconomic determinants of a country’s volatility and how it impacts the spread rate it has to pay.
 
 The concept of debt overhang refers to a debt burden so large that the country can not take any additional debt to finance itself. Krugman (1988) discussed the tradeoff for creditors when facing a debt overhang: financing or forgiving. Deshpande (1995) discusses how a situation of debt overhang can discourage investment. Reinhart, Reinhart, and Rogoff (2012) punctuated the main episodes in history about debt overhang.
-
 
 
 
@@ -248,12 +247,12 @@ graph_debt_foreign_sep
 
 It is possible to observe that foreign investors have allocated much more resources in bonds from advanced markets. In addition, we can see that since 2012, the participation of foreign investors in government bonds has accelerated.
 
-##Emerging markets have greater participation of domestic investors in the composition of debt
+##The participation of domestic investors in the composition of debt it is not invariant over time
 ```{r, echo=FALSE, message=FALSE}
  graph_debt_domestic_sep<-dataset_total %>% 
    filter(!is.na(develop)) %>% 
    rename(Type=25) %>% 
-  mutate(domestic_debt_USD_prop=(domestic_debt_*total_debt_)) %>% 
+  mutate(domestic_debt_USD_prop=(domestic_debt_/total_debt_)) %>% 
   group_by(year, Type) %>% 
   summarise(debt_domestic_mean = mean(domestic_debt_USD_prop)) %>% 
 ggplot(aes(x = year, y = debt_domestic_mean, color=Type )) +
@@ -267,9 +266,11 @@ ggplot(aes(x = year, y = debt_domestic_mean, color=Type )) +
 
 ```
 
-In addition to the emerging markets having a larger domestic participation in foreign debt, this participation has grown a lot since 2010. 
+
+In addition to the domestic participation in debt varying for both emerging and advanced countries, it is possible to infer for both groups, the variations are reversed.
 
 # References
+
 
 
 Krugman, Paul R. Financing vs. forgiving a debt overhang. No. w2486. National Bureau of Economic Research, 1988.
@@ -278,34 +279,32 @@ Reinhart, Carmen M., Kenneth S. Rogoff, and Miguel A. Savastano. Debt intoleranc
 
 Reinhart, Carmen M., and Kenneth S. Rogoff. "Growth in a Time of Debt." American economic review 100.2 (2010): 573-78.
 
-Arslanalp, S., and Tsuda, T. âTracking Global Demand for Emerging Market Sovereign Debtâ IMF working papers (2014): 14/39
+Arslanalp, S., and Tsuda, T. “Tracking Global Demand for Emerging Market Sovereign Debt” IMF working papers (2014): 14/39
 
-âââ, and âââ. âTracking Global Demand for Advanced Economy Sovereign Debtâ IMF working papers (2012): 12/284
+———, and ———. “Tracking Global Demand for Advanced Economy Sovereign Debt” IMF working papers (2012): 12/284
 
 Kumar, Manmohan, and Jaejoon Woo. "Public debt and growth." IMF working papers (2010): 1-47.
 
 Deshpande, Ashwini. "The debt overhang and the disincentive to invest." Journal of development Economics 52.1 (1997): 169-187.
 
 Reinhart, Carmen M., Vincent R. Reinhart, and Kenneth S. Rogoff. "Public debt overhangs: advanced-economy episodes since 1800." Journal of Economic Perspectives 26.3 (2012): 69-86.
- 
+
 Reinhart, Carmen M., Kenneth S. Rogoff, and Miguel A. Savastano. Debt intolerance. No. w9908. National Bureau of Economic Research, 2003.
 
-CatÃ£o, Luis, and Sandeep Kapur. "Volatility and the debt-intolerance paradox." IMF Staff Papers 53.2 (2006): 195-218.
+Catão, Luis, and Sandeep Kapur. "Volatility and the debt-intolerance paradox." IMF Staff Papers 53.2 (2006): 195-218.
 
 Blanchard, O. J., and L. H. Summers. 2019. Evolution or Revolution? Rethinking
 Macroeconomic Policy After the Great Recession. Cambridge: MIT Press.
 
-Henderson, D. R. 2019. âWhoâs Afraid of Budget Deficits? I Am.â Defining Ideas,
+Henderson, D. R. 2019. “Who’s Afraid of Budget Deficits? I Am.” Defining Ideas,
 February 20. https://www.hoover.org/research/whos-afraid-budget-deficits-i-am.
 
-Rogoff, K. 2019a. âRisks to the Global Economy in 2019.â Project Syndicate,
+Rogoff, K. 2019a. “Risks to the Global Economy in 2019.” Project Syndicate,
 January 11. https://www.project-syndicate.org/commentary/global-economy-mainrisks-
 in-2019-by-kenneth-rogoff-2019-01.
-
-âââ. 2019b. âGovernment Debt is Not A Free Lunch .â Project Syndicate,
+———. 2019b. “Government Debt is Not A Free Lunch .” Project Syndicate,
 December 6. https://www.project-syndicate.org/commentary/government-debt-lowinterest-
 rates-no-free-lunch-by-kenneth-rogoff-2019-11 .
-
 
 
 
