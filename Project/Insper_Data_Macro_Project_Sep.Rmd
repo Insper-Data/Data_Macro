@@ -1,4 +1,6 @@
 ---
+title: "Preliminary impressions about the relationship between the level of public debt and the countries' ability to attract new foreign credits"
+author: "Augusto Netto, Gabriella Garcia and Maria Clara Drzeviechi"
 output:
   html_document:
     df_print: paged
@@ -13,18 +15,15 @@ output:
     toc: yes
 ---
 
+<style>
+body {
+text-align: justify}
+</style>
 
-Preliminary impressions about the relationship between the level of public debt and the countries ability to attract new foreign credits
+
+**Insper Data**
 
 
-
-Insper Data
-
-Augusto Netto
-
-Gabriella Garcia
-
-Maria Clara Drzeviechi
 
 # Introduction and Motivation
 
@@ -77,12 +76,17 @@ library(spData)
 library(plotly)
 library(sf)
 library(viridis)
+library(ggcharts)
+library(ggrepel)
+library(cowplot)
+library(gapminder)
+
 
 #puaxando a dataset_total e a dataset_total_index
 dataset_total <- read.csv("dataset_total.csv") 
 
 dataset_total_index <- read.csv("dataset_total_index.csv") 
-head(dataset_total, 5)
+head(dataset_total, 10)
 ```
 
 
@@ -100,7 +104,6 @@ What follows is the details on some of the variables above shown:
  - *Domestic central bank*;
  - *Domestic banks*;
  - *Domestic non-banks*.
-
 
 * **GDP constant** - Annual percentages of constant price GDP are year-on-year changes; the base year is country-specific. Expenditure-based GDP is total final expenditures at purchasersâ prices (including the f.o.b. value of exports of goods and services), less the f.o.b. value of imports of goods and services; 
 
@@ -132,6 +135,39 @@ What follows is the details on some of the variables above shown:
 
 
 
+## Ranking 
+
+```{r , echo=FALSE, message=FALSE}
+
+  dataset_total %>%
+  filter(year %in% c(2004, 2009, 2014, 2019), !is.na(develop)) %>%
+  bar_chart(x = country, y = debt_to_GDP_, facet = year, top_n = 15, fill = develop) +
+  labs( x = "", y = "Debt to GDP (%)",
+  title = "Top 15 Debt to GDP", fill = "Develop") +
+  theme_classic() +
+  scale_fill_manual("Develop", values = c("EM" = "red4", "AM" = "navyblue"))+
+  theme(legend.title = element_text(face = "bold", size = 10)) 
+
+
+```
+
+
+
+```{r , echo=FALSE, message=FALSE}
+
+dataset_total %>%
+  mutate(f_debt = foreign_debt_*fx_) %>% 
+  filter(year %in% c(2004, 2009, 2014, 2019), !is.na(develop)) %>%
+  bar_chart(x = country, y = (f_debt), facet = year, top_n = 15, fill = develop) +  
+  labs( x = "", y = "Debt held by Foreign Investors (Billions USD)",
+  title = "Top 15 countries with debt held by Foreign Investors", fill = "Develop") +
+  theme_classic() +
+  theme(legend.title = element_text(face = "bold", size = 10)) +
+  scale_fill_manual("Develop", values = c("EM" = "red4", "AM" = "navyblue"))
+
+```
+
+
 
 # Stylized Facts
 
@@ -153,9 +189,8 @@ mundo <- mundo %>%
   mutate(debt_to_GDP_ = as.numeric(debt_to_GDP_))
 
 mundo %>% 
-  filter(country != "Antarctica") %>% 
   ggplot() +
-  geom_sf(data = mundo, aes(geometry = geom)) +
+  geom_sf(data = mundo, aes(geometry = geom), fill = "lightgrey") +
   geom_sf(aes(fill = debt_to_GDP_)) +
   scale_fill_viridis_c(name = "(%)", option = "magma", trans = "sqrt", direction = -1) +
   ggtitle("Debt to GDP") +
@@ -190,7 +225,7 @@ ggplot(aes(x = year, y = debt_to_GDP_mean)) +
     geom_point() +
      geom_smooth(color="black")+
     labs(x = "Year", y = "Debt to GDP Ratio (%)", title = "Average Debt to GDP Ratio for 45 Countries") +
-    theme_bw()
+    theme_light()
 
 graph_debt
 
@@ -198,8 +233,8 @@ graph_debt
 ```
 
 
-
 It is possible to observe that the average indebtedness in the countries fell a lot in 2008, rise until 2018 and has been showing a slight drop.
+
 
 ## Advanced markets are more indebted than emerging markets
 
@@ -210,17 +245,19 @@ It is possible to observe that the average indebtedness in the countries fell a 
   group_by(year, Type) %>% 
   summarise(debt_to_GDP_mean = mean(debt_to_GDP_)) %>% 
 ggplot(aes(x = year, y = debt_to_GDP_mean, color=Type )) +
-   scale_color_manual(values = c("EM" = "red", "AM" = "blue"))+
+   scale_color_manual(values = c("EM" = "red4", "AM" = "navyblue"))+
     geom_point() +
     geom_smooth()+
     labs(x = "Year", y = "Debt to GDP Ratio (%)", title = "Average Debt to GDP Ratio for Advanced and Emerging Markets") +
-    theme_bw()
+    theme_light()
 
 graph_debt_sep
 
 ```
 
+
 ## The relationship between debt and GDP is not clear
+
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 
 
@@ -228,29 +265,23 @@ animated_debt_gdp <- dataset_total %>%
   filter(!is.na(develop)) %>% 
   ggplot(aes(x = GDP_per_cap_cur_USD , y= debt_to_GDP_ , colour = develop, size = GDP_per_cap_cur_USD)) +
   geom_point(show.legend = TRUE, alpha = 0.7) +
-  scale_color_viridis_d() +
   scale_size(range = c(2, 12)) +
   theme_bw() +
   scale_x_log10() +
-<<<<<<< HEAD
-  labs(x = "GDP per capita (USD)", y = "Debt to GDP Ratio (%)")
-=======
-  labs(x = "GDP per capita", y = "Debt to GDP Ratio (%)", colour = "Type", size = "GDP per cap (USD)")
->>>>>>> 7e29d54b06fb85b044926c0043b4b398d7632e75
+  labs(x = "GDP per capita (USD)", y = "Debt to GDP Ratio (%)")+
+  labs(x = "GDP per capita", y = "Debt to GDP Ratio (%)", colour = "Type", size = "GDP per cap (USD)")+ 
+  scale_colour_manual("Develop", values = c("EM" = "red4", "AM" = "navyblue"))
 
  gif_debt <- animated_debt_gdp + transition_time(year) +
   labs(title = "Year: {frame_time}")
 
 gif_debt
 
-
 ```
 
 
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
-
-
 
  graph_debt_GDP <- dataset_total %>% 
    group_by(country) %>% 
@@ -274,7 +305,7 @@ Even though advanced markets have a higher debt level than emerging markets, the
 
 ```{r, echo=FALSE, message=FALSE}
 
-(ninety_rule_1_AM <- dataset_total %>% 
+dataset_total %>% 
     filter(year >= 2008, develop == "AM") %>% 
     mutate(GDP_var = ifelse(year == 2019, (GDP_cte - lag(GDP_cte, k = 10))/(lag(GDP_cte, k = 10)), NA)) %>%
     group_by(country) %>% 
@@ -284,22 +315,23 @@ Even though advanced markets have a higher debt level than emerging markets, the
     geom_point(aes(x = media_debt_GDP, y = GDP_var), colour = "black") +
     geom_text(aes(x = media_debt_GDP, y = GDP_var, colour = country, label = country, fontface = 2),
               hjust = 0, vjust = 0, size = 4) +
-    geom_vline(xintercept = 90, linetype="dashed", colour = "red", size = 1) +
+    geom_vline(xintercept = 90, linetype="dashed", colour = "red4", size = 1) +
     labs(title = "Relation between debt and growth - Advanced markets",
-         subtitle = "Past ten years") +
+         subtitle = "(2009-2019)") +
     theme_bw() +
     theme(legend.position = "none", plot.title = element_text(size = 15)) +
     xlab("Debt to GDP (%)") +
-    ylab("GDP growth"))
+    ylab("GDP growth")
 
 ```
+
 
 Contrasting with Reinhart and Rogoff (2010), this dataset does not show a clear pattern of decreasing GDP growth beyond the 90% debt to GDP level for advanced economies (marked in red). 
 
 ```{r, echo=FALSE, message=FALSE}
 
 
-(ninety_rule_1_EM <- dataset_total %>% 
+dataset_total %>% 
     filter(year >= 2008, develop == "EM") %>% 
     mutate(GDP_var = ifelse(year == 2019, (GDP_cte - lag(GDP_cte, k = 10))/(lag(GDP_cte, k = 10)), NA)) %>%
     group_by(country) %>% 
@@ -310,27 +342,30 @@ Contrasting with Reinhart and Rogoff (2010), this dataset does not show a clear 
     geom_text(aes(x = media_debt_GDP, y = GDP_var, colour = country, label = country, fontface = 2),
               hjust = 0, vjust = 0, size = 4) +
     labs(title = "Relation between debt and growth - Emerging markets",
-         subtitle = "Past ten years") +
+         subtitle = "(2009-2019)") +
     theme_bw() +
     theme(legend.position = "none", plot.title = element_text(size = 15)) +
     xlab("Debt to GDP (%)") +
-    ylab("GDP growth"))
+    ylab("GDP growth")
  
 ```
+
 
 Concerning emerging economies, Reinhart et. al (2003) finds that real growth might be constrained even with low levels of indebtedness - such as 15 or 20%. Once again, the selection of countries and time space here goes in a different direction.
 
 
 ## Foreign investors have a preference for allocating their resources to advanced market bond
+
 ```{r, echo=FALSE, message=FALSE}
- graph_debt_foreign_sep<-dataset_total %>% 
+ 
+graph_debt_foreign_sep<-dataset_total %>% 
    filter(!is.na(develop)) %>% 
    rename(Type=25) %>% 
   mutate(foreign_debt_USD=(foreign_debt_*fx_)) %>% 
   group_by(year, Type) %>% 
   summarise(debt_foreign_mean = mean(foreign_debt_USD)) %>% 
 ggplot(aes(x = year, y = debt_foreign_mean, color=Type )) +
-   scale_color_manual(values = c("EM" = "red", "AM" = "blue"))+
+   scale_color_manual(values = c("EM" = "red4", "AM" = "navyblue"))+
     geom_point() +
     geom_smooth()+
     labs(x = "Year", y = "Government Debt Held by Foreign Investors (Billion USD)", title = "Total Debt Held by Foreign Investors for Advanced and Emerging Markets") +
@@ -342,7 +377,9 @@ graph_debt_foreign_sep
 
 It is possible to observe that foreign investors have allocated much more resources in bonds from advanced markets. In addition, we can see that since 2012, the participation of foreign investors in government bonds has accelerated.
 
+
 ## The participation of domestic investors in the composition of debt it is not invariant over time
+
 ```{r, echo=FALSE, message=FALSE}
  graph_debt_domestic_sep<-dataset_total %>% 
    filter(!is.na(develop)) %>% 
@@ -351,7 +388,7 @@ It is possible to observe that foreign investors have allocated much more resour
   group_by(year, Type) %>% 
   summarise(debt_domestic_mean = mean(domestic_debt_USD_prop)) %>% 
 ggplot(aes(x = year, y = debt_domestic_mean, color=Type )) +
-   scale_color_manual(values = c("EM" = "red", "AM" = "blue"))+
+   scale_color_manual(values = c("EM" = "red4", "AM" = "navyblue"))+
     geom_point() +
     geom_smooth()+
     labs(x = "Year", y = "Government Debt Held by Domestic Investors (%)", title = "Debt Held by Foreign Investors for Advanced and Emerging Markets") +
@@ -372,57 +409,45 @@ In addition to the domestic participation in debt varying for both emerging and 
 graph_debt_inflation <-  dataset_total %>% 
   filter(!is.na(develop)) %>% 
   ggplot() + 
-  geom_point(aes(inflation_mean, (total_debt_*fx_), color = develop)) +
-  scale_color_viridis_d() +
+  geom_point(aes(inflation_mean, (total_debt_*fx_), colour = develop)) +
   xlim(0,40)+
   ylim(0,400) +
-  
-  xlab("Annual Inflation Rate (%)") + ylab("Total Debt (Billion USD)") + ggtitle("Total Debt X Inflation") +
-  theme_bw()
+  labs(x = "Annual Inflation Rate (%)", y = "Total Debt (Billion USD)", title = "Total Debt X Inflation", subtitle = "45 countries (2004-2019)" ) + 
+  theme_bw()+
+scale_colour_manual("Develop", values = c("EM" = "red4", "AM" = "navyblue")) 
 
 graph_debt_inflation
 
 ```
 
+
 # References
 
-
-Krugman, Paul R. Financing vs. forgiving a debt overhang. No. w2486. National Bureau of Economic Research, 1988.
-
-Reinhart, Carmen M., Kenneth S. Rogoff, and Miguel A. Savastano. Debt intolerance. No. w9908. National Bureau of Economic Research, 2003.
-
-Reinhart, Carmen M., and Kenneth S. Rogoff. "Growth in a Time of Debt." American economic review 100.2 (2010): 573-78.
-
-Arslanalp, S., and Tsuda, T. “Tracking Global Demand for Emerging Market Sovereign Debt” IMF working papers (2014): 14/39
+Arslanalp, S., and Tsuda, T. “Tracking Global Demand for Emerging Market Sovereign Debt” IMF working papers (2014): 14/39 
 
 ———, and ———. “Tracking Global Demand for Advanced Economy Sovereign Debt” IMF working papers (2012): 12/284
 
-Kumar, Manmohan, and Jaejoon Woo. "Public debt and growth." IMF working papers (2010): 1-47.
-
-Deshpande, Ashwini. "The debt overhang and the disincentive to invest." Journal of development Economics 52.1 (1997): 169-187.
-
-Reinhart, Carmen M., Vincent R. Reinhart, and Kenneth S. Rogoff. "Public debt overhangs: advanced-economy episodes since 1800." Journal of Economic Perspectives 26.3 (2012): 69-86.
-
-Reinhart, Carmen M., Kenneth S. Rogoff, and Miguel A. Savastano. Debt intolerance. No. w9908. National Bureau of Economic Research, 2003.
+Blanchard, O. J., and L. H. Summers. 2019. Evolution or Revolution? Rethinking Macroeconomic Policy After the Great Recession. Cambridge: MIT Press.
 
 Catão, Luis, and Sandeep Kapur. "Volatility and the debt-intolerance paradox." IMF Staff Papers 53.2 (2006): 195-218.
 
-Blanchard, O. J., and L. H. Summers. 2019. Evolution or Revolution? Rethinking
-Macroeconomic Policy After the Great Recession. Cambridge: MIT Press.
+Deshpande, Ashwini. "The debt overhang and the disincentive to invest." Journal of development Economics 52.1 (1997): 169-187.
 
-Henderson, D. R. 2019. “Who’s Afraid of Budget Deficits? I Am.” Defining Ideas,
-February 20. https://www.hoover.org/research/whos-afraid-budget-deficits-i-am.
+Krugman, Paul R. Financing vs. forgiving a debt overhang. No. w2486. National Bureau of Economic Research, 1988.
 
-Rogoff, K. 2019a. “Risks to the Global Economy in 2019.” Project Syndicate,
-January 11. https://www.project-syndicate.org/commentary/global-economy-mainrisks-
-in-2019-by-kenneth-rogoff-2019-01.
-———. 2019b. “Government Debt is Not A Free Lunch .” Project Syndicate,
-December 6. https://www.project-syndicate.org/commentary/government-debt-lowinterest-
-rates-no-free-lunch-by-kenneth-rogoff-2019-11 .
+Kumar, Manmohan, and Jaejoon Woo. "Public debt and growth." IMF working papers (2010): 1-47. 
 
+Reinhart, Carmen M., and Kenneth S. Rogoff. "Growth in a Time of Debt." American economic review 100.2 (2010): 573-78.
 
+Reinhart, Carmen M., Kenneth S. Rogoff, and Miguel A. Savastano. Debt intolerance. No. w9908. National Bureau of Economic Research, 2003.
 
+Reinhart, Carmen M., Kenneth S. Rogoff, and Miguel A. Savastano. Debt intolerance. No. w9908. National Bureau of Economic Research, 2003.
 
+Reinhart, Carmen M., Vincent R. Reinhart, and Kenneth S. Rogoff. "Public debt overhangs: advanced-economy episodes since 1800." Journal of Economic Perspectives 26.3 (2012): 69-86.
+
+Rogoff, K. 2019a. “Risks to the Global Economy in 2019.” Project Syndicate, January 11. https://www.project-syndicate.org/commentary/global-economy-mainrisks-in-2019-by-kenneth-rogoff-2019-01.
+
+———. 2019b. “Government Debt is Not A Free Lunch .” Project Syndicate, December 6. https://www.project-syndicate.org/commentary/government-debt-lowinterest-rates-no-free-lunch-by-kenneth-rogoff-2019-11 .
 
 
 
