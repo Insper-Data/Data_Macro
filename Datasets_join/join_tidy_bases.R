@@ -11,7 +11,7 @@ library(transformr)
 
 
 #chegando no wd do computador obs.: modificar para o seu endere?o
-setwd("C:/Users/gabri/Documents/Insper_Data/Macro/projeto_econometria/bases.csv")
+setwd("C:/Users/gutao/OneDrive - Insper - Institudo de Ensino e Pesquisa/Documents/Insper/Insper Data/Macro_2020.1/Data/Bases.csv")
 
 
 ##puxando as bases
@@ -98,7 +98,7 @@ weo_em <- weo_em %>%
   pivot_wider(names_from = sub_description, values_from = value)
 
 weo_em <- weo_em %>% 
-  mutate(develop="EM")
+  mutate(develop = "EM")
 
 
 # Bind em weo_am e weo_am:
@@ -114,20 +114,27 @@ dataset_total <- debt_prop %>%
   left_join(weo, by = c("country", "year"))
 # Obs. paises que nÃ£o estavam na weo: Latvia, Lithuania, Norway
 
-#Mudando os nomes das vari?veis que vieram da WEO
+#Mudando os nomes das variaveis que vieram da WEO
 
 dataset_total <- dataset_total %>% 
-  rename (woe_country_code='WEO Country Code',
-          GDP_cte='Gross domestic product, constant prices',
-          GDP_cur='Gross domestic product, current prices',
-          GDP_per_cap_cte='Gross domestic product per capita, constant prices',
-          inflation_mean='Inflation, average consumer prices',
-          inflation_end='Inflation, end of period consumer prices',
-          unemployment='Unemployment rate',
-          lending_borroeing_rate='General government net lending/borrowing',
-          account_balance='Current account balance')
+  rename (woe_country_code = 'WEO Country Code',
+          GDP_cte = 'Gross domestic product, constant prices',
+          GDP_cur = 'Gross domestic product, current prices',
+          GDP_per_cap_cte = 'Gross domestic product per capita, constant prices',
+          inflation_mean = 'Inflation, average consumer prices',
+          inflation_end = 'Inflation, end of period consumer prices',
+          unemployment = 'Unemployment rate',
+          lending_borroeing_rate = 'General government net lending/borrowing',
+          account_balance = 'Current account balance')
 
+# Adicionando log nas variaveis de GDP
 
+dataset_total <- dataset_total %>% 
+  mutate(ln_GDP_cte = ifelse(GDP_cte > 0, log(GDP_cte), NA),
+         ln_GDP_cur = ifelse(GDP_cur > 0, log(GDP_cur), NA),
+         ln_GDP_per_cap_cte = ifelse(GDP_per_cap_cte > 0, log(GDP_per_cap_cte), NA))
+
+dataset_total %>% view
 #base de impostos
 
 taxes <- taxes %>% 
@@ -161,20 +168,28 @@ interest_rates_tidy <-  interest_rates %>%
   pivot_longer(("2000":"2020M08"), 
                names_to = "year",
                values_to = "nominal_rate") %>% 
-  rename(country=1) %>% 
-  mutate(year=as.numeric(year))
+  rename(country = 1)
 
 
 interest_rates_tidy <- interest_rates_tidy %>% 
-  filter(str_length(year)<=4)
+  filter(str_length(year) <= 4) %>% 
+  mutate(year = as.numeric(year))
+
 
 interest_rates_tidy <- interest_rates_tidy %>% 
-  na_if("...")
-
-
+  na_if("...") %>% 
+  na_if("-") %>% 
+  mutate(nominal_rate = as.numeric(nominal_rate)) %>% 
+  mutate(country = str_replace_all(string = country, pattern = "China, P.R.: Mainland", replacement = "China")) %>% 
+  mutate(country = str_replace_all(string = country, pattern = "Egypt, Arab Rep. of", replacement = "Egypt")) %>% 
+  mutate(country = str_replace_all(string = country, pattern = "Poland, Rep. of", replacement = "Poland")) %>% 
+  mutate(country = str_replace_all(string = country, pattern = "Russian Federation", replacement = "Russia")) %>%
+  mutate(country = str_replace_all(string = country, pattern = "Czech Rep.", replacement = "Czec Republic")) %>% 
+  mutate(country = str_replace_all(string = country, pattern = "Korea, Rep. of", replacement = "Korea"))
 
 dataset_total <- dataset_total %>% 
   left_join(interest_rates_tidy, by = c("year", "country"))
+
 
 #adicionando os continentes
 
@@ -234,7 +249,7 @@ dataset_total_index<- dataset_total_index %>%
   na_if("..")
 
 
-#arrumando a inflação
+#arrumando a infla??o
 dataset_total <- dataset_total %>% 
   mutate(inflation_mean =(inflation_mean/1000), inflation_end=(inflation_end/1000))
 
