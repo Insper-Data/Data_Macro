@@ -134,7 +134,7 @@ dataset_total <- dataset_total %>%
          ln_GDP_cur = ifelse(GDP_cur > 0, log(GDP_cur), NA),
          ln_GDP_per_cap_cte = ifelse(GDP_per_cap_cte > 0, log(GDP_per_cap_cte), NA))
 
-dataset_total %>% view
+
 #base de impostos
 
 taxes <- taxes %>% 
@@ -260,6 +260,7 @@ write_csv(dataset_total, "dataset_total.csv")
 # Escrevendo um arquivo csv para dataset_total_index:
 write_csv(dataset_total_index, "dataset_total_index.csv")
  #fim
+
 
 
 
