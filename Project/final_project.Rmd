@@ -711,11 +711,13 @@ reg2.10 <- plm(for_nonbank_prop ~  debt_to_GDP_ + log(debt_to_GDP_) + fx_ + GDP_
 summary(reg2.10)
 ```
 #REG 2.11
+#REG 2.11
 ```{r}
 reg2.11 <- plm(for_nonbank_prop ~  debt_to_GDP_ + log(debt_to_GDP_) + fx_ + GDP_per_cap_cte +  nominal_rate + continent + vix_EUA + vix_EUR + taxes + develop  + lending_borrow + unemployment + inflation_mean , data=panel_dataset  )
 
 summary(reg2.11)
 ```
+#REG 2.12
 #REG 2.12
 ```{r}
 reg2.12 <- plm(for_nonbank_prop ~  debt_to_GDP_ + log(debt_to_GDP_) + fx_ + GDP_per_cap_cte +  nominal_rate + continent + vix_EUA + vix_EUR + taxes + develop + account_balance +  unemployment + inflation_mean , data=panel_dataset  )
@@ -723,12 +725,15 @@ reg2.12 <- plm(for_nonbank_prop ~  debt_to_GDP_ + log(debt_to_GDP_) + fx_ + GDP_
 summary(reg2.12)
 ```
 #REG 2.13
+#REG 2.13
 ```{r}
 reg2.13 <- plm(for_nonbank_prop ~  debt_to_GDP_ + log(debt_to_GDP_) + fx_ + GDP_per_cap_cte +  nominal_rate + continent + vix_EUA + vix_EUR + taxes + develop + account_balance + lending_borrow + inflation_mean , data=panel_dataset  )
 
 summary(reg2.13)
 ```
+
 #REG 2.14
+
 ```{r}
 reg2.14 <- plm(for_nonbank_prop ~  debt_to_GDP_ + log(debt_to_GDP_) + fx_ + GDP_per_cap_cte +  nominal_rate + continent + vix_EUA + vix_EUR + taxes + develop + account_balance + lending_borrow + unemployment , data=panel_dataset  )
 
