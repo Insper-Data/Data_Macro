@@ -430,3 +430,190 @@ summary(reg1)
 
 ```
 
+
+
+
+
+
+##REG 1.1
+```{r}
+
+reg1.1 <- plm(for_ex_BC ~ total_debt_ + log(foreign_debt_) + debt_to_GDP_ + fx_ + GDP_per_cap_cte + nominal_rate + continent + vix_EUA + vix_EUR + taxes + develop + account_balance + lending_borrow + unemployment + inflation_mean, data = panel_dataset )
+
+summary(reg1.1)
+
+```
+
+
+##REG 2.1
+```{r}
+
+reg2.1 <- plm(for_ex_BC ~ log(foreign_debt_) + debt_to_GDP_ + fx_ + GDP_per_cap_cte + nominal_rate + continent + vix_EUA + vix_EUR + taxes + develop + account_balance + lending_borrow + unemployment + inflation_mean, data = panel_dataset )
+
+summary(reg2.1)
+
+```
+
+##REG 3.1
+```{r}
+
+reg3.1 <- plm(for_ex_BC ~ total_debt_ + debt_to_GDP_ + fx_ + GDP_per_cap_cte + nominal_rate + continent + vix_EUA + vix_EUR + taxes + develop + account_balance + lending_borrow + unemployment + inflation_mean, data = panel_dataset )
+
+summary(reg3.1)
+
+```
+
+##REG 4.1
+```{r}
+
+reg4.1 <- plm(for_ex_BC ~ debt_to_GDP_ + fx_ + GDP_per_cap_cte + nominal_rate + continent + vix_EUA + vix_EUR + taxes + develop + account_balance + lending_borrow + unemployment + inflation_mean, data = panel_dataset )
+
+summary(reg4.1)
+
+```
+
+
+##REG 5.1
+```{r}
+
+reg5.1 <- plm(for_ex_BC ~ total_debt_ + log(foreign_debt_) + debt_to_GDP_ + GDP_per_cap_cte + nominal_rate + continent + vix_EUA + vix_EUR + taxes + develop + account_balance + lending_borrow + unemployment + inflation_mean, data = panel_dataset )
+
+summary(reg5.1)
+
+```
+
+##REG 6.1
+```{r}
+
+reg6.1 <- plm(for_ex_BC ~ total_debt_ + log(foreign_debt_) + debt_to_GDP_ + fx_ + nominal_rate + continent + vix_EUA + vix_EUR + taxes + develop + account_balance + lending_borrow + unemployment + inflation_mean, data = panel_dataset )
+
+summary(reg6.1)
+
+```
+
+##REG 7.1
+```{r}
+
+reg7.1 <- plm(for_ex_BC ~ total_debt_ + log(foreign_debt_) + debt_to_GDP_ + fx_ + GDP_per_cap_cte + continent + vix_EUA + vix_EUR + taxes + develop + account_balance + lending_borrow + unemployment + inflation_mean, data = panel_dataset )
+
+summary(reg7.1)
+
+```
+
+##REG 8.1
+```{r}
+
+reg8.1 <- plm(for_ex_BC ~ total_debt_ + log(foreign_debt_) + debt_to_GDP_ + fx_ + GDP_per_cap_cte + nominal_rate + vix_EUA + vix_EUR + taxes + develop + account_balance + lending_borrow + unemployment + inflation_mean, data = panel_dataset )
+
+summary(reg8.1)
+
+```
+
+##REG 9.1
+```{r}
+
+reg9.1 <- plm(for_ex_BC ~ total_debt_ + log(foreign_debt_) + debt_to_GDP_ + fx_ + GDP_per_cap_cte + nominal_rate + continent + vix_EUA + taxes + develop + account_balance + lending_borrow + unemployment + inflation_mean, data = panel_dataset )
+
+summary(reg9.1)
+
+```
+
+##REG 10.1
+```{r}
+
+reg10.1 <- plm(for_ex_BC ~ total_debt_ + log(foreign_debt_) + debt_to_GDP_ + fx_ + GDP_per_cap_cte + nominal_rate + continent + vix_EUR + taxes + develop + account_balance + lending_borrow + unemployment + inflation_mean, data = panel_dataset )
+
+summary(reg10.1)
+
+```
+
+##REG 11.1
+```{r}
+
+reg11.1 <- plm(for_ex_BC ~ total_debt_ + log(foreign_debt_) + debt_to_GDP_ + fx_ + GDP_per_cap_cte + nominal_rate + continent + vix_EUA + vix_EUR + develop + account_balance + lending_borrow + unemployment + inflation_mean, data = panel_dataset )
+
+summary(reg11.1)
+
+```
+
+##REG 12.1
+```{r}
+
+reg12.1 <- plm(for_ex_BC ~ total_debt_ + log(foreign_debt_) + debt_to_GDP_ + fx_ + GDP_per_cap_cte + nominal_rate + continent + vix_EUA + vix_EUR + taxes + account_balance + lending_borrow + unemployment + inflation_mean, data = panel_dataset )
+
+summary(reg12.1)
+
+```
+
+##REG 13.1
+```{r}
+
+reg13.1 <- plm(for_ex_BC ~ total_debt_ + log(foreign_debt_) + debt_to_GDP_ + fx_ + GDP_per_cap_cte + nominal_rate + continent + vix_EUA + vix_EUR + taxes + develop + lending_borrow + unemployment + inflation_mean, data = panel_dataset )
+
+summary(reg13.1)
+
+```
+
+##REG 14.1
+```{r}
+
+reg14.1 <- plm(for_ex_BC ~ total_debt_ + log(foreign_debt_) + debt_to_GDP_ + fx_ + GDP_per_cap_cte + nominal_rate + continent + vix_EUA + vix_EUR + taxes + develop + account_balance + unemployment + inflation_mean, data = panel_dataset )
+
+summary(reg14.1)
+
+```
+
+##REG 15.1
+```{r}
+
+reg15.1 <- plm(for_ex_BC ~ total_debt_ + log(foreign_debt_) + debt_to_GDP_ + fx_ + GDP_per_cap_cte + nominal_rate + continent + vix_EUA + vix_EUR + taxes + develop + account_balance + lending_borrow + inflation_mean, data = panel_dataset )
+
+summary(reg15.1)
+
+```
+
+##REG 16.1
+```{r}
+
+reg16.1 <- plm(for_ex_BC ~ total_debt_ + log(foreign_debt_) + debt_to_GDP_ + fx_ + GDP_per_cap_cte + nominal_rate + continent + vix_EUA + vix_EUR + taxes + develop + account_balance + lending_borrow + unemployment, data = panel_dataset )
+
+summary(reg16.1)
+
+```
+
+
+##REG 17.1
+```{r}
+
+reg17.1 <- plm(for_ex_BC ~ total_debt_ + log(foreign_debt_) + debt_to_GDP_ + GDP_per_cap_cte + nominal_rate + continent + taxes + develop + unemployment + inflation_mean, data = panel_dataset )
+
+summary(reg17.1)
+
+```
+
+##REG 18.1
+```{r}
+
+reg18.1 <- plm(for_ex_BC ~ total_debt_ + log(foreign_debt_) + debt_to_GDP_ + GDP_per_cap_cte + nominal_rate + continent + taxes + develop + unemployment, data = panel_dataset )
+
+summary(reg18.1)
+
+```
+
+##REG 19.1
+```{r}
+
+reg19.1 <- plm(for_ex_BC ~ total_debt_ + log(foreign_debt_) + debt_to_GDP_ + GDP_per_cap_cte + continent + taxes + develop + unemployment, data = panel_dataset )
+
+summary(reg19.1)
+
+```
+
+##REG 20.1
+```{r}
+
+reg20.1 <- plm(for_ex_BC ~ total_debt_ + log(foreign_debt_) + debt_to_GDP_*develop + GDP_per_cap_cte + nominal_rate + continent + taxes + develop + unemployment, data = panel_dataset )
+
+summary(reg20.1)
+
+```
