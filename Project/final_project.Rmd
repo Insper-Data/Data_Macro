@@ -1,7 +1,13 @@
 ---
-title: "Preliminary impressions about the relationship between the level of public debt and the countries' ability to attract new foreign credits"
+title: Preliminary impressions about the relationship between the level of public
+  debt and the countries' ability to attract new foreign credits
 author: "Augusto Netto, Gabriella Garcia and Maria Clara Drzeviechi"
 output:
+  word_document:
+    toc: yes
+  pdf_document:
+    latex_engine: xelatex
+    toc: yes
   html_document:
     df_print: paged
     highlight: haddock
@@ -11,8 +17,6 @@ output:
     toc_float:
       collapsed: yes
       smooth_scroll: yes
-  pdf_document:
-    toc: yes
 ---
 
 <style>
@@ -25,7 +29,29 @@ text-align: justify}
 
 
 
-# Introduction and Motivation
+#Objective 
+
+This study aims to investigate how a country’s level of public debt can be an obstacle to attract new foreign credit. If the country incurs high levels of debt, it is more likely that it will not be able to repay its creditor. Thus, in situations that a country’s level of public debt is too large, the creditors may choose to stop financing the country (Krugman, 1988), because of fearing a default. Using econometric methods, the objective is to verify if a country's debt level has a negative impact on foreign participation in a country's sovereign debt. 
+
+
+#Motivation
+
+In the past 50 years, emerging and developing economies experienced four big indebtedness waves, three of which ended up in financial crises. In the 1980s, the association of low real interest rates and growing debt market led certain economies to raise considerably their levels of indebtedness; the result was the well-known Latin America’s debt crisis. A decade later, the world would watch the Asian financial crisis, due to the liberalization of financial markets and capital flows, allowing these countries to acquire loans in foreign currencies. Finally, in 2007-09, both emerging and advanced economies faced major recessions as a result of the global financial crisis.
+ 
+It is important to notice that although happening in different decades and locations, these three episodes share a common denominator: they all started in periods with low real interest rates and an escalating indebtedness. This scenario made the risk premium rise and subsequently there was a sudden stop of capital flows. 
+ 
+In 2010, the fourth global wave of debt started, and it was the largest and fastest one. In accordance with the aforementioned ones, interest rates were low since the Global Financial Crisis and investors were seeking assets with greater profitability. It is also reasonable to consider that this wave has not yet met its end. By 2018, according to the IMF, global debt has reached 226% of GDP, representing an amount of 188 trillions of dollars.  Emerging and developing economies saw indebtedness grow 54 p.p. in 8 years, reaching 170% of GDP. Low income countries reached 67% of GDP in 2018 – that figure was 48% in 2010. A different situation is seen on advanced economies, once they have maintained the 265% ratio of debt to GDP on the same level since 2010.
+ 
+Global debt waves have shown the need for emerging and developing markets to develop their sovereign bond markets to facilitate public debt financing and management, primarily through the issuance of domestic bonds in local currencies. This growth was reflected in the increase in domestic participation in government bonds, and in the increase in foreign interest in the debt of these governments, which has become increasingly relevant in the local bond market.
+ 
+The raise in foreign participation in the sovereign debt market is also related to many susceptible advantages, such as a decrease in government borrowing costs, due to the higher demand for these bonds, presented in several studies (Andritzky, 2012; Arslanalp and Poghosyan, 2014; Jaramillo and Zhang, 2013; Warnock and Warnock, 2009) and the diversification of the investor base, reflecting different characteristics of investors in terms of risk tolerance and trading reasons, which may increase the liquidity of government debt bonds in the secondary market (World Bank and IMF , 2001).
+ 
+However, foreign investors tend to be relatively more sensitive to risk, particularly foreign private investors, and can be an unstable source of demand in times of stress, because they have a broader pool of assets in which they can invest. As a result, they may be less inclined to maintain their participation during these episodes (Broner et al., 2013).
+ 
+The constant rise in indebtedness, observed in the current wave of global debt and intensified by the current crisis of COVID-19, may culminate in a sudden increase in risk premiums, if investors consider debt to GDP levels to be unsustainable (Blanchard 2019; Henderson 2019; Rogoff 2019a, b). If this happens, both capital inflows and outflows decrease during economic crises, with this effect being stronger in global crises (Broner et al., 2013).
+ 
+In this context, this study intends to analyze the impact of the variable debt-to-GDP ratio on the participation of foreign creditors in government bonds. Therefore, a worldwide analysis will be conducted using the database provided by Arslanalp and Takahiro Tsuda, previously affiliated with the Monetary and Capital Markets Department of the International Monetary Fund. If this relationship proves to be significant, several negative effects on local economies, as mentioned in the text, may intensify in the current world crisis scenario.
+
 
 
 
@@ -41,12 +67,14 @@ The concept of debt overhang refers to a debt burden so large that the country c
 
 
 
+
 # Dataset Description
 
-The dataset used in this study is composed by the database provided by Arslanalp and Takahiro Tsuda, the World Economic Outlook from IMF and the WOrld Bank. The dataset is composed of 45 countries and covers sixteen years, from 2004 to 2019.  
+The dataset used in this study is composed by the database provided by Arslanalp and Takahiro Tsuda (2012 and 2014), which compiles comparable estimates of investor holdings of sovereign debt. In addition, data provided bt the World Economic Outlook from IMF and the WOrld Bank are used. The dataset is composed of 45 countries and covers sixteen years, from 2004 to 2019, quartely frequncy.  
 
 ```{r, echo=FALSE, message=FALSE} 
 #adicionando libraries
+rm(list=ls())
 library(tidyverse)
 library(scales)
 library(ggthemes)
@@ -69,52 +97,8 @@ library(plm)
 dataset_total <- read.csv("dataset_total.csv") 
 
 dataset_total_index <- read.csv("dataset_total_index.csv") 
-head(dataset_total, 10)
+
 ```
-
-
-
-What follows is the details on some of the variables above shown:
-
-* **Total general government gross debt** - accounts for the debt of the central, local and state governments. The definition of debt here is broad - as Arslanalp and Tsuda (2012) points out - and includes: i) currency and deposits; ii) securities; and iii) loans. Measured in billions of national currency.
-
-* **Subgroups from total debt** - total general government gross debt is divided into six groups concerning the beholder of the asset, those groups are:
-
- - *Foreing central banks*;
- - *Foreign banks*;
- - *Foreing non-banks*;
- 
- - *Domestic central bank*;
- - *Domestic banks*;
- - *Domestic non-banks*.
-
-* **GDP constant** - Annual percentages of constant price GDP are year-on-year changes; the base year is country-specific. Expenditure-based GDP is total final expenditures at purchasersâ prices (including the f.o.b. value of exports of goods and services), less the f.o.b. value of imports of goods and services; 
-
-* **GDP current** - These data form the basis for the country weights used to generate the World Economic Outlook country group composites for the domestic economy;  
-
-* **GDP per capita constant** - GDP is expressed in constant international dollars per person. Data are derived by dividing constant price purchasing-power parity (PPP) GDP by total population;
-
-* **Inflation mean** - Annual percentages of average consumer prices are year-on-year changes;
-
-* **Inflation end** - Annual percentages of end of period consumer prices are year-on-year changes;
-
-* **Unemployment rate** - Defined by either the national definition, the ILO harmonized definition, or the OECD harmonized definition. The OECD harmonized unemployment rate gives the number of unemployed persons as a percentage of the labor force (the total number of people employed plus unemployed);
-
-* **Lending-borrowing rate** - Net lending (+)/ borrowing (â) is calculated as revenue minus total expenditure. This is a core GFS balance that measures the extent to which general government is either putting financial resources at the disposal of other sectors in the economy and nonresidents (net lending), or utilizing the financial resources generated by other sectors and nonresidents (net borrowing);
-
-* **Account balance** - Current account is all transactions other than those in financial and capital items. The major classifications are goods and services, income and current transfers. The focus of the BOP is on transactions (between an economy and the rest of the world) in goods, services, and income;
-
-* **Develop** Variable to distinguish emerging markets (EM) and advanced markets (AM);
-
-* **Taxes** Tax aliquote for each country;
-
-* **VIX (EUA)** Year average for the Volatility Index (VIX) is a measure of expected price fluctuations in the S&P 500 Index options;
-
-* **VIX (EUR)** Year average for the EuroCurrency Volatility Index ("Euro VIX") measures the market's expectation volatility of the $US/Euro exchange rate;
-
-* **Nominal Rate** Annual nominal interest rate;
-
-* **GDP per capita in current USD**.
 
 
 
@@ -126,7 +110,7 @@ What follows is the details on some of the variables above shown:
   filter(year %in% c(2004, 2009, 2014, 2019), !is.na(develop)) %>%
   bar_chart(x = country, y = debt_to_GDP_, facet = year, top_n = 15, fill = develop) +
   labs( x = "", y = "Debt to GDP (%)",
-  title = "Top 15 Debt to GDP", fill = "Develop") +
+  title = "Top 15 debt to GDP", fill = "Develop") +
   theme_classic() +
   scale_fill_manual("Develop", values = c("EM" = "red4", "AM" = "navyblue"))+
   theme(legend.title = element_text(face = "bold", size = 10)) 
@@ -142,8 +126,8 @@ dataset_total %>%
   mutate(f_debt = foreign_debt_*fx_) %>% 
   filter(year %in% c(2004, 2009, 2014, 2019), !is.na(develop)) %>%
   bar_chart(x = country, y = (f_debt), facet = year, top_n = 15, fill = develop) +  
-  labs( x = "", y = "Debt held by Foreign Investors (Billions USD)",
-  title = "Top 15 countries with debt held by Foreign Investors", fill = "Develop") +
+  labs( x = "", y = "Debt held by foreign investors (billions USD)",
+  title = "Top 15 countries with debt held by foreign investors", fill = "Develop") +
   theme_classic() +
   theme(legend.title = element_text(face = "bold", size = 10)) +
   scale_fill_manual("Develop", values = c("EM" = "red4", "AM" = "navyblue"))
@@ -207,7 +191,7 @@ As the map shown above makes clear, countries around the world have contrasting 
 ggplot(aes(x = year, y = debt_to_GDP_mean)) +
     geom_point() +
      geom_smooth(color="black")+
-    labs(x = "Year", y = "Debt to GDP Ratio (%)", title = "Average Debt to GDP Ratio for 45 Countries") +
+    labs(x = "Year", y = "Debt to GDP ratio (%)", title = "Average debt to GDP ratio for 45 countries") +
     theme_light()
 
 graph_debt
@@ -231,7 +215,7 @@ ggplot(aes(x = year, y = debt_to_GDP_mean, color=Type )) +
    scale_color_manual(values = c("EM" = "red4", "AM" = "navyblue"))+
     geom_point() +
     geom_smooth()+
-    labs(x = "Year", y = "Debt to GDP Ratio (%)", title = "Average Debt to GDP Ratio for Advanced and Emerging Markets") +
+    labs(x = "Year", y = "Debt to GDP ratio (%)", title = "Average debt to GDP ratio for advanced and emerging markets") +
     theme_light()
 
 graph_debt_sep
@@ -252,71 +236,19 @@ graph_debt_sep
 ggplot(aes(x = GDP_per_cap_mean, y = debt_to_GDP_mean, color=country)) +
     scale_color_viridis_d() +
     geom_point(show.legend = FALSE) +
-    labs(x = "GDP per Capita (USD)", y = "Debt to GDP Ratio (%)", title = " Average for 45 Countries (2004-2019)") +
+    labs(x = "GDP per capita (USD)", y = "Debt to GDP ratio (%)", title = " Average for 45 countries (2004-2019)") +
     theme_bw()
 
  
-
+graph_debt_GDP
 ```
 
 
 Even though advanced markets have a higher debt level than emerging markets, the relationship between GDP per capita and debt to GDP ratio is not clear.
 
 
-## It is not possible to observe that countries with more than 90% debt to GDP grow less  
 
-```{r, echo=FALSE, message=FALSE}
-
-dataset_total %>% 
-    filter(year >= 2008, develop == "AM") %>% 
-    mutate(GDP_var = ifelse(year == 2019, (GDP_cte - lag(GDP_cte, k = 10))/(lag(GDP_cte, k = 10)), NA)) %>%
-    group_by(country) %>% 
-    mutate(media_debt_GDP = mean(debt_to_GDP_)) %>% 
-    filter(year == 2019, !is.na(develop)) %>% 
-    ggplot() +
-    geom_point(aes(x = media_debt_GDP, y = GDP_var), colour = "black") +
-    geom_text(aes(x = media_debt_GDP, y = GDP_var, colour = country, label = country, fontface = 2),
-              hjust = 0, vjust = 0, size = 4) +
-    geom_vline(xintercept = 90, linetype="dashed", colour = "red4", size = 1) +
-    labs(title = "Relation between debt and growth - Advanced markets",
-         subtitle = "(2009-2019)") +
-    theme_bw() +
-    theme(legend.position = "none", plot.title = element_text(size = 15)) +
-    xlab("Debt to GDP (%)") +
-    ylab("GDP growth")
-
-```
-
-
-Contrasting with Reinhart and Rogoff (2010), this dataset does not show a clear pattern of decreasing GDP growth beyond the 90% debt to GDP level for advanced economies (marked in red). 
-
-```{r, echo=FALSE, message=FALSE}
-
-
-dataset_total %>% 
-    filter(year >= 2008, develop == "EM") %>% 
-    mutate(GDP_var = ifelse(year == 2019, (GDP_cte - lag(GDP_cte, k = 10))/(lag(GDP_cte, k = 10)), NA)) %>%
-    group_by(country) %>% 
-    mutate(media_debt_GDP = mean(debt_to_GDP_)) %>% 
-    filter(year == 2019, !is.na(develop)) %>% 
-    ggplot() +
-    geom_point(aes(x = media_debt_GDP, y = GDP_var), colour = "black") +
-    geom_text(aes(x = media_debt_GDP, y = GDP_var, colour = country, label = country, fontface = 2),
-              hjust = 0, vjust = 0, size = 4) +
-    labs(title = "Relation between debt and growth - Emerging markets",
-         subtitle = "(2009-2019)") +
-    theme_bw() +
-    theme(legend.position = "none", plot.title = element_text(size = 15)) +
-    xlab("Debt to GDP (%)") +
-    ylab("GDP growth")
- 
-```
-
-
-Concerning emerging economies, Reinhart et. al (2003) finds that real growth might be constrained even with low levels of indebtedness - such as 15 or 20%. Once again, the selection of countries and time space here goes in a different direction.
-
-
-## Foreign investors have a preference for allocating their resources to advanced market bond
+## Foreign investors have a preference for allocating their resources in advanced markets
 
 ```{r, echo=FALSE, message=FALSE}
  
@@ -330,7 +262,7 @@ ggplot(aes(x = year, y = debt_foreign_mean, color=Type )) +
    scale_color_manual(values = c("EM" = "red4", "AM" = "navyblue"))+
     geom_point() +
     geom_smooth()+
-    labs(x = "Year", y = "Government Debt Held by Foreign Investors (Billion USD)", title = "Total Debt Held by Foreign Investors for Advanced and Emerging Markets") +
+    labs(x = "Year", y = "Government debt held by foreign investors (billion USD)", title = "Total debt held by foreign investors for advanced and emerging markets") +
     theme_bw()
 
 graph_debt_foreign_sep
@@ -353,7 +285,7 @@ ggplot(aes(x = year, y = debt_domestic_mean, color=Type )) +
    scale_color_manual(values = c("EM" = "red4", "AM" = "navyblue"))+
     geom_point() +
     geom_smooth()+
-    labs(x = "Year", y = "Government Debt Held by Domestic Investors (%)", title = "Debt Held by Domestic Investors for Advanced and Emerging Markets") +
+    labs(x = "Year", y = "Government debt held by domestic investors (%)", title = "Debt held by domestic investors for advanced and emerging markets") +
     theme_bw()
 
  graph_debt_domestic_sep
@@ -364,25 +296,6 @@ ggplot(aes(x = year, y = debt_domestic_mean, color=Type )) +
 In addition to the domestic participation in debt varying for both emerging and advanced countries, it is possible to infer that those variations are inverse.
 
 
-## The participation of domestic investors in the composition of debt it is not invariant over time
-
-```{r, echo=FALSE, message=FALSE}
- graph_debt_foreign_sep<-dataset_total %>% 
-   filter(!is.na(develop)) %>% 
-   rename(Type=25) %>% 
-  mutate(foreign_debt_USD_prop=(foreign_debt_/total_debt_)) %>% 
-  group_by(year, Type) %>% 
-  summarise(debt_foreign_mean = mean(foreign_debt_USD_prop)) %>% 
-ggplot(aes(x = year, y = debt_foreign_mean, color=Type )) +
-   scale_color_manual(values = c("EM" = "red4", "AM" = "navyblue"))+
-    geom_point() +
-    geom_smooth()+
-    labs(x = "Year", y = "Government Debt Held by Foreign Investors (%)", title = "Debt Held by Foreign Investors for Advanced and Emerging Markets") +
-    theme_bw()
-
- graph_debt_foreign_sep
-
-```
 
 ## There is no clear relationship between debt and inflation
 
@@ -394,7 +307,7 @@ graph_debt_inflation <-  dataset_total %>%
   geom_point(aes(inflation_mean, (total_debt_*fx_), colour = develop)) +
   xlim(0,40)+
   ylim(0,400) +
-  labs(x = "Annual Inflation Rate (%)", y = "Total Debt (Billion USD)", title = "Total Debt X Inflation", subtitle = "45 countries (2004-2019)" ) + 
+  labs(x = "Annual inflation rate (%)", y = "Total debt (billion USD)", title = "Total debt X Inflation", subtitle = "45 countries (2004-2019)" ) + 
   theme_bw()+
 scale_colour_manual("Develop", values = c("EM" = "red4", "AM" = "navyblue")) 
 
@@ -416,17 +329,334 @@ panel_dataset <- panel_dataset %>%
   mutate(for_ex_BC = ((nonbank_foreign_debt_ + bank_foreign_debt_)/total_debt_))
 
 panel_dataset <- panel_dataset %>% 
+  mutate(for_nonbank_prop = (nonbank_foreign_debt_/total_debt_))
+
+panel_dataset <- panel_dataset %>% 
+  mutate(develop = as.character(develop))
+
+panel_dataset <- panel_dataset %>% 
   rename(lending_borrow=23)
+
 
 ```
 
 
-##REG 1
+##REG 1 (foreign menos BC)
 ```{r,  echo=FALSE, message=FALSE, warning=FALSE}
 
-reg1 <- plm(for_ex_BC ~  debt_to_GDP_ + log(debt_to_GDP_) + log(debt_to_GDP_) + fx_ + GDP_per_cap_cte + inflation_mean +  nominal_rate + vix_EUA + vix_EUR + taxes + develop + account_balance + lending_borrow + unemployment, data=panel_dataset )
+reg1 <- plm(for_ex_BC ~  debt_to_GDP_ +  log(debt_to_GDP_) + fx_ + GDP_per_cap_cte + inflation_mean +  nominal_rate + vix_EUA + vix_EUR + taxes + factor(develop) + account_balance + lending_borrow + unemployment, data=panel_dataset )
 
 summary(reg1)
 
+```
+
+
+
+
+
+
+##REG 1.1
+```{r}
+
+reg1.1 <- plm(for_ex_BC ~  log(foreign_debt_) + debt_to_GDP_ + fx_ + GDP_per_cap_cte + nominal_rate + continent + vix_EUA + vix_EUR + taxes + develop + account_balance + lending_borrow + unemployment + inflation_mean, data = panel_dataset )
+
+summary(reg1.1)
+
+```
+
+
+##REG 1.2
+```{r}
+
+reg1.2 <- plm(for_ex_BC ~ log(foreign_debt_) + debt_to_GDP_ + fx_ + GDP_per_cap_cte + nominal_rate + continent + vix_EUA + vix_EUR + taxes + develop + account_balance + lending_borrow + unemployment + inflation_mean, data = panel_dataset )
+
+summary(reg1.2)
+
+```
+
+##REG 1.3
+```{r}
+
+reg1.3 <- plm(for_ex_BC ~ debt_to_GDP_ + fx_ + GDP_per_cap_cte + nominal_rate + continent + vix_EUA + vix_EUR + taxes + develop + account_balance + lending_borrow + unemployment + inflation_mean, data = panel_dataset )
+
+summary(reg1.3)
+
+```
+
+##REG 1.4
+```{r}
+
+reg1.4 <- plm(for_ex_BC ~ debt_to_GDP_ + fx_ + GDP_per_cap_cte + nominal_rate + continent + vix_EUA + vix_EUR + taxes + develop + account_balance + lending_borrow + unemployment + inflation_mean, data = panel_dataset )
+
+summary(reg1.4)
+
+```
+
+
+##REG 1.5
+```{r}
+
+reg1.5 <- plm(for_ex_BC ~ log(foreign_debt_) + debt_to_GDP_ + GDP_per_cap_cte + nominal_rate + continent + vix_EUA + vix_EUR + taxes + develop + account_balance + lending_borrow + unemployment + inflation_mean, data = panel_dataset )
+
+summary(reg1.5)
+
+```
+
+##REG 1.6
+```{r}
+
+reg1.6 <- plm(for_ex_BC ~ log(foreign_debt_) + debt_to_GDP_ + fx_ + nominal_rate + continent + vix_EUA + vix_EUR + taxes + develop + account_balance + lending_borrow + unemployment + inflation_mean, data = panel_dataset )
+
+summary(reg1.6)
+
+```
+
+##REG 1.7
+```{r}
+
+reg1.7 <- plm(for_ex_BC ~ log(foreign_debt_) + debt_to_GDP_ + fx_ + GDP_per_cap_cte + continent + vix_EUA + vix_EUR + taxes + develop + account_balance + lending_borrow + unemployment + inflation_mean, data = panel_dataset )
+
+summary(reg1.7)
+
+```
+
+##REG 1.8
+```{r}
+
+reg1.8 <- plm(for_ex_BC ~  log(foreign_debt_) + debt_to_GDP_ + fx_ + GDP_per_cap_cte + nominal_rate + vix_EUA + vix_EUR + taxes + develop + account_balance + lending_borrow + unemployment + inflation_mean, data = panel_dataset )
+
+summary(reg1.8)
+
+```
+
+##REG 1.9
+```{r}
+
+reg1.9 <- plm(for_ex_BC ~  log(foreign_debt_) + debt_to_GDP_ + fx_ + GDP_per_cap_cte + nominal_rate + continent + vix_EUA + taxes + develop + account_balance + lending_borrow + unemployment + inflation_mean, data = panel_dataset )
+
+summary(reg1.9)
+
+```
+
+##REG 1.10
+```{r}
+
+reg1.10 <- plm(for_ex_BC ~ log(foreign_debt_) + debt_to_GDP_ + fx_ + GDP_per_cap_cte + nominal_rate + continent + vix_EUR + taxes + develop + account_balance + lending_borrow + unemployment + inflation_mean, data = panel_dataset )
+
+summary(reg1.10)
+
+```
+
+##REG 1.11
+```{r}
+
+reg1.11 <- plm(for_ex_BC ~  log(foreign_debt_) + debt_to_GDP_ + fx_ + GDP_per_cap_cte + nominal_rate + continent + vix_EUA + vix_EUR + develop + account_balance + lending_borrow + unemployment + inflation_mean, data = panel_dataset )
+
+summary(reg1.11)
+
+```
+
+##REG 1.12
+```{r}
+
+reg1.12 <- plm(for_ex_BC ~ log(foreign_debt_) + debt_to_GDP_ + fx_ + GDP_per_cap_cte + nominal_rate + continent + vix_EUA + vix_EUR + taxes + account_balance + lending_borrow + unemployment + inflation_mean, data = panel_dataset )
+
+summary(reg1.12)
+
+```
+
+##REG 1.13
+```{r}
+
+reg1.13 <- plm(for_ex_BC ~  log(foreign_debt_) + debt_to_GDP_ + fx_ + GDP_per_cap_cte + nominal_rate + continent + vix_EUA + vix_EUR + taxes + develop + lending_borrow + unemployment + inflation_mean, data = panel_dataset )
+
+summary(reg1.13)
+
+```
+
+##REG 1.14
+```{r}
+
+reg1.14 <- plm(for_ex_BC ~ log(foreign_debt_) + debt_to_GDP_ + fx_ + GDP_per_cap_cte + nominal_rate + continent + vix_EUA + vix_EUR + taxes + develop + account_balance + unemployment + inflation_mean, data = panel_dataset )
+
+summary(reg1.14)
+
+```
+
+##REG 1.15
+```{r}
+
+reg1.15 <- plm(for_ex_BC ~ log(foreign_debt_) + debt_to_GDP_ + fx_ + GDP_per_cap_cte + nominal_rate + continent + vix_EUA + vix_EUR + taxes + develop + account_balance + lending_borrow + inflation_mean, data = panel_dataset )
+
+summary(reg1.15)
+
+```
+
+##REG 1.16
+```{r}
+
+reg1.16 <- plm(for_ex_BC ~ log(foreign_debt_) + debt_to_GDP_ + fx_ + GDP_per_cap_cte + nominal_rate + continent + vix_EUA + vix_EUR + taxes + develop + account_balance + lending_borrow + unemployment, data = panel_dataset )
+
+summary(reg1.16)
+
+```
+
+
+##REG 1.17
+```{r}
+
+reg1.17 <- plm(for_ex_BC ~ log(foreign_debt_) + debt_to_GDP_ + GDP_per_cap_cte + nominal_rate + continent + taxes + develop + unemployment + inflation_mean, data = panel_dataset )
+
+summary(reg1.17)
+
+```
+
+##REG 1.18
+```{r}
+
+reg1.18 <- plm(for_ex_BC ~ log(foreign_debt_) + debt_to_GDP_ + GDP_per_cap_cte + nominal_rate + continent + taxes + develop + unemployment, data = panel_dataset )
+
+summary(reg1.18)
+
+```
+
+##REG 1.19
+```{r}
+
+reg1.19 <- plm(for_ex_BC ~ log(foreign_debt_) + debt_to_GDP_ + GDP_per_cap_cte + continent + taxes + develop + unemployment, data = panel_dataset )
+
+summary(reg1.19)
+
+```
+
+##REG 1.20
+```{r}
+
+reg1.20 <- plm(for_ex_BC ~  log(foreign_debt_) + debt_to_GDP_*develop + GDP_per_cap_cte + nominal_rate + continent + taxes + develop + unemployment, data = panel_dataset )
+
+summary(reg1.20)
+
+```
+
+##REG 1.20
+```{r}
+
+reg1.20 <- plm(for_ex_BC ~  log(foreign_debt_) + debt_to_GDP_*develop + GDP_per_cap_cte + nominal_rate + continent + taxes + develop + unemployment, data = panel_dataset )
+
+summary(reg1.20)
+
+```
+
+
+
+#REG 2 (VARÃAVEL RESPOSTA "FOREIGN NONBANK")
+
+```{r}
+reg2 <- plm(for_nonbank_prop ~  debt_to_GDP_ + log(debt_to_GDP_) + fx_ + GDP_per_cap_cte +  nominal_rate + continent + vix_EUA + vix_EUR + taxes + develop + account_balance + lending_borrow + unemployment + inflation_mean , data=panel_dataset  )
+
+summary(reg2)
+```
+
+#REG 2.1
+```{r}
+reg2.1 <- plm(for_nonbank_prop ~  debt_to_GDP_ + fx_ + GDP_per_cap_cte +  nominal_rate + continent + vix_EUA + vix_EUR + taxes + develop + account_balance + lending_borrow + unemployment + inflation_mean , data=panel_dataset  )
+
+summary(reg2.1)
+```
+
+#REG 2.2
+```{r}
+reg2.2 <- plm(for_nonbank_prop ~  log(debt_to_GDP_) + fx_ + GDP_per_cap_cte +  nominal_rate + continent + vix_EUA + vix_EUR + taxes + develop + account_balance + lending_borrow + unemployment + inflation_mean , data=panel_dataset  )
+
+summary(reg2.2)
+```
+
+#REG 2.3
+```{r}
+reg2.3 <- plm(for_nonbank_prop ~  debt_to_GDP_ + log(debt_to_GDP_) +  GDP_per_cap_cte +  nominal_rate + continent + vix_EUA + vix_EUR + taxes + develop + account_balance + lending_borrow + unemployment + inflation_mean , data=panel_dataset  )
+
+summary(reg2.3)
+```
+
+#REG 2.4
+```{r}
+reg2.4<- plm(for_nonbank_prop ~  debt_to_GDP_ + log(debt_to_GDP_) + fx_ +   nominal_rate + continent + vix_EUA + vix_EUR + taxes + develop + account_balance + lending_borrow + unemployment + inflation_mean , data=panel_dataset  )
+
+summary(reg2.4)
+```
+#REG 2.5
+```{r}
+reg2.5 <- plm(for_nonbank_prop ~  debt_to_GDP_ + log(debt_to_GDP_) + fx_ + GDP_per_cap_cte +   continent + vix_EUA + vix_EUR + taxes + develop + account_balance + lending_borrow + unemployment + inflation_mean , data=panel_dataset  )
+
+summary(reg2.5)
+```
+#REG 2.6
+```{r}
+reg2.6 <- plm(for_nonbank_prop ~  debt_to_GDP_ + log(debt_to_GDP_) + fx_ + GDP_per_cap_cte +  nominal_rate +  vix_EUA + vix_EUR + taxes + develop + account_balance + lending_borrow + unemployment + inflation_mean , data=panel_dataset  )
+
+summary(reg2.6)
+```
+#REG 2.7
+```{r}
+reg2.7 <- plm(for_nonbank_prop ~  debt_to_GDP_ + log(debt_to_GDP_) + fx_ + GDP_per_cap_cte +  nominal_rate + continent + vix_EUA  + taxes + develop + account_balance + lending_borrow + unemployment + inflation_mean , data=panel_dataset  )
+
+summary(reg2.7)
+```
+
+#REG 2.8
+```{r}
+reg2.8 <- plm(for_nonbank_prop ~  debt_to_GDP_ + log(debt_to_GDP_) + fx_ + GDP_per_cap_cte +  nominal_rate + continent +  vix_EUR + taxes + develop + account_balance + lending_borrow + unemployment + inflation_mean , data=panel_dataset  )
+
+summary(reg2.8)
+```
+
+#REG 2.9
+```{r}
+reg2.9 <- plm(for_nonbank_prop ~  debt_to_GDP_ + log(debt_to_GDP_) + fx_ + GDP_per_cap_cte +  nominal_rate + continent + vix_EUA + vix_EUR  + develop + account_balance + lending_borrow + unemployment + inflation_mean , data=panel_dataset  )
+
+summary(reg2.9)
+```
+
+#REG 2.10
+```{r}
+reg2.10 <- plm(for_nonbank_prop ~  debt_to_GDP_ + log(debt_to_GDP_) + fx_ + GDP_per_cap_cte +  nominal_rate + continent + vix_EUA + vix_EUR + taxes  + account_balance + lending_borrow + unemployment + inflation_mean , data=panel_dataset  )
+
+summary(reg2.10)
+```
+#REG 2.11
+#REG 2.11
+```{r}
+reg2.11 <- plm(for_nonbank_prop ~  debt_to_GDP_ + log(debt_to_GDP_) + fx_ + GDP_per_cap_cte +  nominal_rate + continent + vix_EUA + vix_EUR + taxes + develop  + lending_borrow + unemployment + inflation_mean , data=panel_dataset  )
+
+summary(reg2.11)
+```
+#REG 2.12
+#REG 2.12
+```{r}
+reg2.12 <- plm(for_nonbank_prop ~  debt_to_GDP_ + log(debt_to_GDP_) + fx_ + GDP_per_cap_cte +  nominal_rate + continent + vix_EUA + vix_EUR + taxes + develop + account_balance +  unemployment + inflation_mean , data=panel_dataset  )
+
+summary(reg2.12)
+```
+#REG 2.13
+#REG 2.13
+```{r}
+reg2.13 <- plm(for_nonbank_prop ~  debt_to_GDP_ + log(debt_to_GDP_) + fx_ + GDP_per_cap_cte +  nominal_rate + continent + vix_EUA + vix_EUR + taxes + develop + account_balance + lending_borrow + inflation_mean , data=panel_dataset  )
+
+summary(reg2.13)
+```
+
+#REG 2.14
+
+```{r}
+reg2.14 <- plm(for_nonbank_prop ~  debt_to_GDP_ + log(debt_to_GDP_) + fx_ + GDP_per_cap_cte +  nominal_rate + continent + vix_EUA + vix_EUR + taxes + develop + account_balance + lending_borrow + unemployment , data=panel_dataset  )
+
+summary(reg2.14)
+```
+
+#REG 3 (variável resposta log(foreign menos BC))
+```{r}
+reg3 <- plm(log(for_ex_BC) ~  debt_to_GDP_ + log(debt_to_GDP_) + fx_ + GDP_per_cap_cte +  nominal_rate + continent + vix_EUA + vix_EUR + taxes + develop + account_balance + lending_borrow + unemployment + inflation_mean , data=panel_dataset  )
+
+summary(reg3)
 ```
 
