@@ -27,6 +27,25 @@ text-align: justify}
 
 # Introduction and Motivation
 
+This study aims to investigate how a country’s level of public debt can be an obstacle to foreign interest in government debt, especially in emerging and developing markets.
+ 
+In the past 50 years, emerging and developing economies experienced four big indebtedness waves, three of which ended up in financial crises. In the 1980s, the association of low real interest rates and growing debt market led certain economies to raise considerably their levels of indebtedness; the result was the well-known Latin America’s debt crisis. A decade later, the world would watch the Asian financial crisis, due to the liberalization of financial markets and capital flows, allowing these countries to acquire loans in foreign currencies. Finally, in 2007-09, both emerging and advanced economies faced major recessions as a result of the global financial crisis.
+ 
+It is important to notice that although happening in different decades and locations, these three episodes share a common denominator: they all started in periods with low real interest rates and an escalating indebtedness. This scenario made the risk premium rise and subsequently there was a sudden stop of capital flows. 
+ 
+In 2010, the fourth global wave of debt started, and it was the largest and fastest one. In accordance with the aforementioned ones, interest rates were low since the Global Financial Crisis and investors were seeking assets with greater profitability. It is also reasonable to consider that this wave has not yet met its end. By 2018, according to the IMF, global debt has reached 226% of GDP, representing an amount of 188 trillions of dollars.  Emerging and developing economies saw indebtedness grow 54 p.p. in 8 years, reaching 170% of GDP. Low income countries reached 67% of GDP in 2018 – that figure was 48% in 2010. A different situation is seen on advanced economies, once they have maintained the 265% ratio of debt to GDP on the same level since 2010.
+ 
+Global debt waves have shown the need for emerging and developing markets to develop their sovereign bond markets to facilitate public debt financing and management, primarily through the issuance of domestic bonds in local currencies. This growth was reflected in the increase in domestic participation in government bonds, and in the increase in foreign interest in the debt of these governments, which has become increasingly relevant in the local bond market.
+ 
+The raise in foreign participation in the sovereign debt market is also related to many susceptible advantages, such as a decrease in government borrowing costs, due to the higher demand for these bonds, presented in several studies (Andritzky, 2012; Arslanalp and Poghosyan, 2014; Jaramillo and Zhang, 2013; Warnock and Warnock, 2009) and the diversification of the investor base, reflecting different characteristics of investors in terms of risk tolerance and trading reasons, which may increase the liquidity of government debt bonds in the secondary market (World Bank and IMF , 2001).
+ 
+However, foreign investors tend to be relatively more sensitive to risk, particularly foreign private investors, and can be an unstable source of demand in times of stress, because they have a broader pool of assets in which they can invest. As a result, they may be less inclined to maintain their participation during these episodes (Broner et al., 2013).
+ 
+The constant rise in indebtedness, observed in the current wave of global debt and intensified by the current crisis of COVID-19, may culminate in a sudden increase in risk premiums, if investors consider debt to GDP levels to be unsustainable (Blanchard 2019; Henderson 2019; Rogoff 2019a, b). If this happens, both capital inflows and outflows decrease during economic crises, with this effect being stronger in global crises (Broner et al., 2013).
+ 
+In this context, this study intends to analyze the impact of the variable debt-to-GDP ratio on the participation of foreign creditors in government bonds. Therefore, a worldwide analysis will be conducted using the database provided by Arslanalp and Takahiro Tsuda, previously affiliated with the Monetary and Capital Markets Department of the International Monetary Fund. If this relationship proves to be significant, several negative effects on local economies, as mentioned in the text, may intensify in the current world crisis scenario.
+
+
 
 
 # Literature Review
@@ -148,6 +167,41 @@ dataset_total %>%
   theme(legend.title = element_text(face = "bold", size = 10)) +
   scale_fill_manual("Develop", values = c("EM" = "red4", "AM" = "navyblue"))
 
+```
+
+## Evolution of the participation of Foreign Investors in Emerging Markets
+
+```{r , echo=FALSE, message=FALSE}
+
+graph_debt_foreign_per <- dataset_total %>% 
+  filter(!is.na(develop)) %>% 
+  filter(develop=="EM") %>% 
+  filter(country %in% c("Argentina", "Bulgaria","Colombia","Indonesia","Mexico","Peru","Poland", "Romania", "Ukraine","Uruguay") )%>% 
+  mutate(foreign_debt_perc=(foreign_debt_/total_debt_)) %>% 
+  ggplot(aes(x = year, y = foreign_debt_perc, color=country)) +
+  geom_smooth(se = FALSE)+
+  labs(x = "Year", y = "Government Debt Held by Foreign Investors (%)", title = "Total Debt Held by Foreign Investors for Emerging Markets", subtitle = "Emerging markets with more than 40% of Foreign Investors in 2019") +
+  theme_bw()
+
+graph_debt_foreign_per
+
+```
+
+
+
+```{r , echo=FALSE, message=FALSE}
+
+graph_debt_foreign_min <- dataset_total %>% 
+  filter(!is.na(develop)) %>% 
+  filter(develop=="EM") %>% 
+  filter(country %in% c("Brazil", "Chile","China","Egypt","Hungary","India","Malaysia", "Philippines", "Russia","South Africa", "Thailand", "Turkey") )%>% 
+  mutate(foreign_debt_perc=(foreign_debt_/total_debt_)) %>% 
+  ggplot(aes(x = year, y = foreign_debt_perc, color=country)) +
+  geom_smooth(se = FALSE)+
+  labs(x = "Year", y = "Government Debt Held by Foreign Investors (%)", title = "Total Debt Held by Foreign Investors for Emerging Markets", subtitle = "Emerging markets with less than 40% of Foreign Investors in 2019") +
+  theme_bw()
+
+graph_debt_foreign_min
 ```
 
 
@@ -384,21 +438,39 @@ ggplot(aes(x = year, y = debt_foreign_mean, color=Type )) +
 
 ```
 
-## There is no clear relationship between debt and inflation
+## There is no clear relationship between the percent of government debt held by foreign investors and inflation
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 
 graph_debt_inflation <-  dataset_total %>% 
   filter(!is.na(develop)) %>% 
   ggplot() + 
-  geom_point(aes(inflation_mean, (total_debt_*fx_), colour = develop)) +
+  geom_point(aes(inflation_mean, (foreign_debt_/total_debt_), colour = develop)) +
   xlim(0,40)+
-  ylim(0,400) +
-  labs(x = "Annual Inflation Rate (%)", y = "Total Debt (Billion USD)", title = "Total Debt X Inflation", subtitle = "45 countries (2004-2019)" ) + 
+  ylim(0,1) +
+  labs(x = "Annual Inflation Rate (%)", y = "Government Debt Held by Foreign Investors (%)", title = "Government Debt Held by Foreign Investors (%) X Inflation", subtitle = "45 countries (2004-2019)" ) + 
   theme_bw()+
 scale_colour_manual("Develop", values = c("EM" = "red4", "AM" = "navyblue")) 
 
 graph_debt_inflation
+
+```
+
+## There is no clear relationship between the percent of government debt held by foreign investors and nominal rate
+
+```{r}
+
+graph_debt_interest <-  dataset_total %>% 
+  filter(!is.na(develop)) %>% 
+  ggplot() + 
+  geom_point(aes(nominal_rate, (foreign_debt_/total_debt_), colour = develop)) +
+  xlim(0,35)+
+  ylim(0,1) +
+  labs(x = "Nominal Rate (%)", y = "Government Debt Held by Foreign Investors (%)", title = "Government Debt Held by Foreign Investors (%) X Nominal Rate", subtitle = "45 countries (2004-2019)" ) + 
+  theme_bw()+
+  scale_colour_manual("Develop", values = c("EM" = "red4", "AM" = "navyblue")) 
+
+graph_debt_interest
 
 ```
 
