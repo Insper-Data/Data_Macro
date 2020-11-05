@@ -97,7 +97,6 @@ library(plm)
 dataset_total <- read.csv("dataset_total.csv") 
 
 dataset_total_index <- read.csv("dataset_total_index.csv") 
-head(dataset_total, 10)
 
 
 ```
