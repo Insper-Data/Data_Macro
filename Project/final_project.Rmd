@@ -97,6 +97,8 @@ library(plm)
 dataset_total <- read.csv("dataset_total.csv") 
 
 dataset_total_index <- read.csv("dataset_total_index.csv") 
+head(dataset_total, 10)
+
 
 ```
 
@@ -110,7 +112,7 @@ dataset_total_index <- read.csv("dataset_total_index.csv")
   filter(year %in% c(2004, 2009, 2014, 2019), !is.na(develop)) %>%
   bar_chart(x = country, y = debt_to_GDP_, facet = year, top_n = 15, fill = develop) +
   labs( x = "", y = "Debt to GDP (%)",
-  title = "Top 15 debt to GDP", fill = "Develop") +
+  title = "Top 15 Debt to GDP", fill = "Develop") +
   theme_classic() +
   scale_fill_manual("Develop", values = c("EM" = "red4", "AM" = "navyblue"))+
   theme(legend.title = element_text(face = "bold", size = 10)) 
@@ -125,12 +127,23 @@ dataset_total_index <- read.csv("dataset_total_index.csv")
 dataset_total %>%
   mutate(f_debt = foreign_debt_*fx_) %>% 
   filter(year %in% c(2004, 2009, 2014, 2019), !is.na(develop)) %>%
-  bar_chart(x = country, y = (f_debt), facet = year, top_n = 15, fill = develop) +  
-  labs( x = "", y = "Debt held by foreign investors (billions USD)",
-  title = "Top 15 countries with debt held by foreign investors", fill = "Develop") +
+  bar_chart(x = country, y = (f_debt/1000), facet = year, top_n = 15, fill = develop) +  
+  labs( x = "", y = "Foreign investors (Trillions USD)",
+  title = "Top 15 Countries with Debt Held by Foreign Investors", fill = "Develop") +
   theme_classic() +
   theme(legend.title = element_text(face = "bold", size = 10)) +
   scale_fill_manual("Develop", values = c("EM" = "red4", "AM" = "navyblue"))
+
+dataset_total %>%
+  mutate(foreign_debt_perc=(foreign_debt_/total_debt_)*100) %>% 
+  filter(year %in% c(2004, 2009, 2014, 2019), !is.na(develop)) %>%
+  bar_chart(x = country, y = (foreign_debt_perc), facet = year, top_n = 15, fill = develop) +  
+  labs( x = "", y = "Foreign investors (%)",
+  title = "Top 15 Countries with Debt Held by Foreign Investors", fill = "Develop") +
+  theme_classic() +
+  theme(legend.title = element_text(face = "bold", size = 10)) +
+  scale_fill_manual("Develop", values = c("EM" = "red4", "AM" = "navyblue"))
+
 
 ```
 
@@ -141,31 +154,40 @@ dataset_total %>%
 
 ```{r , echo=FALSE, message=FALSE}
 
-graph_debt_foreign_more <- dataset_total %>% 
+graph_debt_foreign_asia <- dataset_total %>% 
   filter(!is.na(develop)) %>% 
-  filter(develop=="EM") %>% 
-  filter(country %in% c("Argentina", "Bulgaria","Colombia","Indonesia","Mexico","Peru","Poland", "Romania", "Ukraine","Uruguay") )%>% 
-  mutate(foreign_debt_perc=(foreign_debt_/total_debt_)) %>% 
+  filter(develop=="EM", continent %in% c("Asia", "Africa")) %>% 
+  mutate(foreign_debt_perc=(foreign_debt_/total_debt_)*100) %>% 
   ggplot(aes(x = year, y = foreign_debt_perc, color=country)) +
   geom_smooth(se = FALSE)+
-  labs(x = "Year", y = "Foreign Investors (%)", title = "Total Debt Held by Foreign Investors for Emerging Markets", subtitle = "Emerging markets with more than 40% of Foreign Investors in 2019") +
+  labs(x = "Year", y = "Foreign Investors (%)", title = "Total Debt Held by Foreign Investors", subtitle = "Emerging Markets - Asia e Africa") +
   theme_bw()
 
 
-graph_debt_foreign_less <- dataset_total %>% 
+graph_debt_foreign_lamerica <- dataset_total %>% 
   filter(!is.na(develop)) %>% 
-  filter(develop=="EM") %>% 
-  filter(country %in% c("Brazil", "Chile","China","Egypt","Hungary","India","Malaysia", "Philippines", "Russia","South Africa", "Thailand", "Turkey") )%>% 
-  mutate(foreign_debt_perc=(foreign_debt_/total_debt_)) %>% 
+  filter(develop=="EM", continent%in% c("South America", "North America")) %>% 
+  mutate(foreign_debt_perc=(foreign_debt_/total_debt_)*100) %>% 
   ggplot(aes(x = year, y = foreign_debt_perc, color=country)) +
   geom_smooth(se = FALSE)+
-  labs(x = "Year", y = "Foreign Investors (%)", title = "Total Debt Held by Foreign Investors for Emerging Markets", subtitle = "Emerging markets with less than 40% of Foreign Investors in 2019") +
+  labs(x = "Year", y = "Foreign Investors (%)", title = "Total Debt Held by Foreign Investors", subtitle = "Emerging Markets - Latin America") +
   theme_bw()
 
 
+graph_debt_foreign_europe <- dataset_total %>% 
+  filter(!is.na(develop)) %>% 
+  filter(develop=="EM", continent=="Europe") %>% 
+  mutate(foreign_debt_perc=(foreign_debt_/total_debt_)*100) %>% 
+  ggplot(aes(x = year, y = foreign_debt_perc, color=country)) +
+  geom_smooth(se = FALSE)+
+  labs(x = "Year", y = "Foreign Investors (%)", title = "Total Debt Held by Foreign Investors", subtitle = "Emerging Markets - Europe and Non-Europe") +
+  theme_bw()
 
-graph_debt_foreign_more
-graph_debt_foreign_less
+
+graph_debt_foreign_lamerica
+graph_debt_foreign_europe
+graph_debt_foreign_asia
+
 
 ```
 
@@ -225,7 +247,7 @@ As the map shown above makes clear, countries around the world have contrasting 
 ggplot(aes(x = year, y = debt_to_GDP_mean)) +
     geom_point() +
      geom_smooth(color="black")+
-    labs(x = "Year", y = "Debt to GDP ratio (%)", title = "Average debt to GDP ratio for 45 countries") +
+    labs(x = "Year", y = "Debt to GDP ratio (%)", title = "Average Debt to GDP Ratio for 45 Countries") +
     theme_light()
 
 graph_debt
@@ -249,7 +271,7 @@ ggplot(aes(x = year, y = debt_to_GDP_mean, color=Type )) +
    scale_color_manual(values = c("EM" = "red4", "AM" = "navyblue"))+
     geom_point() +
     geom_smooth()+
-    labs(x = "Year", y = "Debt to GDP ratio (%)", title = "Average debt to GDP ratio for advanced and emerging markets") +
+    labs(x = "Year", y = "Debt to GDP ratio (%)", title = "Average Debt to GDP Ratio for Advanced and Emerging Markets") +
     theme_light()
 
 graph_debt_sep
@@ -257,30 +279,57 @@ graph_debt_sep
 ```
 
 
-## The relationship between debt and GDP is not clear
+## It is not possible to observe that countries with more than 90% debt to GDP grow less  
 
+```{r, echo=FALSE, message=FALSE}
 
+dataset_total %>% 
+    filter(year >= 2008, develop == "AM") %>% 
+    mutate(GDP_var = ifelse(year == 2019, (GDP_cte - dplyr::lag(GDP_cte, k = 10))/(dplyr::lag(GDP_cte, k = 10)), NA)) %>%
+    group_by(country) %>% 
+    mutate(media_debt_GDP = mean(debt_to_GDP_)) %>% 
+    filter(year == 2019, !is.na(develop)) %>% 
+    ggplot() +
+    geom_point(aes(x = media_debt_GDP, y = GDP_var), colour = "black") +
+    geom_text(aes(x = media_debt_GDP, y = GDP_var, colour = country, label = country, fontface = 2),
+              hjust = 0.5, vjust = -0.5, size = 3) +
+    geom_vline(xintercept = 90, linetype="dashed", colour = "red4", size = 1) +
+    labs(title = "Relation Between Debt and Growth - Advanced Markets",
+         subtitle = "(2009-2019)") +
+    theme_bw() +
+    theme(legend.position = "none", plot.title = element_text(size = 15)) +
+    xlab("Debt to GDP (%)") +
+    ylab("GDP growth")
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
-
- graph_debt_GDP <- dataset_total %>% 
-   group_by(country) %>% 
-   filter(!is.na(develop)) %>% 
-  summarise(debt_to_GDP_mean = mean(debt_to_GDP_) , GDP_per_cap_mean = mean(GDP_per_cap_cur_USD)) %>% 
-ggplot(aes(x = GDP_per_cap_mean, y = debt_to_GDP_mean, color=country)) +
-    scale_color_viridis_d() +
-    geom_point(show.legend = FALSE) +
-    labs(x = "GDP per capita (USD)", y = "Debt to GDP ratio (%)", title = " Average for 45 countries (2004-2019)") +
-    theme_bw()
-
- 
-graph_debt_GDP
 ```
 
 
-Even though advanced markets have a higher debt level than emerging markets, the relationship between GDP per capita and debt to GDP ratio is not clear.
+Contrasting with Reinhart and Rogoff (2010), this dataset does not show a clear pattern of decreasing GDP growth beyond the 90% debt to GDP level for advanced economies (marked in red). 
 
 
+```{r, echo=FALSE, message=FALSE}
+
+
+dataset_total %>% 
+    filter(year >= 2008, develop == "EM") %>% 
+    mutate(GDP_var = ifelse(year == 2019, (GDP_cte - dplyr::lag(GDP_cte, k = 10))/(dplyr::lag(GDP_cte, k = 10)), NA)) %>%
+    group_by(country) %>% 
+    mutate(media_debt_GDP = mean(debt_to_GDP_)) %>% 
+    filter(year == 2019, !is.na(develop)) %>% 
+    ggplot() +
+    geom_point(aes(x = media_debt_GDP, y = GDP_var), colour = "black") +
+    geom_text(aes(x = media_debt_GDP, y = GDP_var, colour = country, label = country, fontface = 2),
+              hjust = 0.5, vjust = -0.5, size = 3) +
+    labs(title = "Relation Between Debt and Growth - Emerging Markets",
+         subtitle = "(2009-2019)") +
+    theme_bw() +
+    theme(legend.position = "none", plot.title = element_text(size = 15)) +
+    xlab("Debt to GDP (%)") +
+    ylab("GDP growth")
+ 
+```
+
+Concerning emerging economies, Reinhart et. al (2003) finds that real growth might be constrained even with low levels of indebtedness - such as 15 or 20%. Once again, the selection of countries and time space here goes in a different direction.
 
 ## Foreign investors have a preference for allocating their resources in advanced markets
 
@@ -296,7 +345,7 @@ ggplot(aes(x = year, y = debt_foreign_mean, color=Type )) +
    scale_color_manual(values = c("EM" = "red4", "AM" = "navyblue"))+
     geom_point() +
     geom_smooth()+
-    labs(x = "Year", y = "Government debt held by foreign investors (billion USD)", title = "Total debt held by foreign investors for advanced and emerging markets") +
+    labs(x = "Year", y = "Foreign investors (billion USD)", title = "Total Debt Held by Foreign Investors for Advanced and Emerging Markets") +
     theme_bw()
 
 graph_debt_foreign_sep
@@ -305,6 +354,27 @@ graph_debt_foreign_sep
 
 It is possible to observe that foreign investors have allocated much more resources in bonds from advanced markets. In addition, we can see that since 2012, the participation of foreign investors in government bonds has accelerated.
 
+## COMENTAR ESSE GRAFICO
+
+```{r, echo=FALSE, message=FALSE}
+ 
+graph_debt_foreign_pp<-dataset_total %>% 
+   filter(!is.na(develop)) %>% 
+   rename(Type=25) %>% 
+  mutate(foreign_debt_perc=(foreign_debt_/total_debt_)*100) %>% 
+  group_by(year, Type) %>% 
+  summarise(debt_foreign_pp_mean = mean(foreign_debt_perc)) %>% 
+ggplot(aes(x = year, y = debt_foreign_pp_mean, color=Type )) +
+   scale_color_manual(values = c("EM" = "red4", "AM" = "navyblue"))+
+    geom_point() +
+    geom_smooth()+
+    labs(x = "Year", y = "Foreign Investors (%)", title = "Total Debt Held by Foreign Investors for Advanced and Emerging Markets") +
+    theme_bw()
+
+graph_debt_foreign_pp
+
+```
+
 
 ## The participation of domestic investors in the composition of debt it is not invariant over time
 
@@ -312,14 +382,14 @@ It is possible to observe that foreign investors have allocated much more resour
  graph_debt_domestic_sep<-dataset_total %>% 
    filter(!is.na(develop)) %>% 
    rename(Type=25) %>% 
-  mutate(domestic_debt_USD_prop=(domestic_debt_/total_debt_)) %>% 
+  mutate(domestic_debt_USD_prop=(domestic_debt_/total_debt_)*100) %>% 
   group_by(year, Type) %>% 
   summarise(debt_domestic_mean = mean(domestic_debt_USD_prop)) %>% 
 ggplot(aes(x = year, y = debt_domestic_mean, color=Type )) +
    scale_color_manual(values = c("EM" = "red4", "AM" = "navyblue"))+
     geom_point() +
     geom_smooth()+
-    labs(x = "Year", y = "Government debt held by domestic investors (%)", title = "Debt held by domestic investors for advanced and emerging markets") +
+    labs(x = "Year", y = "Domestic Investors (%)", title = "Total Debt Held by Domestic Investors for Advanced and Emerging Markets") +
     theme_bw()
 
  graph_debt_domestic_sep
@@ -339,7 +409,7 @@ graph_debt_inflation <-  dataset_total %>%
   filter(!is.na(develop)) %>% 
   ggplot() + 
   geom_point(aes(inflation_mean, (foreign_debt_/total_debt_), colour = develop)) +
-  xlim(0,35)+
+  xlim(0,20)+
   ylim(0,1) +
   labs(x = "Annual inflation rate (%)", y = "Foreign Investors (%) ", title = "Government Debt Held by Foreign Investors (%) X Inflation", subtitle = "45 countries (2004-2019)" ) + 
   theme_bw()+
@@ -358,7 +428,7 @@ graph_debt_interest <-  dataset_total %>%
   filter(!is.na(develop)) %>% 
   ggplot() + 
   geom_point(aes(nominal_rate, (foreign_debt_/total_debt_), colour = develop)) +
-  xlim(0,35)+
+  xlim(0,20)+
   ylim(0,1) +
   labs(x = "Nominal Rate (%)", y = "Foreign Investors (%)", title = "Government Debt Held by Foreign Investors (%) X Nominal Rate", subtitle = "45 countries (2004-2019)" ) + 
   theme_bw()+
