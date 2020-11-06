@@ -3,11 +3,6 @@ title: Preliminary impressions about the relationship between the level of publi
   debt and the countries' ability to attract new foreign credits
 author: "Augusto Netto, Gabriella Garcia and Maria Clara Drzeviechi"
 output:
-  word_document:
-    toc: yes
-  pdf_document:
-    latex_engine: xelatex
-    toc: yes
   html_document:
     df_print: paged
     highlight: haddock
@@ -17,6 +12,11 @@ output:
     toc_float:
       collapsed: yes
       smooth_scroll: yes
+  pdf_document:
+    latex_engine: xelatex
+    toc: yes
+  word_document:
+    toc: yes
 ---
 
 <style>
@@ -236,26 +236,8 @@ legend.title = element_text(colour="blue", size=10,
 As the map shown above makes clear, countries around the world have contrasting levels of debt to GDP. Nations in grey are not part of our sample. 
 
 
-## The level of indebtedness in the world has varied considerably in recent years
-```{r message=FALSE, , echo=FALSE}
-
- graph_debt <- dataset_total %>% 
-  group_by(year) %>%
-   filter(!is.na(develop)) %>% 
-  summarise(debt_to_GDP_mean = mean(debt_to_GDP_)) %>% 
-ggplot(aes(x = year, y = debt_to_GDP_mean)) +
-    geom_point() +
-     geom_smooth(color="black")+
-    labs(x = "Year", y = "Debt to GDP ratio (%)", title = "Average Debt to GDP Ratio for 45 Countries") +
-    theme_light()
-
-graph_debt
 
 
-```
-
-
-It is possible to observe that the average indebtedness in the countries fell a lot in 2008, rise until 2018 and has been showing a slight drop.
 
 
 ## Advanced markets are more indebted than emerging markets
@@ -278,74 +260,25 @@ graph_debt_sep
 ```
 
 
-## It is not possible to observe that countries with more than 90% debt to GDP grow less  
-
-```{r, echo=FALSE, message=FALSE}
-
-dataset_total %>% 
-    filter(year >= 2008, develop == "AM") %>% 
-    mutate(GDP_var = ifelse(year == 2019, (GDP_cte - dplyr::lag(GDP_cte, k = 10))/(dplyr::lag(GDP_cte, k = 10)), NA)) %>%
-    group_by(country) %>% 
-    mutate(media_debt_GDP = mean(debt_to_GDP_)) %>% 
-    filter(year == 2019, !is.na(develop)) %>% 
-    ggplot() +
-    geom_point(aes(x = media_debt_GDP, y = GDP_var), colour = "black") +
-    geom_text(aes(x = media_debt_GDP, y = GDP_var, colour = country, label = country, fontface = 2),
-              hjust = 0.5, vjust = -0.5, size = 3) +
-    geom_vline(xintercept = 90, linetype="dashed", colour = "red4", size = 1) +
-    labs(title = "Relation Between Debt and Growth - Advanced Markets",
-         subtitle = "(2009-2019)") +
-    theme_bw() +
-    theme(legend.position = "none", plot.title = element_text(size = 15)) +
-    xlab("Debt to GDP (%)") +
-    ylab("GDP growth")
-
-```
 
 
-Contrasting with Reinhart and Rogoff (2010), this dataset does not show a clear pattern of decreasing GDP growth beyond the 90% debt to GDP level for advanced economies (marked in red). 
-
-
-```{r, echo=FALSE, message=FALSE}
-
-
-dataset_total %>% 
-    filter(year >= 2008, develop == "EM") %>% 
-    mutate(GDP_var = ifelse(year == 2019, (GDP_cte - dplyr::lag(GDP_cte, k = 10))/(dplyr::lag(GDP_cte, k = 10)), NA)) %>%
-    group_by(country) %>% 
-    mutate(media_debt_GDP = mean(debt_to_GDP_)) %>% 
-    filter(year == 2019, !is.na(develop)) %>% 
-    ggplot() +
-    geom_point(aes(x = media_debt_GDP, y = GDP_var), colour = "black") +
-    geom_text(aes(x = media_debt_GDP, y = GDP_var, colour = country, label = country, fontface = 2),
-              hjust = 0.5, vjust = -0.5, size = 3) +
-    labs(title = "Relation Between Debt and Growth - Emerging Markets",
-         subtitle = "(2009-2019)") +
-    theme_bw() +
-    theme(legend.position = "none", plot.title = element_text(size = 15)) +
-    xlab("Debt to GDP (%)") +
-    ylab("GDP growth")
- 
-```
-
-Concerning emerging economies, Reinhart et. al (2003) finds that real growth might be constrained even with low levels of indebtedness - such as 15 or 20%. Once again, the selection of countries and time space here goes in a different direction.
 
 ## Foreign investors have a preference for allocating their resources in advanced markets
 
 ```{r, echo=FALSE, message=FALSE}
  
 graph_debt_foreign_sep<-dataset_total %>% 
-   filter(!is.na(develop)) %>% 
-   rename(Type=25) %>% 
-  mutate(foreign_debt_USD=(foreign_debt_*fx_)) %>% 
-  group_by(year, Type) %>% 
-  summarise(debt_foreign_mean = mean(foreign_debt_USD)) %>% 
+ filter(!is.na(develop)) %>% 
+ rename(Type=25) %>% 
+mutate(foreign_debt_USD=(foreign_debt_*fx_)) %>% 
+group_by(year, Type) %>% 
+summarise(debt_foreign_mean = mean(foreign_debt_USD)) %>% 
 ggplot(aes(x = year, y = debt_foreign_mean, color=Type )) +
-   scale_color_manual(values = c("EM" = "red4", "AM" = "navyblue"))+
-    geom_point() +
-    geom_smooth()+
-    labs(x = "Year", y = "Foreign investors (billion USD)", title = "Total Debt Held by Foreign Investors for Advanced and Emerging Markets") +
-    theme_bw()
+ scale_color_manual(values = c("EM" = "red4", "AM" = "navyblue"))+
+  geom_point() +
+  geom_smooth()+
+  labs(x = "Year", y = "Foreign investors (billion USD)", title = "Total Debt Held by Foreign Investors for Advanced and Emerging Markets") +
+  theme_bw()
 
 graph_debt_foreign_sep
 ```
