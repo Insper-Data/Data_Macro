@@ -11,7 +11,7 @@ library(transformr)
 
 
 #chegando no wd do computador obs.: modificar para o seu endere?o
-setwd("C:/Users/gutao/OneDrive - Insper - Institudo de Ensino e Pesquisa/Documents/Insper/Insper Data/Macro_2020.1/Data/Bases.csv")
+setwd("C:/Users/gabri/Documents/Insper_Data/Macro/projeto_econometria/bases.csv")
 
 
 ##puxando as bases
