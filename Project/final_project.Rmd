@@ -93,7 +93,7 @@ library(gapminder)
 library(plm)
 library(stargazer)
 library(lmtest)
-library(multiwayvcov)
+
 
 
 #puaxando a dataset_total e a dataset_total_index
@@ -289,8 +289,7 @@ graph_debt_foreign_sep
 
 It is possible to observe that foreign investors have allocated much more resources in bonds from advanced markets. In addition, we can see that since 2012, the participation of foreign investors in government bonds has accelerated.
 
-## COMENTAR ESSE GRAFICO
-
+###
 ```{r, echo=FALSE, message=FALSE}
  
 graph_debt_foreign_pp<-dataset_total %>% 
@@ -375,7 +374,13 @@ graph_debt_interest
 
 
 
-#The Model
+#Econometrics
+-Type 1 regression: total foreign debt as response variable for all countries in the database
+-Type 2 regression: total foreign debt excluding official debt as response variable for all countries in the database
+-Type 3 regression: total foreign debt as response variable for advanced markets
+-Type 4 regression: total foreign debt excluding official debt as response variable for advanced markets
+-Type 5 regression: total foreign debt as response variable for emerging markets
+-Type 6 regression: total foreign debt excluding official debt as response variable for emerging markets
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -396,6 +401,30 @@ panel_dataset <- panel_dataset %>%
 panel_dataset <- panel_dataset %>% 
   rename(lending_borrow=23)
 
+
+```
+
+##Type 1 regression
+###Regression 1.1
+```{r}
+f1.1 <-  for_part ~  debt_to_GDP_ + fx_ + ln_GDP_per_cap_cte + nominal_rate + vix_EUA + taxes + lending_GDP + account_GPD + unemployment + inflation_mean
+
+
+reg1.1.1 <- plm(f1.1, data = panel_dataset, model="within", effect="individual")
+
+reg1.1.2 <- plm(f1.1, data = panel_dataset, model = "within", effect = "time")
+
+reg1.1.3 <- plm(f1.1, data = panel_dataset, model = "within", effect = "twoways")
+
+reg1.1.4 <- plm(f1.1, data = panel_dataset, model = "pooling")
+
+
+stargazer(reg1.1.1, type = "text")
+
+coeftest(reg1.1.1, vcov=vcovHC(reg1.1.1, type="sss", cluster="group"))
+coeftest(reg1.1.2, vcov=vcovHC(reg1.1.2, type="sss", cluster="group"))
+coeftest(reg1.1.3, vcov=vcovHC(reg1.1.3, type="sss", cluster="group"))
+coeftest(reg1.1.4, vcov=vcovHC(reg1.1.4, type="sss", cluster="group"))
 
 ```
 
