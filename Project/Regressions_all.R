@@ -18,9 +18,6 @@ dataset_total <- dataset_total %>%
 dataset_total <- dataset_total %>% 
   rename(debt_to_GDP=6, fx=7)
 
-
-dataset_total %>% view
-
 dataset_total <- dataset_total %>% 
   mutate(post_08 = ifelse(yearnum >= 2008, "YES", "NO"),
          post_15 = ifelse(yearnum >= 2015, "YES", "NO"),
@@ -66,7 +63,7 @@ panel_dataset_EM <- panel_dataset %>%
 
 ##Type 1 regression
 ###Regression 1.1 (todos os regressores e duas interações)
-f1.1 <-  for_part ~  debt_to_GDP + fx + ln_GDP_per_cap_cte + debt_to_GDP*develop + debt_to_GDP*post_08  + vix_EUA + taxes + lending_GDP + account_GPD + unemployment + inflation_mean + develop + post_08
+f1.1 <-  for_part ~  debt_to_GDP + fx + ln_GDP_per_cap_cte + debt_to_GDP*develop + debt_to_GDP*post_08  + vix_EUA + taxes + lending_borroeing_rate + account_GPD + unemployment + inflation_mean + develop + post_08
 
 
 reg1.1.1 <- plm(f1.1, data = panel_dataset, model="within", effect="individual")
@@ -93,7 +90,7 @@ stargazer(reg1.1.1c, reg1.1.2c, reg1.1.3c, reg1.1.4c,
 
 ##Type 1 regression
 ###Regression 1.2 (todos os regressores tirando o "accounting_GDP" e com duas interações)
-f1.2 <-  for_part ~  debt_to_GDP + fx + ln_GDP_per_cap_cte + debt_to_GDP*develop + debt_to_GDP*post_08  + vix_EUA + taxes + lending_GDP +  unemployment + inflation_mean + develop + post_08
+f1.2 <-  for_part ~  debt_to_GDP + fx + ln_GDP_per_cap_cte + debt_to_GDP*develop + debt_to_GDP*post_08  + vix_EUA + taxes + lending_borroeing_rate +  unemployment + inflation_mean + develop + post_08
 
 
 reg1.2.1 <- plm(f1.2, data = panel_dataset, model="within", effect="individual")
@@ -121,7 +118,7 @@ stargazer(reg1.2.1c, reg1.2.2c, reg1.2.3c, reg1.2.4c,
 
 ##Type 1 regression
 ###Regression 1.3 (todos os regressores tirando o "post_08" e com uma interação)
-f1.3 <-  for_part ~  debt_to_GDP + fx + ln_GDP_per_cap_cte + debt_to_GDP*develop +  + vix_EUA + taxes + lending_GDP + account_GPD +  unemployment + inflation_mean + develop 
+f1.3 <-  for_part ~  debt_to_GDP + fx + ln_GDP_per_cap_cte + debt_to_GDP*develop +  + vix_EUA + taxes + lending_borroeing_rate + account_GPD +  unemployment + inflation_mean + develop 
 
 
 reg1.3.1 <- plm(f1.3, data = panel_dataset, model="within", effect="individual")
@@ -149,7 +146,7 @@ stargazer(reg1.3.1c, reg1.3.2c, reg1.3.3c, reg1.3.4c,
 
 ##Type 1 regression
 ###Regression 1.4 (todos os regressores e duas interações e com a "nominal rate" (mas dropando algumas observações))
-f1.4 <-  for_part ~  debt_to_GDP + fx + ln_GDP_per_cap_cte + debt_to_GDP*develop + debt_to_GDP*post_08  + vix_EUA + taxes + nominal_rate + lending_GDP + account_GPD + unemployment + inflation_mean + develop + post_08
+f1.4 <-  for_part ~  debt_to_GDP + fx + ln_GDP_per_cap_cte + debt_to_GDP*develop + debt_to_GDP*post_08  + vix_EUA + taxes + nominal_rate + lending_borroeing_rate + account_GPD + unemployment + inflation_mean + develop + post_08
 
 
 reg1.4.1 <- plm(f1.4, data = panel_dataset, model="within", effect="individual")
@@ -177,7 +174,7 @@ stargazer(reg1.4.1c, reg1.4.2c, reg1.4.3c, reg1.4.4c,
 
 ##Type 1 regression
 ###Regression 1.5 (todos os regressores tirando o "post-08"; duas interações; com a "nominal rate" (mas dropando algumas observações))
-f1.5 <-  for_part ~  debt_to_GDP + fx + ln_GDP_per_cap_cte + debt_to_GDP*develop   + vix_EUA + taxes + nominal_rate + lending_GDP + account_GPD + unemployment + inflation_mean + develop 
+f1.5 <-  for_part ~  debt_to_GDP + fx + ln_GDP_per_cap_cte + debt_to_GDP*develop   + vix_EUA + taxes + nominal_rate + lending_borroeing_rate + account_GPD + unemployment + inflation_mean + develop 
 
 
 reg1.5.1 <- plm(f1.5, data = panel_dataset, model="within", effect="individual")
@@ -206,7 +203,7 @@ stargazer(reg1.5.1c, reg1.5.2c, reg1.5.3c, reg1.5.4c,
 
 ##Type 2 regression
 ###Regression 2.1 (todos os regressores e duas interações)
-f2.1 <-  for_ex_BC ~  debt_to_GDP + fx + ln_GDP_per_cap_cte + debt_to_GDP*develop + debt_to_GDP*post_08  + vix_EUA + taxes + lending_GDP + account_GPD + unemployment + inflation_mean + develop + post_08
+f2.1 <-  for_ex_BC ~  debt_to_GDP + fx + ln_GDP_per_cap_cte + debt_to_GDP*develop + debt_to_GDP*post_08  + vix_EUA + taxes + lending_borroeing_rate + account_GPD + unemployment + inflation_mean + develop + post_08
 
 
 reg2.1.1 <- plm(f2.1, data = panel_dataset, model="within", effect="individual")
@@ -233,7 +230,7 @@ stargazer(reg2.1.1c, reg2.1.2c, reg2.1.3c, reg2.1.4c,
 
 ##Type 2 regression
 ###Regression 2.2 (todos os regressores tirando o "accounting_GDP" e com duas interações)
-f2.2 <-  for_ex_BC ~  debt_to_GDP + fx + ln_GDP_per_cap_cte + debt_to_GDP*develop + debt_to_GDP*post_08  + vix_EUA + taxes + lending_GDP +  unemployment + inflation_mean + develop + post_08
+f2.2 <-  for_ex_BC ~  debt_to_GDP + fx + ln_GDP_per_cap_cte + debt_to_GDP*develop + debt_to_GDP*post_08  + vix_EUA + taxes + lending_borroeing_rate +  unemployment + inflation_mean + develop + post_08
 
 reg2.2.1 <- plm(f2.2, data = panel_dataset, model="within", effect="individual")
 
@@ -260,7 +257,7 @@ stargazer(reg2.2.1c, reg2.2.2c, reg2.2.3c, reg2.2.4c,
 
 ##Type 2 regression
 ###Regression 2.3 (todos os regressores tirando o "post_08" e com uma interação)
-f2.3 <-  for_part ~  debt_to_GDP + fx + ln_GDP_per_cap_cte + debt_to_GDP*develop +  + vix_EUA + taxes + lending_GDP + account_GPD +  unemployment + inflation_mean + develop 
+f2.3 <-  for_part ~  debt_to_GDP + fx + ln_GDP_per_cap_cte + debt_to_GDP*develop +  + vix_EUA + taxes + lending_borroeing_rate + account_GPD +  unemployment + inflation_mean + develop 
 
 
 reg2.3.1 <- plm(f2.3, data = panel_dataset, model="within", effect="individual")
@@ -288,7 +285,7 @@ stargazer(reg2.3.1c, reg2.3.2c, reg2.3.3c, reg2.3.4c,
 
 ##Type 2 regression
 ###Regression 2.4 (todos os regressores e duas interações e com a "nominal rate" (mas dropando algumas observações))
-f2.4 <-  for_part ~  debt_to_GDP + fx + ln_GDP_per_cap_cte + debt_to_GDP*develop + debt_to_GDP*post_08  + vix_EUA + taxes + nominal_rate + lending_GDP + account_GPD + unemployment + inflation_mean + develop + post_08
+f2.4 <-  for_part ~  debt_to_GDP + fx + ln_GDP_per_cap_cte + debt_to_GDP*develop + debt_to_GDP*post_08  + vix_EUA + taxes + nominal_rate + lending_borroeing_rate + account_GPD + unemployment + inflation_mean + develop + post_08
 
 
 reg2.4.1 <- plm(f2.4, data = panel_dataset, model="within", effect="individual")
@@ -316,7 +313,7 @@ stargazer(reg2.4.1c, reg2.4.2c, reg2.4.3c, reg2.4.4c,
 
 ##Type 2 regression
 ###Regression 2.5 (todos os regressores tirando o "post-08"; duas interações; com a "nominal rate" (mas dropando algumas observações))
-f2.5 <-  for_part ~  debt_to_GDP + fx + ln_GDP_per_cap_cte + debt_to_GDP*develop   + vix_EUA + taxes + nominal_rate + lending_GDP + account_GPD + unemployment + inflation_mean + develop 
+f2.5 <-  for_part ~  debt_to_GDP + fx + ln_GDP_per_cap_cte + debt_to_GDP*develop   + vix_EUA + taxes + nominal_rate + lending_borroeing_rate + account_GPD + unemployment + inflation_mean + develop 
 
 
 reg2.5.1 <- plm(f2.5, data = panel_dataset, model="within", effect="individual")
@@ -345,7 +342,7 @@ stargazer(reg2.5.1c, reg2.5.2c, reg2.5.3c, reg2.5.4c,
 ##Type 3 regression
 #Regression 3.1
 
-f3.1 <- for_part ~  debt_to_GDP + fx + ln_GDP_per_cap_cte + inflation_mean +  nominal_rate + vix_EUA + taxes + account_GPD + lending_GDP + unemployment
+f3.1 <- for_part ~  debt_to_GDP + fx + ln_GDP_per_cap_cte + inflation_mean +  nominal_rate + vix_EUA + taxes + account_GPD + lending_borroeing_rate + unemployment
 
 
 reg3.1.1 <- plm(f3.1, data = panel_dataset_AM, model = "within", effect = "individual")
@@ -437,7 +434,7 @@ stargazer(reg3.3.1c, reg3.3.2c, reg3.3.3c, reg3.3.4c,
 
 ##Type 3 regression
 #Regression 3.4
-f3.4 <- for_part ~  debt_to_GDP +  nominal_rate + inflation_mean + lending_GDP + account_GPD
+f3.4 <- for_part ~  debt_to_GDP +  nominal_rate + inflation_mean + lending_borroeing_rate + account_GPD
 
 ### RegressÃµes com resposta AM divida estrangeira completa:
 
@@ -471,7 +468,7 @@ stargazer(reg3.4.1c, reg3.4.2c, reg3.4.3c, reg3.4.4c,
 
 ##Type 4 regression
 #Regression 4.1
-f4.1 <- for_ex_BC ~  debt_to_GDP + fx + ln_GDP_per_cap_cte + inflation_mean +  nominal_rate + vix_EUA + taxes + account_GPD + lending_GDP + unemployment
+f4.1 <- for_ex_BC ~  debt_to_GDP + fx + ln_GDP_per_cap_cte + inflation_mean +  nominal_rate + vix_EUA + taxes + account_GPD + lending_borroeing_rate + unemployment
 
 ### RegressÃµes com resposta AM divida estrangeira completa:
 
@@ -574,7 +571,7 @@ stargazer(reg4.3.1c, reg4.3.2c, reg4.3.3c, reg4.3.4c,
 
 ##Type 4 regression
 #Regression 4.4
-f4.4 <- for_ex_BC ~  debt_to_GDP +  nominal_rate + inflation_mean + lending_GDP + account_GPD
+f4.4 <- for_ex_BC ~  debt_to_GDP +  nominal_rate + inflation_mean + lending_borroeing_rate + account_GPD
 
 ### RegressÃµes com resposta AM divida estrangeira completa:
 
@@ -611,16 +608,16 @@ stargazer(reg4.4.1c, reg4.4.2c, reg4.4.3c, reg4.4.4c,
 #Regression 4.5
 
 # RegressÃµes:
-reg4.5.1 <- plm(for_ex_BC ~  debt_to_GDP*post_08 + fx + inflation_mean +  nominal_rate + vix_EUA + taxes + account_GPD + lending_GDP + unemployment,
+reg4.5.1 <- plm(for_ex_BC ~  debt_to_GDP*post_08 + fx + inflation_mean +  nominal_rate + vix_EUA + taxes + account_GPD + lending_borroeing_rate + unemployment,
                 data = panel_dataset_AM, model = "within", effect = "twoways")
 
-reg4.5.2 <- plm(for_ex_BC ~  debt_to_GDP*post_15 + fx + inflation_mean +  nominal_rate + vix_EUA + taxes + account_GPD + lending_GDP + unemployment,
+reg4.5.2 <- plm(for_ex_BC ~  debt_to_GDP*post_15 + fx + inflation_mean +  nominal_rate + vix_EUA + taxes + account_GPD + lending_borroeing_rate + unemployment,
                 data = panel_dataset_AM, model = "within", effect = "twoways")
 
-reg4.5.3 <- plm(for_ex_BC ~  debt_to_GDP*post_16 + fx + inflation_mean +  nominal_rate + vix_EUA + taxes + account_GPD + lending_GDP + unemployment,
+reg4.5.3 <- plm(for_ex_BC ~  debt_to_GDP*post_16 + fx + inflation_mean +  nominal_rate + vix_EUA + taxes + account_GPD + lending_borroeing_rate + unemployment,
                 data = panel_dataset_AM, model = "within", effect = "twoways")
 
-reg4.5.4 <- plm(for_ex_BC ~  debt_to_GDP*post_17 + fx + inflation_mean +  nominal_rate + vix_EUA + taxes + account_GPD + lending_GDP + unemployment,
+reg4.5.4 <- plm(for_ex_BC ~  debt_to_GDP*post_17 + fx + inflation_mean +  nominal_rate + vix_EUA + taxes + account_GPD + lending_borroeing_rate + unemployment,
                 data = panel_dataset_AM, model = "within", effect = "twoways")
 
 
@@ -649,7 +646,7 @@ stargazer(reg4.5.1c, reg4.5.2c, reg4.5.3c, reg4.5.4c,
 #REGRESSAO 1:
 #Tudo
 
-f1 <- for_ex_BC ~  debt_to_GDP + fx + ln_GDP_per_cap_cte + inflation_mean +  nominal_rate + vix_EUA + taxes + account_GPD + lending_GDP + unemployment
+f1 <- for_ex_BC ~  debt_to_GDP + fx + ln_GDP_per_cap_cte + inflation_mean +  nominal_rate + vix_EUA + taxes + account_GPD + lending_borroeing_rate + unemployment
 
 #Country Fixed effect
 regEM1.1 <- plm(f1, data = panel_dataset_EM, effect = "individual", model = "within")
@@ -738,7 +735,7 @@ stargazer(regEM1.1c, regEM1.2c, regEM1.3c, regEM1.4c, regEM1.5c,
 #REGRESSAO 2:
 #Sem pib per capita
 
-f2 <- for_ex_BC ~  debt_to_GDP + fx + inflation_mean +  nominal_rate + vix_EUA + taxes + account_GPD + lending_GDP + unemployment
+f2 <- for_ex_BC ~  debt_to_GDP + fx + inflation_mean +  nominal_rate + vix_EUA + taxes + account_GPD + lending_borroeing_rate + unemployment
 
 regEM2.1 <- plm(f2, data = panel_dataset_EM, effect = "individual", model = "within")
 
@@ -821,7 +818,7 @@ stargazer(regEM2.1c, regEM2.2c, regEM2.3c, regEM2.4c, regEM2.5c,
 ############################################################################################################################################################################################################################################################################################################
 
 #REGRESSAO 3:
-#Sem  account_GPD, lending_GDP, unemployment
+#Sem  account_GPD, lending_borroeing_rate, unemployment
 
 f3 <- for_ex_BC ~ debt_to_GDP + fx + inflation_mean +  nominal_rate + vix_EUA + taxes
 
@@ -902,7 +899,7 @@ stargazer(regEM4.1c, regEM4.2c, regEM4.3c, regEM4.4c, regEM4.5c,
 
 #REGRESSAO 5:
 
-f5 <- for_ex_BC ~  debt_to_GDP + fx + inflation_mean +  nominal_rate + vix_EUA + taxes + lending_GDP + unemployment
+f5 <- for_ex_BC ~  debt_to_GDP + fx + inflation_mean +  nominal_rate + vix_EUA + taxes + lending_borroeing_rate + unemployment
 
 regEM5.1 <- plm(f5, data = panel_dataset_EM, effect = "individual", model = "within")
 
@@ -941,7 +938,7 @@ stargazer(regEM5.1c, regEM5.2c, regEM5.3c, regEM5.4c, regEM5.5c,
 
 #REGRESSAO 6:
 
-f6 <-  for_ex_BC ~  debt_to_GDP + fx + inflation_mean +  nominal_rate + vix_EUR + taxes + account_GPD + lending_GDP + unemployment
+f6 <-  for_ex_BC ~  debt_to_GDP + fx + inflation_mean +  nominal_rate + vix_EUR + taxes + account_GPD + lending_borroeing_rate + unemployment
 
 regEM6.1 <- plm(f6, data = panel_dataset_EM, effect = "individual", model = "within")
 
@@ -986,7 +983,7 @@ stargazer(regEM6.1c, regEM6.2c, regEM6.3c, regEM6.4c, regEM6.5c,
 #REGRESSAO 7:
 #Tudo
 
-f7 <- for_part ~  debt_to_GDP + fx + ln_GDP_per_cap_cte + inflation_mean +  nominal_rate + vix_EUA + taxes + account_GPD + lending_GDP + unemployment
+f7 <- for_part ~  debt_to_GDP + fx + ln_GDP_per_cap_cte + inflation_mean +  nominal_rate + vix_EUA + taxes + account_GPD + lending_borroeing_rate + unemployment
 
 #Country Fixed effect
 regEM7.1 <- plm(f7, data = panel_dataset_EM, effect = "individual", model = "within")
@@ -1078,7 +1075,7 @@ stargazer(regEM7.1c, regEM7.2c, regEM7.3c, regEM7.4c, regEM7.5c,
 
 #REGRESSAO 8:
 
-f8 <- for_part ~  debt_to_GDP + fx + inflation_mean +  nominal_rate + vix_EUA + taxes + account_GPD + lending_GDP + unemployment
+f8 <- for_part ~  debt_to_GDP + fx + inflation_mean +  nominal_rate + vix_EUA + taxes + account_GPD + lending_borroeing_rate + unemployment
 
 regEM8.1 <- plm(f8, data = panel_dataset_EM, effect = "individual", model = "within")
 
@@ -1243,7 +1240,7 @@ stargazer(regEM10.1c, regEM10.2c, regEM10.3c, regEM10.4c, regEM10.5c,
 
 #REGRESSAO 11:
 
-f11 <- for_part ~  debt_to_GDP + fx + inflation_mean +  nominal_rate + vix_EUA + taxes + lending_GDP + unemployment
+f11 <- for_part ~  debt_to_GDP + fx + inflation_mean +  nominal_rate + vix_EUA + taxes + lending_borroeing_rate + unemployment
 
 regEM11.1 <- plm(f11, data = panel_dataset_EM, effect = "individual", model = "within")
 
@@ -1283,7 +1280,7 @@ stargazer(regEM11.1c, regEM11.2c, regEM11.3c, regEM11.4c, regEM11.5c,
 
 #REGRESSAO 12:
 
-f12 <-  for_part ~  debt_to_GDP + fx + inflation_mean +  nominal_rate + vix_EUR + taxes + account_GPD + lending_GDP + unemployment
+f12 <-  for_part ~  debt_to_GDP + fx + inflation_mean +  nominal_rate + vix_EUR + taxes + account_GPD + lending_borroeing_rate + unemployment
 
 regEM12.1 <- plm(f12, data = panel_dataset_EM, effect = "individual", model = "within")
 
