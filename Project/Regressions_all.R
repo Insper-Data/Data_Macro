@@ -844,7 +844,7 @@ regEM9.5 <- plm(f9, data = panel_dataset_EM, model = "random", random.method = "
 
 # Cluster
 
-regEM9.1c <- coeftest(regEM9.1, vcovHC.plm(regEM3.1, type="sss", cluster ="group", method = "white2"))
+regEM9.1c <- coeftest(regEM9.1, vcovHC.plm(regEM9.1, type="sss", cluster ="group", method = "white2"))
 
 regEM9.2c <- coeftest(regEM9.2, vcovHC.plm(regEM9.2, type="sss", cluster="group", method = "white2"))
 
