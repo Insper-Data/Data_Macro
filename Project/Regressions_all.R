@@ -18,6 +18,9 @@ dataset_total <- dataset_total %>%
 dataset_total <- dataset_total %>% 
   rename(debt_to_GDP=6, fx=7)
 
+
+dataset_total %>% view
+
 dataset_total <- dataset_total %>% 
   mutate(post_08 = ifelse(yearnum >= 2008, "YES", "NO"),
          post_15 = ifelse(yearnum >= 2015, "YES", "NO"),
@@ -82,7 +85,7 @@ reg1.1.3c <- coeftest(reg1.1.3, vcov=vcovHC(reg1.1.3, type="sss", cluster="group
 reg1.1.4c <- coeftest(reg1.1.4, vcov=vcovHC(reg1.1.4, type="sss", cluster="group", method="white2"))
 
 stargazer(reg1.1.1c, reg1.1.2c, reg1.1.3c, reg1.1.4c,
-          title = "Debt held by foreign investors (Clusterized errors)", type = "text", 
+          title = "Debt held by foreign investors (Clusterized errors)", type = "latex", 
           column.labels = c("(Within)","(Within)", "(Within)", "(Pooled)"),
           model.numbers = F,
           add.lines = list(c("Country FE", "YES", "NO", "YES", "NO"), c("Year FE", "NO", "YES", "YES", "NO")),
@@ -109,7 +112,7 @@ reg1.2.3c <- coeftest(reg1.2.3, vcov=vcovHC(reg1.2.3, type="sss", cluster="group
 reg1.2.4c <- coeftest(reg1.2.4, vcov=vcovHC(reg1.2.4, type="sss", cluster="group", method="white2"))
 
 stargazer(reg1.2.1c, reg1.2.2c, reg1.2.3c, reg1.2.4c,
-          title = "Debt held by foreign investors (Clusterized errors)", type = "text", 
+          title = "Debt held by foreign investors (Clusterized errors)", type = "latex", 
           column.labels = c("(Within)","(Within)", "(Within)", "(Pooled)"),
           model.numbers = F,
           add.lines = list(c("Country FE", "YES", "NO", "YES", "NO"), c("Year FE", "NO", "YES", "YES", "NO")),
@@ -137,7 +140,7 @@ reg1.3.3c <- coeftest(reg1.3.3, vcov=vcovHC(reg1.3.3, type="sss", cluster="group
 reg1.3.4c <- coeftest(reg1.3.4, vcov=vcovHC(reg1.3.4, type="sss", cluster="group", method="white2"))
 
 stargazer(reg1.3.1c, reg1.3.2c, reg1.3.3c, reg1.3.4c,
-          title = "Debt held by foreign investors (Clusterized errors)", type = "text", 
+          title = "Debt held by foreign investors (Clusterized errors)", type = "latex", 
           column.labels = c("(Within)","(Within)", "(Within)", "(Pooled)"),
           model.numbers = F,
           add.lines = list(c("Country FE", "YES", "NO", "YES", "NO"), c("Year FE", "NO", "YES", "YES", "NO")),
@@ -165,7 +168,7 @@ reg1.4.3c <- coeftest(reg1.4.3, vcov=vcovHC(reg1.4.3, type="sss", cluster="group
 reg1.4.4c <- coeftest(reg1.4.4, vcov=vcovHC(reg1.4.4, type="sss", cluster="group", method="white2"))
 
 stargazer(reg1.4.1c, reg1.4.2c, reg1.4.3c, reg1.4.4c,
-          title = "Debt held by foreign investors (Clusterized errors)", type = "text", 
+          title = "Debt held by foreign investors (Clusterized errors)", type = "latex", 
           column.labels = c("(Within)","(Within)", "(Within)", "(Pooled)"),
           model.numbers = F,
           add.lines = list(c("Country FE", "YES", "NO", "YES", "NO"), c("Year FE", "NO", "YES", "YES", "NO")),
@@ -193,7 +196,7 @@ reg1.5.3c <- coeftest(reg1.5.3, vcov=vcovHC(reg1.5.3, type="sss", cluster="group
 reg1.5.4c <- coeftest(reg1.5.4, vcov=vcovHC(reg1.5.4, type="sss", cluster="group", method="white2"))
 
 stargazer(reg1.5.1c, reg1.5.2c, reg1.5.3c, reg1.5.4c,
-          title = "Debt held by foreign investors (Clusterized errors)", type = "text", 
+          title = "Debt held by foreign investors (Clusterized errors)", type = "latex", 
           column.labels = c("(Within)","(Within)", "(Within)", "(Pooled)"),
           model.numbers = F,
           add.lines = list(c("Country FE", "YES", "NO", "YES", "NO"), c("Year FE", "NO", "YES", "YES", "NO")),
@@ -222,7 +225,7 @@ reg2.1.3c <- coeftest(reg2.1.3, vcov=vcovHC(reg2.1.3, type="sss", cluster="group
 reg2.1.4c <- coeftest(reg2.1.4, vcov=vcovHC(reg2.1.4, type="sss", cluster="group", method="white2"))
 
 stargazer(reg2.1.1c, reg2.1.2c, reg2.1.3c, reg2.1.4c,
-          title = "Debt held by foreign investors excluding official (Clusterized errors)", type = "text", 
+          title = "Debt held by foreign investors excluding official (Clusterized errors)", type = "latex", 
           column.labels = c("(Within)","(Within)", "(Within)", "(Pooled)"),
           model.numbers = F,
           add.lines = list(c("Country FE", "YES", "NO", "YES", "NO"), c("Year FE", "NO", "YES", "YES", "NO")),
@@ -248,7 +251,7 @@ reg2.2.3c <- coeftest(reg2.2.3, vcov=vcovHC(reg2.2.3, type="sss", cluster="group
 reg2.2.4c <- coeftest(reg2.2.4, vcov=vcovHC(reg2.2.4, type="sss", cluster="group", method="white2"))
 
 stargazer(reg2.2.1c, reg2.2.2c, reg2.2.3c, reg2.2.4c,
-          title = "Debt held by foreign investors excluding official (Clusterized errors)", type = "text", 
+          title = "Debt held by foreign investors excluding official (Clusterized errors)", type = "latex", 
           column.labels = c("(Within)","(Within)", "(Within)", "(Pooled)"),
           model.numbers = F,
           add.lines = list(c("Country FE", "YES", "NO", "YES", "NO"), c("Year FE", "NO", "YES", "YES", "NO")),
@@ -276,7 +279,7 @@ reg2.3.3c <- coeftest(reg2.3.3, vcov=vcovHC(reg2.3.3, type="sss", cluster="group
 reg2.3.4c <- coeftest(reg2.3.4, vcov=vcovHC(reg2.3.4, type="sss", cluster="group", method="white2"))
 
 stargazer(reg2.3.1c, reg2.3.2c, reg2.3.3c, reg2.3.4c,
-          title = "Debt held by foreign investors (Clusterized errors)", type = "text", 
+          title = "Debt held by foreign investors (Clusterized errors)", type = "latex", 
           column.labels = c("(Within)","(Within)", "(Within)", "(Pooled)"),
           model.numbers = F,
           add.lines = list(c("Country FE", "YES", "NO", "YES", "NO"), c("Year FE", "NO", "YES", "YES", "NO")),
@@ -304,7 +307,7 @@ reg2.4.3c <- coeftest(reg2.4.3, vcov=vcovHC(reg2.4.3, type="sss", cluster="group
 reg2.4.4c <- coeftest(reg2.4.4, vcov=vcovHC(reg2.4.4, type="sss", cluster="group", method="white2"))
 
 stargazer(reg2.4.1c, reg2.4.2c, reg2.4.3c, reg2.4.4c,
-          title = "Debt held by foreign investors (Clusterized errors)", type = "text", 
+          title = "Debt held by foreign investors (Clusterized errors)", type = "latex", 
           column.labels = c("(Within)","(Within)", "(Within)", "(Pooled)"),
           model.numbers = F,
           add.lines = list(c("Country FE", "YES", "NO", "YES", "NO"), c("Year FE", "NO", "YES", "YES", "NO")),
@@ -332,7 +335,7 @@ reg2.5.3c <- coeftest(reg2.5.3, vcov=vcovHC(reg2.5.3, type="sss", cluster="group
 reg2.5.4c <- coeftest(reg2.5.4, vcov=vcovHC(reg2.5.4, type="sss", cluster="group", method="white2"))
 
 stargazer(reg2.5.1c, reg2.5.2c, reg2.5.3c, reg2.5.4c,
-          title = "Debt held by foreign investors (Clusterized errors)", type = "text", 
+          title = "Debt held by foreign investors (Clusterized errors)", type = "latex", 
           column.labels = c("(Within)","(Within)", "(Within)", "(Pooled)"),
           model.numbers = F,
           add.lines = list(c("Country FE", "YES", "NO", "YES", "NO"), c("Year FE", "NO", "YES", "YES", "NO")),
@@ -363,7 +366,7 @@ reg3.1.3c <- coeftest(reg3.1.3, vcovHC.plm(reg3.1.3, type="sss", cluster="group"
 reg3.1.4c <- coeftest(reg3.1.4, vcovHC.plm(reg3.1.4, type="sss", cluster="group", method = "white2"))
 
 stargazer(reg3.1.1c, reg3.1.2c, reg3.1.3c, reg3.1.4c,
-          title = "Total debt held by foreign (Clustered errors)", type = "text", 
+          title = "Total debt held by foreign (Clustered errors)", type = "latex", 
           column.labels = c("(Within)","(Within)", "(Within)", "(Pooled)"),
           model.numbers = F,
           add.lines = list(c("Country FE", "YES", "NO", "YES", "NO"), c("Year FE", "NO", "YES", "YES", "NO")),
@@ -392,7 +395,7 @@ reg3.2.3c <- coeftest(reg3.2.3, vcovHC.plm(reg3.2.3, type="sss", cluster="group"
 reg3.2.4c <- coeftest(reg3.2.4, vcovHC.plm(reg3.2.4, type="sss", cluster="group", method = "white2"))
 
 stargazer(reg3.2.1c, reg3.2.2c, reg3.2.3c, reg3.2.4c,
-          title = "Total debt held by foreign (Clustered errors)", type = "text", 
+          title = "Total debt held by foreign (Clustered errors)", type = "latex", 
           column.labels = c("(Within)","(Within)", "(Within)", "(Pooled)"),
           model.numbers = F,
           add.lines = list(c("Country FE", "YES", "NO", "YES", "NO"), c("Year FE", "NO", "YES", "YES", "NO")),
@@ -425,7 +428,7 @@ reg3.3.3c <- coeftest(reg3.3.3, vcovHC.plm(reg3.3.3, type="sss", cluster="group"
 reg3.3.4c <- coeftest(reg3.3.4, vcovHC.plm(reg3.3.4, type="sss", cluster="group", method = "white2"))
 
 stargazer(reg3.3.1c, reg3.3.2c, reg3.3.3c, reg3.3.4c,
-          title = "Total debt held by foreign (Clustered errors)", type = "text", 
+          title = "Total debt held by foreign (Clustered errors)", type = "latex", 
           column.labels = c("(Within)","(Within)", "(Within)", "(Pooled)"),
           model.numbers = F,
           add.lines = list(c("Country FE", "YES", "NO", "YES", "NO"), c("Year FE", "NO", "YES", "YES", "NO")),
@@ -457,7 +460,7 @@ reg3.4.3c <- coeftest(reg3.4.3, vcovHC.plm(reg3.4.3, type="sss", cluster="group"
 reg3.4.4c <- coeftest(reg3.4.4, vcovHC.plm(reg3.4.4, type="sss", cluster="group", method = "white2"))
 
 stargazer(reg3.4.1c, reg3.4.2c, reg3.4.3c, reg3.4.4c,
-          title = "Total debt held by foreign (Clustered errors)", type = "text", 
+          title = "Total debt held by foreign (Clustered errors)", type = "latex", 
           column.labels = c("(Within)","(Within)", "(Within)", "(Pooled)"),
           model.numbers = F,
           add.lines = list(c("Country FE", "YES", "NO", "YES", "NO"), c("Year FE", "NO", "YES", "YES", "NO")),
@@ -491,7 +494,7 @@ reg4.1.3c <- coeftest(reg4.1.3, vcovHC.plm(reg4.1.3, type="sss", cluster="group"
 reg4.1.4c <- coeftest(reg4.1.4, vcovHC.plm(reg4.1.4, type="sss", cluster="group", method = "white2"))
 
 stargazer(reg4.1.1c, reg4.1.2c, reg4.1.3c, reg4.1.4c,
-          title = "Debt held by non-official sector (Clustered errors)", type = "text", 
+          title = "Debt held by non-official sector (Clustered errors)", type = "latex", 
           column.labels = c("(Within)","(Within)", "(Within)", "(Pooled)"),
           model.numbers = F,
           add.lines = list(c("Country FE", "YES", "NO", "YES", "NO"), c("Year FE", "NO", "YES", "YES", "NO")),
@@ -526,7 +529,7 @@ reg4.2.3c <- coeftest(reg4.2.3, vcovHC.plm(reg4.2.3, type="sss", cluster="group"
 reg4.2.4c <- coeftest(reg4.2.4, vcovHC.plm(reg4.2.4, type="sss", cluster="group", method = "white2"))
 
 stargazer(reg4.2.1c, reg4.2.2c, reg4.2.3c, reg4.2.4c,
-          title = "Debt held by non-official sector (Clustered errors)", type = "text", 
+          title = "Debt held by non-official sector (Clustered errors)", type = "latex", 
           column.labels = c("(Within)","(Within)", "(Within)", "(Pooled)"),
           model.numbers = F,
           add.lines = list(c("Country FE", "YES", "NO", "YES", "NO"), c("Year FE", "NO", "YES", "YES", "NO")),
@@ -560,7 +563,7 @@ reg4.3.3c <- coeftest(reg4.3.3, vcovHC.plm(reg4.3.3, type="sss", cluster="group"
 reg4.3.4c <- coeftest(reg4.3.4, vcovHC.plm(reg4.3.4, type="sss", cluster="group", method = "white2"))
 
 stargazer(reg4.3.1c, reg4.3.2c, reg4.3.3c, reg4.3.4c,
-          title = "Debt held by non-official sector (Clusterized errors)", type = "text", 
+          title = "Debt held by non-official sector (Clusterized errors)", type = "latex", 
           column.labels = c("(Within)","(Within)", "(Within)", "(Pooled)"),
           model.numbers = F,
           add.lines = list(c("Country FE", "YES", "NO", "YES", "NO"), c("Year FE", "NO", "YES", "YES", "NO")),
@@ -594,7 +597,7 @@ reg4.4.3c <- coeftest(reg4.4.3, vcovHC.plm(reg4.4.3, type="sss", cluster="group"
 reg4.4.4c <- coeftest(reg4.4.4, vcovHC.plm(reg4.4.4, type="sss", cluster="group", method = "white2"))
 
 stargazer(reg4.4.1c, reg4.4.2c, reg4.4.3c, reg4.4.4c,
-          title = "Debt held by non-official sector (Clusterized errors)", type = "text", 
+          title = "Debt held by non-official sector (Clusterized errors)", type = "latex", 
           column.labels = c("(Within)","(Within)", "(Within)", "(Pooled)"),
           model.numbers = F,
           add.lines = list(c("Country FE", "YES", "NO", "YES", "NO"), c("Year FE", "NO", "YES", "YES", "NO")),
@@ -632,7 +635,7 @@ reg4.5.3c <- coeftest(reg4.5.3, vcovHC.plm(reg4.5.3, type="sss", cluster = "grou
 reg4.5.4c <- coeftest(reg4.5.4, vcovHC.plm(reg4.5.4, type="sss", cluster = "group", method = "white2"))
 
 stargazer(reg4.5.1c, reg4.5.2c, reg4.5.3c, reg4.5.4c,
-          title = "Debt held by non-official sector - Time period dummies (Clustered errors)", type = "text", 
+          title = "Debt held by non-official sector - Time period dummies (Clustered errors)", type = "latex", 
           column.labels = c("(D2008)","(D2015)", "(D2016)", "(D2017)"),
           model.numbers = F,
           add.lines = list(c("Country FE", "YES", "YES", "YES", "YES")),
@@ -660,16 +663,8 @@ regEM1.3 <- plm(f1, data = panel_dataset_EM, effect = "twoways", model = "within
 #Pooling
 regEM1.4 <- plm(f1, data = panel_dataset_EM, model = "pooling")
 
-#Randon effect
+#Random effect
 regEM1.5 <- plm(f1, data = panel_dataset_EM, model = "random", random.method = "walhus")
-
-
-stargazer(regEM1.1, regEM1.2, regEM1.3, regEM1.4,regEM1.5,
-          type = "text", 
-          title = "Total debt held by foreign non-official investor (Non-clusterized errors)", 
-          column.labels = c("Country FE", "Year FE", "Twoways FE", "Pooled Model", "Randon"),
-          dep.var.labels = c("Non-official foreign participation on public debt"), 
-          align=TRUE)
 
 
 # Testes
@@ -689,11 +684,11 @@ phtest(regEM1.2,regEM1.5) #Year Fixed
 phtest(regEM1.3,regEM1.5) #Country-Year Fixed
 
 # Teste de dependencia transversal
-# A hipÃ³tese nula Ã© de que os resÃ�duos atravÃ©s dos indivÃ�duos nÃ£o estÃ£o correlacionados
+# A hipÃ³tese nula Ã© de que os resÃ?duos atravÃ©s dos indivÃ?duos nÃ£o estÃ£o correlacionados
 pcdtest(regEM1.1, test="cd") 
 
 # Normalidade  dos residuos
-# H0: normalidade nos resÃ�duos da regressÃ£o.
+# H0: normalidade nos resÃ?duos da regressÃ£o.
 shapiro.test(regEM1.1$residuals) 
 
 # Homocedasticidade dos residuos
@@ -713,7 +708,7 @@ pwtest(regEM1.4, effect = "individual") # CorrelaÃ§Ã£o entre erros
 pwtest(regEM1.4, effect = "time") # Nao hÃ¡ correlaÃ§Ã£o entre erros
 
 # Teste de dependencia transversal
-# A hipÃ³tese nula Ã© de que os resÃ�duos atravÃ©s dos indivÃ�duos nÃ£o estÃ£o correlacionados
+# A hipÃ³tese nula Ã© de que os resÃ?duos atravÃ©s dos indivÃ?duos nÃ£o estÃ£o correlacionados
 pcdtest(regEM1.1, test="cd") 
 
 
@@ -732,7 +727,7 @@ regEM1.5c <- coeftest(regEM1.5, vcovHC.plm(regEM1.5, type="sss", cluster="group"
 
 
 stargazer(regEM1.1c, regEM1.2c, regEM1.3c, regEM1.4c, regEM1.5c,
-          title = "Total debt held by foreign non-official investor (Clustered errors)", type = "text", 
+          title = "Total debt held by foreign non-official investor (Clustered errors)", type = "latex", 
           column.labels = c("(Within)","(Within)", "(Within)", "(Pooled)", "(Random)"),
           model.numbers = F,
           add.lines = list(c("Country FE", "NO", "YES", "YES", "NO", "NO"), c("Year FE", "YES", "NO", "YES", "NO", "NO")),
@@ -755,14 +750,6 @@ regEM2.4 <- plm(f2, data = panel_dataset_EM, model = "pooling")
 
 regEM2.5 <- plm(f2, data = panel_dataset_EM, model = "random", random.method = "walhus")
 
-
-stargazer(regEM2.1, regEM2.2, regEM2.3, regEM2.4, regEM2.5, 
-          type = "text", 
-          title = "Total debt held by foreign non-official investor (Non-clusterized errors)", 
-          column.labels = c("Country FE", "Year FE", "Twoways FE", "Pooled Model", "Random"),
-          dep.var.labels = c("Non-official foreign participation on public debt"), 
-          align=TRUE)
-
 # Testes
 # Pooled vs Fixed
 # P-valor inferior a 0,05, o modelo de Efeitos Fixos Ã© melhor do que o modelo Pooled
@@ -772,7 +759,7 @@ pFtest(regEM2.3,regEM2.4) #Country-Year Fixed
 
 # Pooled vs Aleatorio
 # Breusch e Pagan
-# AceitaÃ§Ã£o de H0 implica que o modelo pooled Ã© preferÃ�vel
+# AceitaÃ§Ã£o de H0 implica que o modelo pooled Ã© preferÃ?vel
 plmtest(regEM2.4, type="bp") #Random Effect
 
 # Fixed vs Randon
@@ -783,11 +770,11 @@ phtest(regEM2.2,regEM2.5) #Year Fixed
 phtest(regEM2.3,regEM2.5) #Country-Year Fixed
 
 # Teste de dependencia transversal
-# A hipÃ³tese nula Ã© de que os resÃ�duos atravÃ©s dos indivÃ�duos nÃ£o estÃ£o correlacionados
+# A hipÃ³tese nula Ã© de que os resÃ?duos atravÃ©s dos indivÃ?duos nÃ£o estÃ£o correlacionados
 pcdtest(regEM2.1, test="cd") 
 
 # Normalidade  dos residuos
-# H0: normalidade nos resÃ�duos da regressÃ£o.
+# H0: normalidade nos resÃ?duos da regressÃ£o.
 shapiro.test(regEM2.1$residuals) 
 
 # Homocedasticidade dos residuos
@@ -821,7 +808,7 @@ regEM2.4c <- coeftest(regEM2.4, vcovHC.plm(regEM2.4, type="sss", cluster="group"
 regEM2.5c <- coeftest(regEM2.5, vcovHC.plm(regEM2.5, type="sss", cluster="group", method = "white2"))
 
 stargazer(regEM2.1c, regEM2.2c, regEM2.3c, regEM2.4c, regEM2.5c,
-          title = "Total debt held by foreign non-official investor (Clustered errors)", type = "text", 
+          title = "Total debt held by foreign non-official investor (Clustered errors)", type = "latex", 
           column.labels = c("(Within)","(Within)", "(Within)", "(Pooled)", "(Random)"),
           model.numbers = F,
           add.lines = list(c("Country FE", "NO", "YES", "YES", "NO", "NO"), c("Year FE", "YES", "NO", "YES", "NO", "NO")),
@@ -849,13 +836,6 @@ regEM3.4 <- plm(f3, data = panel_dataset_EM, model = "pooling")
 
 regEM3.5 <- plm(f3, data = panel_dataset_EM, model = "random", random.method = "walhus")
 
-stargazer(regEM3.1, regEM3.2, regEM3.3, regEM3.4, regEM3.5, 
-          type = "text", 
-          title = "Total debt held by foreign non-official investor (Non-clusterized errors)", 
-          column.labels = c("Country FE", "Year FE", "Twoways FE", "Pooled Model", "Random"),
-          dep.var.labels = c("Non-official foreign participation on public debt"), 
-          align=TRUE)
-
 
 # Cluster
 
@@ -871,7 +851,7 @@ regEM3.5c <- coeftest(regEM3.5, vcovHC.plm(regEM3.5, type="sss", cluster="group"
 
 
 stargazer(regEM3.1c, regEM3.2c, regEM3.3c, regEM3.4c, regEM3.5c,
-          title = "Total debt held by foreign non-official investor (Clustered errors)", type = "text", 
+          title = "Total debt held by foreign non-official investor (Clustered errors)", type = "latex", 
           column.labels = c("(Within)","(Within)", "(Within)", "(Pooled)", "(Random)"),
           model.numbers = F,
           add.lines = list(c("Country FE", "NO", "YES", "YES", "NO", "NO"), c("Year FE", "YES", "NO", "YES", "NO", "NO")),
@@ -895,12 +875,6 @@ regEM4.4 <- plm(f4, data = panel_dataset_EM, model = "pooling")
 
 regEM4.5 <- plm(f4, data = panel_dataset_EM, model = "random", random.method = "walhus")
 
-stargazer(regEM4.1, regEM4.2, regEM4.3, regEM4.4,regEM4.5, 
-          type = "text", 
-          title = "Total debt held by foreign non-official investor (Non-clusterized errors)", 
-          column.labels = c("Country FE", "Year FE", "Twoways FE", "Pooled Model", "Random"), 
-          dep.var.labels = c("Non-official foreign participation on public debt"), 
-          align=TRUE)
 
 # Cluster
 
@@ -915,7 +889,7 @@ regEM4.4c <- coeftest(regEM4.4, vcovHC.plm(regEM4.4, type="sss", cluster="group"
 regEM4.5c <- coeftest(regEM4.5, vcovHC.plm(regEM4.5, type="sss", cluster="group", method = "white2"))
 
 stargazer(regEM4.1c, regEM4.2c, regEM4.3c, regEM4.4c, regEM4.5c,
-          title = "Total debt held by foreign non-official investor (Clustered errors)", type = "text", 
+          title = "Total debt held by foreign non-official investor (Clustered errors)", type = "latex", 
           column.labels = c("(Within)","(Within)", "(Within)", "(Pooled)", "(Random)"),
           model.numbers = F,
           add.lines = list(c("Country FE", "NO", "YES", "YES", "NO", "NO"), c("Year FE", "YES", "NO", "YES", "NO", "NO")),
@@ -941,14 +915,6 @@ regEM5.4 <- plm(f5, data = panel_dataset_EM, model = "pooling")
 regEM5.5 <- plm(f5, data = panel_dataset_EM, model = "random", random.method = "walhus")
 
 
-stargazer(regEM5.1, regEM5.2, regEM5.3, regEM5.4,regEM5.5, 
-          type = "text", 
-          title = "Total debt held by foreign non-official investor (Non-clusterized errors)", 
-          column.labels = c("Country FE", "Year FE", "Twoways FE", "Pooled Model", "Random"), 
-          dep.var.labels = c("Non-official foreign participation on public debt"), 
-          align=TRUE)
-
-
 # Cluster
 
 regEM5.1c <- coeftest(regEM5.1, vcovHC.plm(regEM5.1, type="sss", cluster ="group", method = "white2"))
@@ -962,7 +928,7 @@ regEM5.4c <- coeftest(regEM5.4, vcovHC.plm(regEM5.4, type="sss", cluster="group"
 regEM5.5c <- coeftest(regEM5.5, vcovHC.plm(regEM5.5, type="sss", cluster="group", method = "white2"))
 
 stargazer(regEM5.1c, regEM5.2c, regEM5.3c, regEM5.4c, regEM5.5c,
-          title = "Total debt held by foreign non-official investor (Clustered errors)", type = "text", 
+          title = "Total debt held by foreign non-official investor (Clustered errors)", type = "latex", 
           column.labels = c("(Within)","(Within)", "(Within)", "(Pooled)", "(Random)"),
           model.numbers = F,
           add.lines = list(c("Country FE", "NO", "YES", "YES", "NO", "NO"), c("Year FE", "YES", "NO", "YES", "NO", "NO")),
@@ -988,13 +954,6 @@ regEM6.4 <- plm(f6, data = panel_dataset_EM, model = "pooling")
 regEM6.5 <- plm(f6, data = panel_dataset_EM, model = "random", random.method = "walhus")
 
 
-stargazer(regEM6.1, regEM6.2, regEM6.3, regEM6.4,regEM6.5, 
-          type = "text", 
-          title = "Total debt held by foreign non-official investor (Non-clusterized errors)", 
-          column.labels = c("Country FE", "Year FE", "Twoways FE", "Pooled Model", "Random"), 
-          dep.var.labels = c("Non-official foreign participation on public debt"), 
-          align=TRUE)
-
 
 # Cluster
 
@@ -1009,7 +968,7 @@ regEM6.4c <- coeftest(regEM6.4, vcovHC.plm(regEM6.4, type="sss", cluster="group"
 regEM6.5c <- coeftest(regEM6.5, vcovHC.plm(regEM6.5, type="sss", cluster="group", method = "white2"))
 
 stargazer(regEM6.1c, regEM6.2c, regEM6.3c, regEM6.4c, regEM6.5c,
-          title = "Total debt held by foreign non-official investor (Clustered errors)", type = "text", 
+          title = "Total debt held by foreign non-official investor (Clustered errors)", type = "latex", 
           column.labels = c("(Within)","(Within)", "(Within)", "(Pooled)", "(Random)"),
           model.numbers = F,
           add.lines = list(c("Country FE", "NO", "YES", "YES", "NO", "NO"), c("Year FE", "YES", "NO", "YES", "NO", "NO")),
@@ -1045,13 +1004,6 @@ regEM7.4 <- plm(f7, data = panel_dataset_EM, model = "pooling")
 regEM7.5 <- plm(f7, data = panel_dataset_EM, model = "random", random.method = "walhus")
 
 
-stargazer(regEM7.1, regEM7.2, regEM7.3, regEM7.4,regEM7.5,
-          type = "text", 
-          title = "Total debt held by foreign investor (Non-clusterized errors)", 
-          column.labels = c("Country FE", "Year FE", "Twoways FE", "Pooled Model", "Randon"),
-          dep.var.labels = c("Non-official foreign participation on public debt"), 
-          align=TRUE)
-
 
 # Testes
 # Pooled vs Fixed
@@ -1073,11 +1025,11 @@ phtest(regEM7.2,regEM7.5) #Year Fixed
 phtest(regEM7.3,regEM7.5) #Efeitos AleatÃ³rios
 
 # Teste de dependencia transversal
-# A hipÃ³tese nula Ã© de que os resÃ�duos atravÃ©s dos indivÃ�duos nÃ£o estÃ£o correlacionados
+# A hipÃ³tese nula Ã© de que os resÃ?duos atravÃ©s dos indivÃ?duos nÃ£o estÃ£o correlacionados
 pcdtest(regEM7.1, test="cd") 
 
 # Normalidade  dos residuos
-# H0: normalidade nos resÃ�duos da regressÃ£o.
+# H0: normalidade nos resÃ?duos da regressÃ£o.
 shapiro.test(regEM7.1$residuals) 
 
 # Homocedasticidade dos residuos
@@ -1097,7 +1049,7 @@ pwtest(regEM7.4, effect = "individual") # CorrelaÃ§Ã£o entre erros
 pwtest(regEM7.4, effect = "time") # Nao hÃ¡ correlaÃ§Ã£o entre erros
 
 # Teste de dependencia transversal
-# A hipÃ³tese nula Ã© de que os resÃ�duos atravÃ©s dos indivÃ�duos nÃ£o estÃ£o correlacionados
+# A hipÃ³tese nula Ã© de que os resÃ?duos atravÃ©s dos indivÃ?duos nÃ£o estÃ£o correlacionados
 pcdtest(regEM7.1, test="cd") 
 
 
@@ -1116,7 +1068,7 @@ regEM7.5c <- coeftest(regEM7.5, vcovHC.plm(regEM7.5, type="sss", cluster="group"
 
 
 stargazer(regEM7.1c, regEM7.2c, regEM7.3c, regEM7.4c, regEM7.5c,
-          title = "Total debt held by foreign (Clustered errors)", type = "text", 
+          title = "Total debt held by foreign (Clustered errors)", type = "latex", 
           column.labels = c("(Within)","(Within)", "(Within)", "(Pooled)", "(Random)"),
           model.numbers = F,
           add.lines = list(c("Country FE", "NO", "YES", "YES", "NO", "NO"), c("Year FE", "YES", "NO", "YES", "NO", "NO")),
@@ -1139,13 +1091,6 @@ regEM8.4 <- plm(f8, data = panel_dataset_EM, model = "pooling")
 regEM8.5 <- plm(f8, data = panel_dataset_EM, model = "random", random.method = "walhus")
 
 
-stargazer(regEM8.1, regEM8.2, regEM8.3, regEM8.4, regEM8.5, 
-          type = "text", 
-          title = "Total debt held by foreign investor (Non-clusterized errors)", 
-          column.labels = c("Country FE", "Year FE", "Twoways FE", "Pooled Model", "Random"),
-          dep.var.labels = c("Non-official foreign participation on public debt"), 
-          align=TRUE)
-
 # Testes
 # Pooled vs Fixed
 # P-valor inferior a 0,05, o modelo de Efeitos Fixos Ã© melhor do que o modelo Pooled
@@ -1155,7 +1100,7 @@ pFtest(regEM8.3,regEM8.4) #Country-Year Fixed
 
 # Pooled vs Aleatorio
 # Breusch e Pagan
-# AceitaÃ§Ã£o de H0 implica que o modelo pooled Ã© preferÃ�vel
+# AceitaÃ§Ã£o de H0 implica que o modelo pooled Ã© preferÃ?vel
 plmtest(regEM8.4, type="bp") #Random Effect
 
 # Fixed vs Randon
@@ -1166,11 +1111,11 @@ phtest(regEM8.2,regEM8.5) #Year Fixed
 phtest(regEM8.3,regEM8.5) #Country-Year Fixed
 
 # Teste de dependencia transversal
-# A hipÃ³tese nula Ã© de que os resÃ�duos atravÃ©s dos indivÃ�duos nÃ£o estÃ£o correlacionados
+# A hipÃ³tese nula Ã© de que os resÃ?duos atravÃ©s dos indivÃ?duos nÃ£o estÃ£o correlacionados
 pcdtest(regEM8.1, test="cd") 
 
 # Normalidade  dos residuos
-# H0: normalidade nos resÃ�duos da regressÃ£o.
+# H0: normalidade nos resÃ?duos da regressÃ£o.
 shapiro.test(regEM8.1$residuals) 
 
 # Homocedasticidade dos residuos
@@ -1204,7 +1149,7 @@ regEM8.4c <- coeftest(regEM8.4, vcovHC.plm(regEM8.4, type="sss", cluster="group"
 regEM8.5c <- coeftest(regEM8.5, vcovHC.plm(regEM8.5, type="sss", cluster="group", method = "white2"))
 
 stargazer(regEM8.1c, regEM8.2c, regEM8.3c, regEM8.4c, regEM8.5c,
-          title = "Total debt held by foreign (Clustered errors)", type = "text", 
+          title = "Total debt held by foreign (Clustered errors)", type = "latex", 
           column.labels = c("(Within)","(Within)", "(Within)", "(Pooled)", "(Random)"),
           model.numbers = F,
           add.lines = list(c("Country FE", "NO", "YES", "YES", "NO", "NO"), c("Year FE", "YES", "NO", "YES", "NO", "NO")),
@@ -1232,13 +1177,6 @@ regEM9.4 <- plm(f9, data = panel_dataset_EM, model = "pooling")
 
 regEM9.5 <- plm(f9, data = panel_dataset_EM, model = "random", random.method = "walhus")
 
-stargazer(regEM9.1, regEM9.2, regEM9.3, regEM9.4, regEM9.5, 
-          type = "text", 
-          title = "Total debt held by foreign investor (Non-clusterized errors)", 
-          column.labels = c("Country FE", "Year FE", "Twoways FE", "Pooled Model", "Random"),
-          dep.var.labels = c("Non-official foreign participation on public debt"), 
-          align=TRUE)
-
 
 # Cluster
 
@@ -1254,7 +1192,7 @@ regEM9.5c <- coeftest(regEM9.5, vcovHC.plm(regEM9.5, type="sss", cluster="group"
 
 
 stargazer(regEM9.1c, regEM9.2c, regEM9.3c, regEM9.4c, regEM9.5c,
-          title = "Total debt held by foreign (Clustered errors)", type = "text", 
+          title = "Total debt held by foreign (Clustered errors)", type = "latex", 
           column.labels = c("(Within)","(Within)", "(Within)", "(Pooled)", "(Random)"),
           model.numbers = F,
           add.lines = list(c("Country FE", "NO", "YES", "YES", "NO", "NO"), c("Year FE", "YES", "NO", "YES", "NO", "NO")),
@@ -1278,12 +1216,6 @@ regEM10.4 <- plm(f10, data = panel_dataset_EM, model = "pooling")
 
 regEM10.5 <- plm(f10, data = panel_dataset_EM, model = "random", random.method = "walhus")
 
-stargazer(regEM10.1, regEM10.2, regEM10.3, regEM10.4,regEM10.5, 
-          type = "text", 
-          title = "Total debt held by foreign investor (Non-clusterized errors)", 
-          column.labels = c("Country FE", "Year FE", "Twoways FE", "Pooled Model", "Random"), 
-          dep.var.labels = c("Non-official foreign participation on public debt"), 
-          align=TRUE)
 
 # Cluster
 
@@ -1298,7 +1230,7 @@ regEM10.4c <- coeftest(regEM10.4, vcovHC.plm(regEM10.4, type="sss", cluster="gro
 regEM10.5c <- coeftest(regEM10.5, vcovHC.plm(regEM10.5, type="sss", cluster="group", method = "white2"))
 
 stargazer(regEM10.1c, regEM10.2c, regEM10.3c, regEM10.4c, regEM10.5c,
-          title = "Total debt held by foreign (Clustered errors)", type = "text", 
+          title = "Total debt held by foreign (Clustered errors)", type = "latex", 
           column.labels = c("(Within)","(Within)", "(Within)", "(Pooled)", "(Random)"),
           model.numbers = F,
           add.lines = list(c("Country FE", "NO", "YES", "YES", "NO", "NO"), c("Year FE", "YES", "NO", "YES", "NO", "NO")),
@@ -1324,13 +1256,6 @@ regEM11.4 <- plm(f11, data = panel_dataset_EM, model = "pooling")
 regEM11.5 <- plm(f11, data = panel_dataset_EM, model = "random", random.method = "walhus")
 
 
-stargazer(regEM11.1, regEM11.2, regEM11.3, regEM11.4,regEM11.5, 
-          type = "text", 
-          title = "Total debt held by foreign investor (Non-clusterized errors)", 
-          column.labels = c("Country FE", "Year FE", "Twoways FE", "Pooled Model", "Random"), 
-          dep.var.labels = c("Non-official foreign participation on public debt"), 
-          align=TRUE)
-
 
 # Cluster
 
@@ -1345,7 +1270,7 @@ regEM11.4c <- coeftest(regEM11.4, vcovHC.plm(regEM11.4, type="sss", cluster="gro
 regEM11.5c <- coeftest(regEM11.5, vcovHC.plm(regEM11.5, type="sss", cluster="group", method = "white2"))
 
 stargazer(regEM11.1c, regEM11.2c, regEM11.3c, regEM11.4c, regEM11.5c,
-          title = "Total debt held by foreign (Clustered errors)", type = "text", 
+          title = "Total debt held by foreign (Clustered errors)", type = "latex", 
           column.labels = c("(Within)","(Within)", "(Within)", "(Pooled)", "(Random)"),
           model.numbers = F,
           add.lines = list(c("Country FE", "NO", "YES", "YES", "NO", "NO"), c("Year FE", "YES", "NO", "YES", "NO", "NO")),
@@ -1371,13 +1296,6 @@ regEM12.4 <- plm(f12, data = panel_dataset_EM, model = "pooling")
 regEM12.5 <- plm(f12, data = panel_dataset_EM, model = "random", random.method = "walhus")
 
 
-stargazer(regEM12.1, regEM12.2, regEM12.3, regEM12.4,regEM12.5, 
-          type = "text", 
-          title = "Total debt held by foreign investor (Non-clusterized errors)", 
-          column.labels = c("Country FE", "Year FE", "Twoways FE", "Pooled Model", "Random"), 
-          dep.var.labels = c("Non-official foreign participation on public debt"), 
-          align=TRUE)
-
 
 # Cluster
 
@@ -1392,7 +1310,7 @@ regEM12.4c <- coeftest(regEM12.4, vcovHC.plm(regEM12.4, type="sss", cluster="gro
 regEM12.5c <- coeftest(regEM12.5, vcovHC.plm(regEM12.5, type="sss", cluster="group", method = "white2"))
 
 stargazer(regEM12.1c, regEM12.2c, regEM12.3c, regEM12.4c, regEM12.5c,
-          title = "Total debt held by foreign (Clustered errors)", type = "text", 
+          title = "Total debt held by foreign (Clustered errors)", type = "latex", 
           column.labels = c("(Within)","(Within)", "(Within)", "(Pooled)", "(Random)"),
           model.numbers = F,
           add.lines = list(c("Country FE", "NO", "YES", "YES", "NO", "NO"), c("Year FE", "YES", "NO", "YES", "NO", "NO")),

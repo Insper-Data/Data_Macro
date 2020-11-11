@@ -133,7 +133,7 @@ dataset_total <- dataset_total %>%
   mutate(ln_GDP_cte = ifelse(GDP_cte > 0, log(GDP_cte), NA),
          ln_GDP_cur = ifelse(GDP_cur > 0, log(GDP_cur), NA),
          ln_GDP_per_cap_cte = ifelse(GDP_per_cap_cte > 0, log(GDP_per_cap_cte), NA),
-         lending_GDP = lending_borroeing_rate/GDP_cur,
+         balance_GDP = account_balance/GDP_cur,
          account_GPD = account_balance/GDP_cur)
 
 
