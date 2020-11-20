@@ -10,11 +10,11 @@ library(skimr)
 library(transformr)
 
 
-#chegando no wd do computador obs.: modificar para o seu endere?o
+# Chegando no wd do computador obs.: modificar para o seu endere?o
 setwd("/Users/mariaclara/Documents/InsperData/DataMacro")
 
 
-##puxando as bases
+## Puxando as bases
 debt_prop_Q <- read.csv("tsuda_tidy.csv")  # ja esta tidy  
 
 weo_am <- readxl::read_xlsx("WEO_Data_Paises_AM.xlsx")  # Observar que esta em .xlsx
@@ -36,28 +36,27 @@ continents <- read.csv("continents.csv")
 debt_prop <- debt_prop_Q %>% 
   separate(yearQ, into = c("year", "quarter"), sep = "Q", remove = FALSE) %>% 
   group_by(country, year) %>% 
-  mutate(total_debt_= mean(total_debt), 
-         debt_to_GDP_=mean(debt_to_GDP),
-         fx_=mean(fx),
-         nonbank_domestic_debt_=mean(nonbank_domestic_debt),
-         bank_domestic_debt_=mean(bank_domestic_debt),
-         official_domestic_debt_=mean(official_domestic_debt),
-         domestic_debt_=mean(domestic_debt),
-         nonbank_foreign_debt_=mean(nonbank_foreign_debt),
-         bank_foreign_debt_=mean(bank_foreign_debt),
-         official_foreign_debt_=mean(official_foreign_debt),
-         foreign_debt_=mean(foreign_debt))
+  mutate(total_debt= mean(total_debt), 
+         debt_to_GDP=mean(debt_to_GDP),
+         fx=mean(fx),
+         nonbank_domestic_debt=mean(nonbank_domestic_debt),
+         bank_domestic_debt=mean(bank_domestic_debt),
+         official_domestic_debt=mean(official_domestic_debt),
+         domestic_debt=mean(domestic_debt),
+         nonbank_foreign_debt=mean(nonbank_foreign_debt),
+         bank_foreign_debt=mean(bank_foreign_debt),
+         official_foreign_debt=mean(official_foreign_debt),
+         foreign_debt=mean(foreign_debt))
 
  
-# arrumando a df debt_prop
+# Arrumando a df debt_prop
 debt_prop <- debt_prop %>% 
-  mutate(year = as.integer(year), quarter = as.integer(quarter)) %>% 
-  select(1,2,3,4,16,17,18,19, 20,21,22,23,24,25, 26)
+  mutate(year = as.integer(year), quarter = as.integer(quarter))
 
 debt_prop <- debt_prop %>% 
   filter(quarter == 4)
 
-##arrumando weo_am
+## Arrumando weo_am
 weo_am <- weo_am %>%
   pivot_longer('1980':'2021', names_to = "year", values_to = "value")
 
@@ -79,7 +78,7 @@ weo_am <- weo_am %>%
   mutate(develop="AM")
 
 
-##arrumando weo_em
+## Arrumando weo_em
 weo_em <- weo_em %>%
   pivot_longer('1980':'2021', names_to = "year", values_to = "value")
 
@@ -107,14 +106,12 @@ weo <-  rbind(weo_am, weo_em)
 
 # Agora precisamos fazer o join entre weo e debt_prop:
 
-
-
 # Agora o join pela base debt_prop:
 dataset_total <- debt_prop %>% 
   left_join(weo, by = c("country", "year"))
 # Obs. paises que não estavam na weo: Latvia, Lithuania, Norway
 
-#Mudando os nomes das variaveis que vieram da WEO
+# Mudando os nomes das variaveis que vieram da WEO
 
 dataset_total <- dataset_total %>% 
   rename (woe_country_code = 'WEO Country Code',
@@ -127,6 +124,7 @@ dataset_total <- dataset_total %>%
           lending_borroeing_rate = 'General government net lending/borrowing',
           account_balance = 'Current account balance')
 
+
 # Adicionando log nas variaveis de GDP
 
 dataset_total <- dataset_total %>% 
@@ -134,10 +132,10 @@ dataset_total <- dataset_total %>%
          ln_GDP_cur = ifelse(GDP_cur > 0, log(GDP_cur), NA),
          ln_GDP_per_cap_cte = ifelse(GDP_per_cap_cte > 0, log(GDP_per_cap_cte), NA),
          balance_GDP = account_balance/GDP_cur,
-         account_GPD = account_balance/GDP_cur)
+         account_GDP = account_balance/GDP_cur)
 
 
-#base de impostos
+# Base de impostos
 
 taxes <- taxes %>% 
   rename(year=1, taxes=3)
@@ -145,7 +143,7 @@ taxes <- taxes %>%
 dataset_total <- dataset_total %>% 
   left_join(taxes, by = c("country", "year"))
 
-#VIX
+# VIX
 
 vix<-vix %>% 
   separate(year, into = c("year", "m", "d"), sep = "-", remove = TRUE)
@@ -162,7 +160,7 @@ dataset_total <- dataset_total %>%
 
 
 
-#puxando a base de taxa de juros nominais
+# Puxando a base de taxa de juros nominais
 
 interest_rates <- readxl::read_xlsx("Interest_Rate_Nom.xlsx")
 
@@ -193,7 +191,7 @@ dataset_total <- dataset_total %>%
   left_join(interest_rates_tidy, by = c("year", "country"))
 
 
-#adicionando os continentes
+# Adicionando os continentes
 
 continents <- continents %>% 
   rename(continent=1) %>% 
@@ -205,28 +203,30 @@ dataset_total <- dataset_total %>%
 dataset_total <-dataset_total %>% 
   mutate(nominal_rate=as.numeric(nominal_rate))
 
-#GDP per cap
+
+# GDP per cap
 GDP_per_cap <- GDP_per_cap %>% 
   rename(year = 1 , country = 3 , GDP_per_cap_cur_USD = 5)
 
 GDP_per_cap <- GDP_per_cap %>% 
-  mutate(GDP_per_cap_cur_USD=as.numeric(GDP_per_cap_cur_USD))
+  mutate(GDP_per_cap_cur_USD = as.numeric(GDP_per_cap_cur_USD)) %>% 
+  mutate(ln_GDP_per_cap_cur = log(GDP_per_cap_cur_USD))
 
 GDP_per_cap <- GDP_per_cap %>% 
-  select(1,3,5)
+  select(1,3,5,6)
 
 dataset_total <- dataset_total %>% 
   left_join(GDP_per_cap, by=c("country", "year"))
 
 
 
-#base de indicadores diversos no World Bank
+# Base de indicadores diversos no World Bank
 
 gov_index <- gov_index %>% 
   select(1,3,7,13, 19, 25, 31, 37)
 
 gov_index <- gov_index %>% 
-  rename(year=1, country=2, control_corruption_rank=3, effectiveness_rank=4, political_stability_rank=5, regulatory_quality_rank=6, rule_of_law_rank=7, voice_rank=8)
+  rename(year=1, country=2, control_corruption_rank=3, gov_effectiveness_rank=4, political_stability_rank=5, regulatory_quality_rank=6, rule_of_law_rank=7, voice_rank=8)
 
 dataset_total_index <- dataset_total %>% 
   left_join(gov_index, by = c("country", "year"))
@@ -234,7 +234,7 @@ dataset_total_index <- dataset_total %>%
 dataset_total_index <- dataset_total %>% 
   mutate(taxes = as.numeric(taxes)) %>% 
   mutate(control_corruption_rank = as.numeric(control_corruption_rank)) %>% 
-  mutate(effectiveness_rank = as.numeric(effectiveness_rank)) %>% 
+  mutate(gov_effectiveness_rank = as.numeric(gov_effectiveness_rank)) %>% 
   mutate(political_stability_rank = as.numeric(political_stability_rank)) %>% 
   mutate(regulatory_quality_rank = as.numeric(regulatory_quality_rank)) %>% 
   mutate(rule_of_law_rank = as.numeric(rule_of_law_rank)) %>% 
@@ -242,7 +242,7 @@ dataset_total_index <- dataset_total %>%
 
 
  
-#colocando NA nas observações
+# Colocando NA nas observações
 
 dataset_total<- dataset_total %>% 
   na_if("..")
@@ -251,9 +251,29 @@ dataset_total_index<- dataset_total_index %>%
   na_if("..")
 
 
-#arrumando a infla??o
+# Arrumando a inflacao e GDP per capita
 dataset_total <- dataset_total %>% 
   mutate(inflation_mean =(inflation_mean/1000), inflation_end=(inflation_end/1000))
+
+
+#Acrescentando dummies
+
+dataset_total <- dataset_total %>% 
+  mutate(yearnum=year)
+
+dataset_total <- dataset_total %>% 
+  mutate(post_08 = ifelse(yearnum >= 2008, "YES", "NO"),
+         post_09 = ifelse(yearnum >= 2009, "YES", "NO"),
+         post_15 = ifelse(yearnum >= 2015, "YES", "NO"),
+         post_16 = ifelse(yearnum >= 2016, "YES", "NO"),
+         post_17 = ifelse(yearnum >= 2017, "YES", "NO")) %>% 
+  mutate(post_08 = as.factor(post_08),
+         post_09 = as.factor(post_09),
+         post_15 = as.factor(post_15),
+         post_16 = as.factor(post_16),
+         post_17 = as.factor(post_17))
+
+         
 
 
 # Escrevendo um arquivo csv para dataset_total:

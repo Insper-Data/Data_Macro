@@ -12,21 +12,6 @@ library(lmtest)
 #dados
 dataset_total <- read.csv("dataset_total.csv")
 
-dataset_total <- dataset_total %>% 
-  mutate(yearnum=year)
-
-dataset_total <- dataset_total %>% 
-  rename(debt_to_GDP=6, fx=7)
-
-dataset_total <- dataset_total %>% 
-  mutate(post_08 = ifelse(yearnum >= 2008, "YES", "NO"),
-         post_15 = ifelse(yearnum >= 2015, "YES", "NO"),
-         post_16 = ifelse(yearnum >= 2016, "YES", "NO"),
-         post_17 = ifelse(yearnum >= 2017, "YES", "NO")) %>% 
-  mutate(post_08 = as.factor(post_08),
-         post_15 = as.factor(post_15),
-         post_16 = as.factor(post_16),
-         post_17 = as.factor(post_17))
 
 #arrumando detalhes
 panel_dataset <- pdata.frame(dataset_total, index=c("country", "year"))

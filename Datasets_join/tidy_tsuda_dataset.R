@@ -96,7 +96,7 @@ nonbank_domestic_debt_advanced<-nonbank_domestic_debt_advanced %>%
 
 fx_advanced<- read_xlsx ("fx_advanced.xlsx")
 
-fx_advanced<-fx_advanced %>% 
+fx_advanced <- fx_advanced %>% 
   rename(country = "USD/National currency") %>%
   pivot_longer(c(`2004Q1` : `2019Q4`), names_to = "yearQ", values_to = "fx")
 
