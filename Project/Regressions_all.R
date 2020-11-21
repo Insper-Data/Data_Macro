@@ -12,21 +12,6 @@ library(lmtest)
 #dados
 dataset_total <- read.csv("dataset_total.csv")
 
-dataset_total <- dataset_total %>% 
-  mutate(yearnum=year)
-
-dataset_total <- dataset_total %>% 
-  rename(debt_to_GDP=6, fx=7)
-
-dataset_total <- dataset_total %>% 
-  mutate(post_08 = ifelse(yearnum >= 2008, "YES", "NO"),
-         post_15 = ifelse(yearnum >= 2015, "YES", "NO"),
-         post_16 = ifelse(yearnum >= 2016, "YES", "NO"),
-         post_17 = ifelse(yearnum >= 2017, "YES", "NO")) %>% 
-  mutate(post_08 = as.factor(post_08),
-         post_15 = as.factor(post_15),
-         post_16 = as.factor(post_16),
-         post_17 = as.factor(post_17))
 
 #arrumando detalhes
 panel_dataset <- pdata.frame(dataset_total, index=c("country", "year"))
@@ -648,9 +633,8 @@ stargazer(reg4.5.1c, reg4.5.2c, reg4.5.3c, reg4.5.4c,
 
 
 #REGRESSAO 7:
-#Tudo
 
-f7 <- for_part ~  debt_to_GDP + fx + ln_GDP_per_cap_cte + inflation_mean +  nominal_rate + vix_EUA + taxes + account_GPD + lending_borroeing_rate + unemployment
+f7 <- for_part ~  debt_to_GDP 
 
 #Country Fixed effect
 regEM7.1 <- plm(f7, data = panel_dataset_EM, effect = "individual", model = "within")
@@ -666,7 +650,6 @@ regEM7.4 <- plm(f7, data = panel_dataset_EM, model = "pooling")
 
 #Randon effect
 regEM7.5 <- plm(f7, data = panel_dataset_EM, model = "random", random.method = "walhus")
-
 
 
 # Testes
@@ -742,7 +725,8 @@ stargazer(regEM7.1c, regEM7.2c, regEM7.3c, regEM7.4c, regEM7.5c,
 
 #REGRESSAO 8:
 
-f8 <- for_part ~  debt_to_GDP + fx + inflation_mean +  nominal_rate + vix_EUA + taxes + account_GPD + lending_borroeing_rate + unemployment
+f8 <- for_part ~ debt_to_GDP + inflation_mean 
+
 
 regEM8.1 <- plm(f8, data = panel_dataset_EM, effect = "individual", model = "within")
 
@@ -753,6 +737,7 @@ regEM8.3 <- plm(f8, data = panel_dataset_EM, model = "within", effect = "twoways
 regEM8.4 <- plm(f8, data = panel_dataset_EM, model = "pooling")
 
 regEM8.5 <- plm(f8, data = panel_dataset_EM, model = "random", random.method = "walhus")
+
 
 
 # Testes
@@ -828,7 +813,7 @@ stargazer(regEM8.1c, regEM8.2c, regEM8.3c, regEM8.4c, regEM8.5c,
 #REGRESSAO 9:
 
 
-f9 <- for_part ~ debt_to_GDP + fx + inflation_mean +  nominal_rate + vix_EUA + taxes
+f9 <- for_part ~  debt_to_GDP +  account_GPD + lending_GDP + vix_EUA
 
 
 regEM9.1 <- plm(f9, data = panel_dataset_EM, effect = "individual", model = "within")
@@ -868,7 +853,7 @@ stargazer(regEM9.1c, regEM9.2c, regEM9.3c, regEM9.4c, regEM9.5c,
 
 #REGRESSAO 10:
 
-f10 <- for_part ~  debt_to_GDP + fx + vix_EUA + taxes + account_GPD + unemployment
+f10 <- for_part ~  debt_to_GDP + account_GPD + lending_GDP + inflation_mean + vix_EUA 
 
 regEM10.1 <- plm(f10, data = panel_dataset_EM, effect = "individual", model = "within")
 
@@ -907,7 +892,7 @@ stargazer(regEM10.1c, regEM10.2c, regEM10.3c, regEM10.4c, regEM10.5c,
 
 #REGRESSAO 11:
 
-f11 <- for_part ~  debt_to_GDP + fx + inflation_mean +  nominal_rate + vix_EUA + taxes + lending_borroeing_rate + unemployment
+f11 <- for_part ~  debt_to_GDP + account_GPD + lending_GDP + inflation_mean + vix_EUR 
 
 regEM11.1 <- plm(f11, data = panel_dataset_EM, effect = "individual", model = "within")
 
@@ -942,57 +927,14 @@ stargazer(regEM11.1c, regEM11.2c, regEM11.3c, regEM11.4c, regEM11.5c,
 
 
 
-
-############################################################################################################################################################################################################################################################################################################
-
-#REGRESSAO 12:
-
-f12 <-  for_part ~  debt_to_GDP + fx + inflation_mean +  nominal_rate + vix_EUR + taxes + account_GPD + lending_borroeing_rate + unemployment
-
-regEM12.1 <- plm(f12, data = panel_dataset_EM, effect = "individual", model = "within")
-
-regEM12.2 <- plm(f12, data = panel_dataset_EM, model = "within", effect = "time")
-
-regEM12.3 <- plm(f12, data = panel_dataset_EM, model = "within", effect = "twoways")
-
-regEM12.4 <- plm(f12, data = panel_dataset_EM, model = "pooling")
-
-regEM12.5 <- plm(f12, data = panel_dataset_EM, model = "random", random.method = "walhus")
-
-
-
-# Cluster
-
-regEM12.1c <- coeftest(regEM12.1, vcovHC.plm(regEM12.1, type="sss", cluster ="group", method = "white2"))
-
-regEM12.2c <- coeftest(regEM12.2, vcovHC.plm(regEM12.2, type="sss", cluster="group", method = "white2"))
-
-regEM12.3c <- coeftest(regEM12.3, vcovHC.plm(regEM12.3, type="sss", cluster="group", method = "white2"))
-
-regEM12.4c <- coeftest(regEM12.4, vcovHC.plm(regEM12.4, type="sss", cluster="group", method = "white2"))
-
-regEM12.5c <- coeftest(regEM12.5, vcovHC.plm(regEM12.5, type="sss", cluster="group", method = "white2"))
-
-stargazer(regEM12.1c, regEM12.2c, regEM12.3c, regEM12.4c, regEM12.5c,
-          title = "Debt held by foreign investors (Clusterized errors)", type = "latex", 
-          column.labels = c("(Within)","(Within)", "(Within)", "(Pooled)", "(Random)"),
-          model.numbers = F,
-          add.lines = list(c("Country FE", "NO", "YES", "YES", "NO", "NO"), c("Year FE", "YES", "NO", "YES", "NO", "NO")),
-          dep.var.labels = c("Foreign participation on public debt"))
-
-
-
-
 ####################################################################################################################################################################################################################
 
 ##Type 6 regression
 #Regression 5.1
+
 #REGRESSAO 1:
-#Tudo
 
-
-
-f1 <- for_ex_BC ~  debt_to_GDP + fx + ln_GDP_per_cap_cte + inflation_mean +  nominal_rate + vix_EUA + taxes + account_GPD + lending_borroeing_rate + unemployment
+f1 <- for_ex_BC ~  debt_to_GDP
 
 #Country Fixed effect
 regEM1.1 <- plm(f1, data = panel_dataset_EM, effect = "individual", model = "within")
@@ -1006,7 +948,7 @@ regEM1.3 <- plm(f1, data = panel_dataset_EM, effect = "twoways", model = "within
 #Pooling
 regEM1.4 <- plm(f1, data = panel_dataset_EM, model = "pooling")
 
-#Random effect
+#Randon effect
 regEM1.5 <- plm(f1, data = panel_dataset_EM, model = "random", random.method = "walhus")
 
 
@@ -1079,9 +1021,9 @@ stargazer(regEM1.1c, regEM1.2c, regEM1.3c, regEM1.4c, regEM1.5c,
 ############################################################################################################################################################################################################################################################################################################
 
 #REGRESSAO 2:
-#Sem pib per capita
 
-f2 <- for_ex_BC ~  debt_to_GDP + fx + inflation_mean +  nominal_rate + vix_EUA + taxes + account_GPD + lending_borroeing_rate + unemployment
+f2 <- for_ex_BC ~ ln_GDP_per_cap_curr
+
 
 regEM2.1 <- plm(f2, data = panel_dataset_EM, effect = "individual", model = "within")
 
@@ -1092,6 +1034,7 @@ regEM2.3 <- plm(f2, data = panel_dataset_EM, model = "within", effect = "twoways
 regEM2.4 <- plm(f2, data = panel_dataset_EM, model = "pooling")
 
 regEM2.5 <- plm(f2, data = panel_dataset_EM, model = "random", random.method = "walhus")
+
 
 # Testes
 # Pooled vs Fixed
@@ -1164,9 +1107,8 @@ stargazer(regEM2.1c, regEM2.2c, regEM2.3c, regEM2.4c, regEM2.5c,
 ############################################################################################################################################################################################################################################################################################################
 
 #REGRESSAO 3:
-#Sem  account_GPD, lending_borroeing_rate, unemployment
 
-f3 <- for_ex_BC ~ debt_to_GDP + fx + inflation_mean +  nominal_rate + vix_EUA + taxes
+f3 <- for_ex_BC ~  debt_to_GDP + account_GPD + lending_GDP + vix_EUA 
 
 
 regEM3.1 <- plm(f3, data = panel_dataset_EM, effect = "individual", model = "within")
@@ -1178,6 +1120,51 @@ regEM3.3 <- plm(f3, data = panel_dataset_EM, model = "within", effect = "twoways
 regEM3.4 <- plm(f3, data = panel_dataset_EM, model = "pooling")
 
 regEM3.5 <- plm(f3, data = panel_dataset_EM, model = "random", random.method = "walhus")
+
+
+# Testes
+# Pooled vs Fixed
+pFtest(regEM3.1,regEM3.4) #Country Fixed
+pFtest(regEM3.2,regEM3.4) #Year Fixed
+pFtest(regEM3.3,regEM3.4) #Country-Year Fixed
+
+# Pooled vs Aleatorio
+# Breusch e Pagan
+plmtest(regEM3.4, type="bp") #Randon Effect
+
+# Fixed vs Randon
+# Hausmann
+phtest(regEM3.1,regEM3.5) #Country Fixed
+phtest(regEM3.2,regEM3.5) #Year Fixed
+phtest(regEM3.3,regEM3.5) #Country-Year Fixed
+
+# Teste de dependencia transversal
+# A hipótese nula é de que os resíduos através dos indivíduos não estão correlacionados
+pcdtest(regEM3.1, test="cd") 
+
+# Normalidade  dos residuos
+# H0: normalidade nos resíduos da regressão.
+shapiro.test(regEM3.1$residuals) 
+
+# Homocedasticidade dos residuos
+# Breusch e Pagan
+# H0: nao há homocedasticidade nos residuos 
+bptest(regEM3.1) #problema de heterocedasticidade
+
+# Correlação serial
+# Breusch-Godfrey/Wooldridge
+# H0: nao existe correlacao serial 
+pbgtest(regEM3.1) #Existe problema de correlacao nos dados
+
+
+# Teste para efeitos individuais ou de tempo
+# A hipótse nula é a não correlação entre os erros do mesmo grupo
+pwtest(regEM3.4, effect = "individual") # Correlação entre erros
+pwtest(regEM3.4, effect = "time") # Nao há correlação entre erros
+
+# Teste de dependencia transversal
+# A hipótese nula é de que os resíduos através dos indivíduos não estão correlacionados
+pcdtest(regEM3.1, test="cd") 
 
 
 # Cluster
@@ -1206,7 +1193,7 @@ stargazer(regEM3.1c, regEM3.2c, regEM3.3c, regEM3.4c, regEM3.5c,
 
 #REGRESSAO 4:
 
-f4 <- for_ex_BC ~  debt_to_GDP + fx + vix_EUA + taxes + account_GPD + unemployment
+f4 <- for_ex_BC ~  debt_to_GDP + account_GPD + lending_GDP + vix_EUR
 
 regEM4.1 <- plm(f4, data = panel_dataset_EM, effect = "individual", model = "within")
 
@@ -1217,6 +1204,7 @@ regEM4.3 <- plm(f4, data = panel_dataset_EM, model = "within", effect = "twoways
 regEM4.4 <- plm(f4, data = panel_dataset_EM, model = "pooling")
 
 regEM4.5 <- plm(f4, data = panel_dataset_EM, model = "random", random.method = "walhus")
+
 
 
 # Cluster
@@ -1238,84 +1226,6 @@ stargazer(regEM4.1c, regEM4.2c, regEM4.3c, regEM4.4c, regEM4.5c,
           add.lines = list(c("Country FE", "NO", "YES", "YES", "NO", "NO"), c("Year FE", "YES", "NO", "YES", "NO", "NO")),
           dep.var.labels = c("Foreign participation on public debt"))
 
-
-
-
-############################################################################################################################################################################################################################################################################################################
-
-#REGRESSAO 5:
-
-f5 <- for_ex_BC ~  debt_to_GDP + fx + inflation_mean +  nominal_rate + vix_EUA + taxes + lending_borroeing_rate + unemployment
-
-regEM5.1 <- plm(f5, data = panel_dataset_EM, effect = "individual", model = "within")
-
-regEM5.2 <- plm(f5, data = panel_dataset_EM, model = "within", effect = "time")
-
-regEM5.3 <- plm(f5, data = panel_dataset_EM, model = "within", effect = "twoways")
-
-regEM5.4 <- plm(f5, data = panel_dataset_EM, model = "pooling")
-
-regEM5.5 <- plm(f5, data = panel_dataset_EM, model = "random", random.method = "walhus")
-
-
-# Cluster
-
-regEM5.1c <- coeftest(regEM5.1, vcovHC.plm(regEM5.1, type="sss", cluster ="group", method = "white2"))
-
-regEM5.2c <- coeftest(regEM5.2, vcovHC.plm(regEM5.2, type="sss", cluster="group", method = "white2"))
-
-regEM5.3c <- coeftest(regEM5.3, vcovHC.plm(regEM5.3, type="sss", cluster="group", method = "white2"))
-
-regEM5.4c <- coeftest(regEM5.4, vcovHC.plm(regEM5.4, type="sss", cluster="group", method = "white2"))
-
-regEM5.5c <- coeftest(regEM5.5, vcovHC.plm(regEM5.5, type="sss", cluster="group", method = "white2"))
-
-stargazer(regEM5.1c, regEM5.2c, regEM5.3c, regEM5.4c, regEM5.5c,
-          title = "Debt held by foreign investors excluding official institutions (Clusterized errors)", type = "latex", 
-          column.labels = c("(Within)","(Within)", "(Within)", "(Pooled)", "(Random)"),
-          model.numbers = F,
-          add.lines = list(c("Country FE", "NO", "YES", "YES", "NO", "NO"), c("Year FE", "YES", "NO", "YES", "NO", "NO")),
-          dep.var.labels = c("Foreign participation on public debt"))
-
-
-
-
-############################################################################################################################################################################################################################################################################################################
-
-#REGRESSAO 6:
-
-f6 <-  for_ex_BC ~  debt_to_GDP + fx + inflation_mean +  nominal_rate + vix_EUR + taxes + account_GPD + lending_borroeing_rate + unemployment
-
-regEM6.1 <- plm(f6, data = panel_dataset_EM, effect = "individual", model = "within")
-
-regEM6.2 <- plm(f6, data = panel_dataset_EM, model = "within", effect = "time")
-
-regEM6.3 <- plm(f6, data = panel_dataset_EM, model = "within", effect = "twoways")
-
-regEM6.4 <- plm(f6, data = panel_dataset_EM, model = "pooling")
-
-regEM6.5 <- plm(f6, data = panel_dataset_EM, model = "random", random.method = "walhus")
-
-
-
-# Cluster
-
-regEM6.1c <- coeftest(regEM6.1, vcovHC.plm(regEM6.1, type="sss", cluster ="group", method = "white2"))
-
-regEM6.2c <- coeftest(regEM6.2, vcovHC.plm(regEM6.2, type="sss", cluster="group", method = "white2"))
-
-regEM6.3c <- coeftest(regEM6.3, vcovHC.plm(regEM6.3, type="sss", cluster="group", method = "white2"))
-
-regEM6.4c <- coeftest(regEM6.4, vcovHC.plm(regEM6.4, type="sss", cluster="group", method = "white2"))
-
-regEM6.5c <- coeftest(regEM6.5, vcovHC.plm(regEM6.5, type="sss", cluster="group", method = "white2"))
-
-stargazer(regEM6.1c, regEM6.2c, regEM6.3c, regEM6.4c, regEM6.5c,
-          title = "Debt held by foreign investors excluding official institutions (Clusterized errors)", type = "latex", 
-          column.labels = c("(Within)","(Within)", "(Within)", "(Pooled)", "(Random)"),
-          model.numbers = F,
-          add.lines = list(c("Country FE", "NO", "YES", "YES", "NO", "NO"), c("Year FE", "YES", "NO", "YES", "NO", "NO")),
-          dep.var.labels = c("Foreign participation on public debt"))
 
 
 
