@@ -186,7 +186,7 @@ interest_rates_tidy <- interest_rates_tidy %>%
   mutate(country = str_replace_all(string = country, pattern = "Egypt, Arab Rep. of", replacement = "Egypt")) %>% 
   mutate(country = str_replace_all(string = country, pattern = "Poland, Rep. of", replacement = "Poland")) %>% 
   mutate(country = str_replace_all(string = country, pattern = "Russian Federation", replacement = "Russia")) %>%
-  mutate(country = str_replace_all(string = country, pattern = "Czech Rep.", replacement = "Czec Republic")) %>% 
+  mutate(country = str_replace_all(string = country, pattern = "Czech Rep.", replacement = "Czech Republic")) %>%
   mutate(country = str_replace_all(string = country, pattern = "Korea, Rep. of", replacement = "Korea"))
 
 dataset_total <- dataset_total %>% 
