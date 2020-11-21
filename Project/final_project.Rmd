@@ -105,7 +105,7 @@ library(lmtest)
 
 
 
-#puaxando a dataset_total e a dataset_total_index
+# Puxando a dataset_total e a dataset_total_index
 dataset_total <- read.csv("dataset_total.csv") 
 
 dataset_total_index <- read.csv("dataset_total_index.csv") 
@@ -138,17 +138,6 @@ dataset_total_index <- read.csv("dataset_total_index.csv")
 ```{r , echo=FALSE, message=FALSE}
 
 dataset_total %>%
-  mutate(f_debt = foreign_debt*fx_) %>% 
-  rename(Development = develop) %>% 
-  filter(year %in% c(2004, 2009, 2014, 2019), !is.na(Development)) %>%
-  bar_chart(x = country, y = (f_debt/1000), facet = year, top_n = 15, fill = Development) +  
-  labs( x = "", y = "Foreign Investors (Trillions USD)",
-  title = "Top 15 Countries with Debt Held by Foreign Investors", fill = "Development") +
-  theme_classic() +
-  theme(legend.title = element_text(face = "bold", size = 10)) +
-  scale_fill_manual("Development", values = c("EM" = "red4", "AM" = "navyblue"))
-
-dataset_total %>%
   mutate(foreign_debt_perc=(foreign_debt/total_debt)*100) %>% 
     rename(Development = develop) %>% 
   filter(year %in% c(2004, 2009, 2014, 2019), !is.na(Development)) %>%
@@ -159,6 +148,48 @@ dataset_total %>%
   theme(legend.title = element_text(face = "bold", size = 10)) +
   scale_fill_manual("Development", values = c("EM" = "red4", "AM" = "navyblue"))
 
+
+```
+
+
+
+## Evolution of public debt in emerging markets
+
+```{r , echo=FALSE, message=FALSE}
+
+graph_debt_asia <- dataset_total %>% 
+  filter(!is.na(develop)) %>% 
+  rename(Countries = country) %>% 
+  filter(develop=="EM", continent %in% c("Asia", "Africa")) %>% 
+  ggplot(aes(x = year, y = debt_to_GDP, color=Countries)) +
+  geom_smooth(se = FALSE)+
+  labs(x = "Year", y = "Debt-to-GDP (%)", title = "Debt-to-GDP Ratio", subtitle = "Emerging Markets - Asia e Africa") +
+  theme_bw()
+
+
+graph_debt_lamerica <- dataset_total %>% 
+  filter(!is.na(develop)) %>% 
+  rename(Countries = country) %>% 
+  filter(develop=="EM", continent%in% c("South America", "North America")) %>% 
+  ggplot(aes(x = year, y = debt_to_GDP, color=Countries)) +
+  geom_smooth(se = FALSE)+
+  labs(x = "Year", y = "Debt-to-GDP (%)", title = "Debt-to-GDP Ratio", subtitle = "Emerging Markets - Latin America") +
+  theme_bw()
+
+
+graph_debt_europe <- dataset_total %>% 
+  filter(!is.na(develop)) %>% 
+    rename(Countries = country) %>% 
+  filter(develop=="EM", continent=="Europe") %>% 
+  ggplot(aes(x = year, y = debt_to_GDP, color=Countries)) +
+  geom_smooth(se = FALSE)+
+  labs(x = "Year", y = "Debt-to-GDP (%)", title = "Debt-to-GDP Ratio", subtitle = "Emerging Markets - Europe") +
+  theme_bw()
+
+
+graph_debt_lamerica
+graph_debt_europe
+graph_debt_asia
 
 ```
 
@@ -200,7 +231,7 @@ graph_debt_foreign_europe <- dataset_total %>%
   mutate(foreign_debt_perc=(foreign_debt/total_debt)*100) %>% 
   ggplot(aes(x = year, y = foreign_debt_perc, color=Countries)) +
   geom_smooth(se = FALSE)+
-  labs(x = "Year", y = "Foreign Investors (%)", title = "Total Debt Held by Foreign Investors", subtitle = "Emerging Markets - Europe and Non-Europe") +
+  labs(x = "Year", y = "Foreign Investors (%)", title = "Total Debt Held by Foreign Investors", subtitle = "Emerging Markets - Europe") +
       ylim(0,80)+
   theme_bw()
 
@@ -268,7 +299,7 @@ ggplot(aes(x = year, y = debt_to_GDP_mean, color=Development )) +
    scale_color_manual(values = c("EM" = "red4", "AM" = "navyblue"))+
     geom_point() +
     geom_smooth()+
-    labs(x = "Year", y = "Debt to GDP ratio (%)", title = "Average Debt to GDP Ratio", subtitle = "Advanced and Emerging Markets") +
+    labs(x = "Year", y = "Debt-to-GDP ratio (%)", title = "Average Debt-to-GDP Ratio", subtitle = "Advanced and Emerging Markets") +
       ylim(35,90)+
     theme_light()
 
@@ -371,7 +402,7 @@ graph_debt_inflation <-  dataset_total %>%
   rename(Development = develop) %>% 
   ggplot() + 
   geom_point(aes(inflation_mean, (foreign_debt/total_debt), colour = Development)) +
-  xlim(0,20)+
+  xlim(0,17)+
   ylim(0,1) +
   labs(x = "Annual Inflation Rate (%)", y = "Foreign Investors (%) ", title = "Government Debt Held by Foreign Investors X Inflation", subtitle = "45 Countries (2004 - 2019)" ) + 
   theme_bw()+
