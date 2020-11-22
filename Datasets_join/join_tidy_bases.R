@@ -11,7 +11,10 @@ library(transformr)
 
 
 # Chegando no wd do computador obs.: modificar para o seu endere?o
+# maria
 setwd("/Users/mariaclara/Documents/InsperData/DataMacro")
+# gabi
+setwd("C:/Users/gabri/Documents/Insper_Data/Macro/projeto_econometria/bases.csv")
 
 
 ## Puxando as bases
@@ -31,6 +34,25 @@ GDP_per_cap <- readxl::read_xlsx("GDP_per_cap_WB.xlsx")  # Observar que esta em 
 
 continents <- read.csv("continents.csv")
 
+volatilidade_cambio <- read.csv("volatilidade_cambio.csv")
+
+
+#arrumando base da volatilidade do cambio
+
+volatilidade_cambio <- volatilidade_cambio %>% 
+  mutate(country=as.character(country)) 
+
+volatilidade_cambio <- volatilidade_cambio %>% 
+  dplyr::mutate(country = str_replace_all(string = country, pattern = 'Czechia', replacement = "Czech Republic")) %>% 
+  dplyr::mutate(country = str_replace_all(string = country, pattern = 'Netherlands \\(The\\)', replacement = "Netherlands")) %>% 
+  dplyr::mutate(country = str_replace_all(string = country, pattern = 'United Kingdom Of Great Britain And Northern Ireland \\(The\\)', replacement = "United Kingdom")) %>%
+  dplyr::mutate(country = str_replace_all(string = country, pattern = 'Korea \\(The Republic Of\\)', replacement = "Korea")) %>% 
+  dplyr::mutate(country = str_replace_all(string = country, pattern = 'Philippines \\(The\\)', replacement = "Philippines")) %>% 
+  dplyr::mutate(country = str_replace_all(string = country, pattern = 'Russian Federation \\(The\\)', replacement = "Russia"))
+
+
+  
+  
 #'anualizando' os dados da base do tsuda
 
 debt_prop <- debt_prop_Q %>% 
@@ -273,7 +295,20 @@ dataset_total <- dataset_total %>%
          post_16 = as.factor(post_16),
          post_17 = as.factor(post_17))
 
+#colocando algumas variaveis nas unidades 
+
+dataset_total <- dataset_total %>% 
+  mutate(inflation_mean =(inflation_mean/1000), inflation_end=(inflation_end/1000), account_balance = (account_balance/1000), lending_borroeing_rate = (lending_borroeing_rate/1000), unemployment = (unemployment/1000))
          
+#adicionando a volatilidade do cambio
+
+dataset_total <- dataset_total %>% 
+  mutate(aux=ifelse(country== "United States", 1, 0)) %>% 
+  left_join(volatilidade_cambio, by=c("country", "year"))
+
+dataset_total <- dataset_total %>% 
+  mutate(fx_volatility=(aux+fx_volatility))
+
 
 
 # Escrevendo um arquivo csv para dataset_total:
