@@ -14,19 +14,11 @@ dataset_total <- read.csv("dataset_total.csv")
 
 
 #arrumando detalhes
-panel_dataset <- pdata.frame(dataset_total, index=c("country", "year"))
+panel_dataset <- pdata.frame(dataset_total, index =c("country", "year"))
 
 panel_dataset <- panel_dataset %>% 
-  mutate(for_part = (foreign_debt_/total_debt_))
+  mutate(for_part = (foreign_debt/total_debt), for_ex_BC = ((nonbank_foreign_debt + bank_foreign_debt)/total_debt), for_nonbank_prop = (nonbank_foreign_debt/total_debt), develop = as.character(develop))
 
-panel_dataset <- panel_dataset %>% 
-  mutate(for_ex_BC = ((nonbank_foreign_debt_ + bank_foreign_debt_)/total_debt_))
-
-panel_dataset <- panel_dataset %>% 
-  mutate(for_nonbank_prop = (nonbank_foreign_debt_/total_debt_))
-
-panel_dataset <- panel_dataset %>% 
-  mutate(develop = as.character(develop))
 
 #panel dataset_AM
 panel_dataset_AM <- panel_dataset %>% 
@@ -34,9 +26,9 @@ panel_dataset_AM <- panel_dataset %>%
 
 #panel dataset_EM
 panel_dataset_EM <- panel_dataset %>% 
-  filter(develop=="EM") %>% 
-  mutate(ln_foreign_nonof_USD = log((nonbank_foreign_debt_ + bank_foreign_debt_)*fx)) %>% 
-  mutate(ln_foreign_of_USD = log((foreign_debt_)*fx))
+  filter(develop == "EM") 
+
+
 
 #Econometrics
 #-Type 1 regression: total foreign debt as response variable for all countries in the database
@@ -48,7 +40,9 @@ panel_dataset_EM <- panel_dataset %>%
 
 ##Type 1 regression
 ###Regression 1.1 (todos os regressores e duas interações)
-f1.1 <-  for_part ~  debt_to_GDP + fx + ln_GDP_per_cap_cte + debt_to_GDP*develop + debt_to_GDP*post_08  + vix_EUA + taxes + lending_borroeing_rate + account_GPD + unemployment + inflation_mean + develop + post_08
+
+
+f1.1 <-  for_part ~  debt_to_GDP + debt_to_GDP*develop + debt_to_GDP*post_09  + vix_EUA + account_balance + unemployment + inflation_mean + develop + post_09 + fx_volatility
 
 
 reg1.1.1 <- plm(f1.1, data = panel_dataset, model="within", effect = "individual")
@@ -67,7 +61,7 @@ reg1.1.3c <- coeftest(reg1.1.3, vcov=vcovHC(reg1.1.3, type="sss", cluster="group
 reg1.1.4c <- coeftest(reg1.1.4, vcov=vcovHC(reg1.1.4, type="sss", cluster="group", method="white2"))
 
 stargazer(reg1.1.1c, reg1.1.2c, reg1.1.3c, reg1.1.4c,
-          title = "Debt held by foreign investors (Clusterized errors)", type = "latex", 
+          title = "Debt held by foreign investors (Clusterized errors)", type = "text", 
           column.labels = c("(Within)","(Within)", "(Within)", "(Pooled)"),
           model.numbers = F,
           add.lines = list(c("Country FE", "YES", "NO", "YES", "NO"), c("Year FE", "NO", "YES", "YES", "NO")),
@@ -75,7 +69,7 @@ stargazer(reg1.1.1c, reg1.1.2c, reg1.1.3c, reg1.1.4c,
 
 ##Type 1 regression
 ###Regression 1.2 (todos os regressores tirando o "accounting_GDP" e com duas interações)
-f1.2 <-  for_part ~  debt_to_GDP + fx + ln_GDP_per_cap_cte + debt_to_GDP*develop + debt_to_GDP*post_08  + vix_EUA + taxes + lending_borroeing_rate +  unemployment + inflation_mean + develop + post_08
+f1.2 <-  for_part ~  debt_to_GDP + fx + debt_to_GDP*develop + debt_to_GDP*post_08  + vix_EUA + lending_borroeing_rate +  unemployment + inflation_mean + develop + post_08
 
 
 reg1.2.1 <- plm(f1.2, data = panel_dataset, model="within", effect="individual")
@@ -242,7 +236,7 @@ stargazer(reg2.2.1c, reg2.2.2c, reg2.2.3c, reg2.2.4c,
 
 ##Type 2 regression
 ###Regression 2.3 (todos os regressores tirando o "post_08" e com uma interação)
-f2.3 <-  for_part ~  debt_to_GDP + fx + ln_GDP_per_cap_cte + debt_to_GDP*develop +  + vix_EUA + taxes + lending_borroeing_rate + account_GPD +  unemployment + inflation_mean + develop 
+f2.3 <-  for_part ~  debt_to_GDP + fx + ln_GDP_per_cap_cte + debt_to_GDP*develo + vix_EUA + taxes + lending_borroeing_rate + account_GPD +  unemployment + inflation_mean + develop 
 
 
 reg2.3.1 <- plm(f2.3, data = panel_dataset, model="within", effect="individual")

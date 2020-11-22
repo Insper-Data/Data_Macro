@@ -14,7 +14,7 @@ library(transformr)
 # maria
 setwd("/Users/mariaclara/Documents/InsperData/DataMacro")
 # gabi
-setwd("C:/Users/gabri/Documents/Insper_Data/Macro/projeto_econometria/bases.csv")
+#setwd("C:/Users/gabri/Documents/Insper_Data/Macro/projeto_econometria/bases.csv")
 
 
 ## Puxando as bases
@@ -305,6 +305,16 @@ dataset_total <- dataset_total %>%
   mutate(fx_volatility = ifelse(country == "United States", 0, fx_volatility),
          ticker = ifelse(country == "United States", "USD", ticker))
 
+dataset_total <- dataset_total %>%
+  filter(country != "Latvia") %>%  
+           filter(country != "Lithuania") %>% 
+                    filter(country != "Norway")
+
+dataset_total <- dataset_total %>% 
+  distinct()
+
+dataset_total_index <- dataset_total_index %>% 
+  distinct()
 
 # Escrevendo um arquivo csv para dataset_total:
 write_csv(dataset_total, "dataset_total.csv")
