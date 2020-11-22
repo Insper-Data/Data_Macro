@@ -152,9 +152,7 @@ dataset_total <- dataset_total %>%
 dataset_total <- dataset_total %>% 
   mutate(ln_GDP_cte = ifelse(GDP_cte > 0, log(GDP_cte), NA),
          ln_GDP_cur = ifelse(GDP_cur > 0, log(GDP_cur), NA),
-         ln_GDP_per_cap_cte = ifelse(GDP_per_cap_cte > 0, log(GDP_per_cap_cte), NA),
-         balance_GDP = account_balance/GDP_cur,
-         account_GDP = account_balance/GDP_cur)
+         ln_GDP_per_cap_cte = ifelse(GDP_per_cap_cte > 0, log(GDP_per_cap_cte), NA))
 
 
 # Base de impostos
@@ -275,13 +273,14 @@ dataset_total_index<- dataset_total_index %>%
 
 # Arrumando a inflacao e GDP per capita
 dataset_total <- dataset_total %>% 
-  mutate(inflation_mean =(inflation_mean/1000), inflation_end=(inflation_end/1000))
-
+  mutate(inflation_mean =(inflation_mean/1000), inflation_end=(inflation_end/1000),
+         account_balance = (account_balance/1000), lending_borroeing_rate = (lending_borroeing_rate/1000), 
+         unemployment = (unemployment/1000))
 
 #Acrescentando dummies
 
 dataset_total <- dataset_total %>% 
-  mutate(yearnum=year)
+  mutate(yearnum = year)
 
 dataset_total <- dataset_total %>% 
   mutate(post_08 = ifelse(yearnum >= 2008, "YES", "NO"),
@@ -295,20 +294,16 @@ dataset_total <- dataset_total %>%
          post_16 = as.factor(post_16),
          post_17 = as.factor(post_17))
 
-#colocando algumas variaveis nas unidades 
 
-dataset_total <- dataset_total %>% 
-  mutate(inflation_mean =(inflation_mean/1000), inflation_end=(inflation_end/1000), account_balance = (account_balance/1000), lending_borroeing_rate = (lending_borroeing_rate/1000), unemployment = (unemployment/1000))
-         
 #adicionando a volatilidade do cambio
 
 dataset_total <- dataset_total %>% 
-  mutate(aux=ifelse(country== "United States", 1, 0)) %>% 
   left_join(volatilidade_cambio, by=c("country", "year"))
 
 dataset_total <- dataset_total %>% 
-  mutate(fx_volatility=(aux+fx_volatility))
-
+  group_by() %>% 
+  mutate(fx_volatility = ifelse(country == "United States", 0, fx_volatility),
+         ticker = ifelse(country == "United States", "USD", ticker))
 
 
 # Escrevendo um arquivo csv para dataset_total:
