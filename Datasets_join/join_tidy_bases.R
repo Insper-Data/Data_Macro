@@ -313,6 +313,12 @@ dataset_total <- dataset_total %>%
 dataset_total <- dataset_total %>% 
   distinct()
 
+
+dataset_total_index <- dataset_total_index %>%
+  filter(country != "Latvia") %>%  
+    filter(country != "Lithuania") %>% 
+      filter(country != "Norway")
+
 dataset_total_index <- dataset_total_index %>% 
   distinct()
 
