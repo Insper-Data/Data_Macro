@@ -317,10 +317,10 @@ dataset_total_index <- dataset_total_index %>%
   distinct()
 
 # Escrevendo um arquivo csv para dataset_total:
-write_csv(dataset_total, "dataset_total.csv")
+write_csv(dataset_total, "dataset_total.csv", append = F)
 
 # Escrevendo um arquivo csv para dataset_total_index:
-write_csv(dataset_total_index, "dataset_total_index.csv")
+write_csv(dataset_total_index, "dataset_total_index.csv", append = F)
  #fim
 
 

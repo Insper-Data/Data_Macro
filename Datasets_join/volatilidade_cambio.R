@@ -58,12 +58,12 @@ countries <- countries %>%
   mutate(country=str_to_title(country))
 
 df <- df %>% 
-  left_join(countries, by=("ticker"))
+  left_join(countries, by = ("ticker"))
 
 
 #criando a base csv
 setwd("C:/Users/gabri/Documents/Insper_Data/Macro/projeto_econometria/bases.csv")
 
 
-write_csv(df, "volatilidade_cambio.csv")
+write_csv(df, "volatilidade_cambio.csv", append = F)
 
