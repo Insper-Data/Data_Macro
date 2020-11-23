@@ -22,7 +22,8 @@ panel_dataset <- panel_dataset %>%
 
 #panel dataset_AM
 panel_dataset_AM <- panel_dataset %>% 
-  filter(develop == "AM")
+  filter(develop == "AM",
+         country != "United States")  # Tirei os EUA!!!!
 
 #panel dataset_EM
 panel_dataset_EM <- panel_dataset %>% 
