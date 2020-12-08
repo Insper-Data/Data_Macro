@@ -164,6 +164,7 @@ graph_debt_asia <- dataset_total %>%
   ggplot(aes(x = year, y = debt_to_GDP, color=Countries)) +
   geom_smooth(se = FALSE)+
   labs(x = "Year", y = "Debt-to-GDP (%)", title = "Debt-to-GDP Ratio", subtitle = "Emerging Markets - Asia e Africa") +
+     ylim(0,160)+
   theme_bw()
 
 
@@ -174,6 +175,7 @@ graph_debt_lamerica <- dataset_total %>%
   ggplot(aes(x = year, y = debt_to_GDP, color=Countries)) +
   geom_smooth(se = FALSE)+
   labs(x = "Year", y = "Debt-to-GDP (%)", title = "Debt-to-GDP Ratio", subtitle = "Emerging Markets - Latin America") +
+     ylim(0,100)+
   theme_bw()
 
 
@@ -184,6 +186,7 @@ graph_debt_europe <- dataset_total %>%
   ggplot(aes(x = year, y = debt_to_GDP, color=Countries)) +
   geom_smooth(se = FALSE)+
   labs(x = "Year", y = "Debt-to-GDP (%)", title = "Debt-to-GDP Ratio", subtitle = "Emerging Markets - Europe") +
+   ylim(0,100)+
   theme_bw()
 
 
@@ -391,6 +394,30 @@ ggplot(aes(x = year, y = debt_domestic_mean, color=Development )) +
 
 In addition to the domestic participation in debt varying for both emerging and advanced countries, it is possible to infer that those variations are inverse.
 
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+graph_nominal_rate_sep <- dataset_total %>% 
+   filter(!is.na(develop)) %>% 
+   filter(!is.na(nominal_rate)) %>% 
+   rename(Development = develop) %>% 
+  group_by(year, Development) %>% 
+  summarise(debt_nominal_mean = mean(nominal_rate)) %>% 
+ggplot(aes(x = year, y = debt_nominal_mean, color=Development )) +
+   scale_color_manual(values = c("EM" = "red4", "AM" = "navyblue"))+
+    geom_point() +
+    geom_line()+
+    labs(x = "Year", y = "Nominal Rate (%)", title = "Nominal Rate (%) ", subtitle = "Advanced and Emerging Markets" ) +
+    theme_bw()
+
+graph_nominal_rate_sep
+
+
+
+
+
+```
 
 
 ## There is no clear relationship between participation of foreign investor in government debt and inflation
