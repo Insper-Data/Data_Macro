@@ -60,7 +60,7 @@ Therefore, a worldwide analysis will be conducted using the database provided by
 
 Discussions on how indebtedness can affect the macroeconomic variables of a country are widely addressed in the literature. The main topics are related to foreign investors; growth; debt overhang and debt tolerance.
 
-More initially, countries’ ability to attract non-local investors was studied by Burger and Warnok (2005). The study showed that countries with a history of low inflation tend to have a more developed bond market.  Subsequently, Brutti and Sarué (2012) studied the importance of a derivatives market for the quality of a bond market.
+More initially, countries’ ability to attract non-local investors was studied by Burger and Warnok (2005). The study showed that countries with a history of low inflation tend to have a more developed bond market.  Subsequently, Brutti and Sauré (2012) studied the importance of a derivatives market for the quality of a bond market.
 
 In this study, it is important to highlight the developed literature Arslanap and Tsuda (2014). The authors, in addition to having compiled the database used in this article, carried out several analyzes on foreign participation in the bond market.  It was noted that, as of 2010, there was a great flow of foreign capital to the emerging securities market. In addition, they concluded that countries with a lower debt-to-GDP rate are more attractive to foreign investors.
 
@@ -71,9 +71,24 @@ Thinking about debt tolerance, Reinhart, Rogoff and Savastano (2003) introduce t
 The concept of debt overhang refers to a debt burden so large that the country can not take any additional debt to finance itself. Krugman (1988) discussed the tradeoff for creditors when facing a debt overhang: financing or forgiving. Deshpande (1995) discusses how a situation of debt overhang can discourage investment. Reinhart, Reinhart, and Rogoff (2012) punctuated the main episodes in history about debt overhang.
 
 
+
 #Data
 
-The dataset used in this study is composed by the database provided by Arslanalp and Takahiro Tsuda, previously affiliated with the Monetary and Capital Markets Department of the International Monetary Fund. Arslanalp and Takahiro Tsuda provide estimates of investor holdings of government debt of 24 advanced economies and 24 emerging market economies. The investor base is grouped under six classes: domestic central bank, domestic banks, domestic nonbanks, foreign official sector, foreign banks, and foreign nonbanks. Macroeconomic and financial data have been obtained from the World Economic Outlook database published by the IMF. The dataset is composed of annual data and the sample period used covers the years 2004 to 2019.
+The dataset used in this study is composed by the database provided by Arslanalp and Takahiro Tsuda, previously affiliated with the Monetary and Capital Markets Department of the International Monetary Fund. Arslanalp and Takahiro Tsuda provide estimates of investor holdings of government debt of 24 advanced economies and 24 emerging market economies. 
+
+The investor base is grouped under six classes: domestic central bank, domestic banks, domestic nonbanks, foreign official sector, foreign banks, and foreign nonbanks. Banks include depository institutions other than central banks, based on the definition used in the IMF’s International Financial Statistics (IFS). Nonbanks include other investors, including insurance companies, pension funds, and investment funds. Investment funds could be mutual funds, exchange-traded funds (ETFs), or sovereign wealth funds (SWFs). The foreign official sector for Emerging Markets includes official loans and foreign central bank holdings of EM government debt as reserve assets, and for Advanced Markets includes foreign central banks and other foreign official creditors. 
+
+For this study, 45 of the 48 countries present at the base of Arslanalp and Tsuda are used. The data are annualized through the fourth quarter of each year and the sample period used covers the years 2004 to 2019.
+
+Macroeconomic and financial data were obtained from the World Economic Outlook Database published by the International Monetary Fund in April 2020. For countries where the nominal interest rate was incomplete on the basis of the IMF, the missing data was obtained on the website of the central banks in each country. 
+
+
+# Methodology
+
+The methodology used in this study will consist of regressions with panel data. Within and pooled models will be used and compared in order to obtain the most appropriate model. The advantages of using panel data are the possibility to follow the evolution of several countries over time, being able to capture the specific effects of each country and each period of time.
+
+The regression response variable will be the proportion of foreign participation in the total debt issued by a given country. Regarding the explanatory variables, the main one will be the debt-to-GDP ratio. The other variables to control the regression are macroeconomic fundamentals, such as inflation, the balance of payments, exchange rate volatility, and others.
+
 
 
 # Dataset Description

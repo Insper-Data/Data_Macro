@@ -13,6 +13,7 @@ library(transformr)
 # Chegando no wd do computador obs.: modificar para o seu endere?o
 # maria
 setwd("/Users/mariaclara/Documents/InsperData/DataMacro")
+
 # gabi
 #setwd("C:/Users/gabri/Documents/Insper_Data/Macro/projeto_econometria/bases.csv")
 
