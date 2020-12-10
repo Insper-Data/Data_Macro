@@ -326,12 +326,12 @@ dataset_total_index <- dataset_total_index %>%
 # Dummy para nível de endividamento:
 
 dataset_total <- dataset_total %>% 
-  mutate(less_20 = as.factor(ifelse(debt_to_GDP < 20, 1, 0)),
-         bet_20_40 = as.factor(ifelse(debt_to_GDP >= 20, ifelse(debt_to_GDP < 40, 1, 0), 0)),
-         bet_40_60 = as.factor(ifelse(debt_to_GDP >= 40, ifelse(debt_to_GDP < 60, 1, 0), 0)),
-         bet_60_80 = as.factor(ifelse(debt_to_GDP >= 40, ifelse(debt_to_GDP < 80, 1, 0), 0)),
-         bet_80_100 = as.factor(ifelse(debt_to_GDP >= 60, ifelse(debt_to_GDP < 100, 1, 0), 0)),
-         more_100 = as.factor(ifelse(debt_to_GDP >= 100, 1, 0)))
+  mutate(less_20 = as.factor(ifelse(debt_to_GDP < 20, "YES", "NO")),
+         bet_20_40 = as.factor(ifelse(debt_to_GDP >= 20, ifelse(debt_to_GDP < 40, "YES", "NO"), "NO")),
+         bet_40_60 = as.factor(ifelse(debt_to_GDP >= 40, ifelse(debt_to_GDP < 60, "YES", "NO"), "NO")),
+         bet_60_80 = as.factor(ifelse(debt_to_GDP >= 40, ifelse(debt_to_GDP < 80, "YES", "NO"), "NO")),
+         bet_80_100 = as.factor(ifelse(debt_to_GDP >= 60, ifelse(debt_to_GDP < 100, "YES", "NO"), "NO")),
+         more_100 = as.factor(ifelse(debt_to_GDP >= 100, "YES", "NO")))
 
 # Escrevendo um arquivo csv para dataset_total:
 write_csv(dataset_total, "dataset_total.csv", append = F)
