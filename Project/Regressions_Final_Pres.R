@@ -1,3 +1,11 @@
+# Pacotes:
+
+library(tidyverse)
+library(plm)
+library(stargazer)
+library(lmtest)
+
+
 # Setando o painel:
 
 panel_dataset <- pdata.frame(dataset_total, index = c("country", "year"))
