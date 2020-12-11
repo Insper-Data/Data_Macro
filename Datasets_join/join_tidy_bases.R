@@ -12,10 +12,10 @@ library(transformr)
 
 # Chegando no wd do computador obs.: modificar para o seu endere?o
 # maria
-setwd("/Users/mariaclara/Documents/InsperData/DataMacro")
+#setwd("/Users/mariaclara/Documents/InsperData/DataMacro")
 
 # gabi
-#setwd("C:/Users/gabri/Documents/Insper_Data/Macro/projeto_econometria/bases.csv")
+setwd("C:/Users/gabri/Documents/Insper_Data/Macro/projeto_econometria/bases.csv")
 
 
 ## Puxando as bases
@@ -320,6 +320,9 @@ dataset_total_index <- dataset_total_index %>%
     filter(country != "Lithuania") %>% 
       filter(country != "Norway")
 
+dataset_total_index <- dataset_total %>% 
+  left_join(volatilidade_cambio, by = c("country", "year"))
+
 dataset_total_index <- dataset_total_index %>% 
   distinct()
 
@@ -333,6 +336,10 @@ dataset_total <- dataset_total %>%
          bet_60_80 = as.factor(ifelse(debt_to_GDP >= 40, ifelse(debt_to_GDP < 80, "YES", "NO"), "NO")),
          bet_80_100 = as.factor(ifelse(debt_to_GDP >= 60, ifelse(debt_to_GDP < 100, "YES", "NO"), "NO")),
          more_100 = as.factor(ifelse(debt_to_GDP >= 100, "YES", "NO")))
+
+
+
+
 
 # Escrevendo um arquivo csv para dataset_total:
 write_csv(dataset_total, "dataset_total.csv", append = F)

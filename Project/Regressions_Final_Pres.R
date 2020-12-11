@@ -114,7 +114,7 @@ stargazer(reg3.1.1,
 
 ## Primeira versão:
 
-ft1 <- for_ex_BC ~ debt_to_GDP*post_08 + ln_GDP_per_cap_cte + nominal_rate + fx_volatility + lending_borroeing_rate + vix_EUA
+ft1 <- for_ex_BC ~ debt_to_GDP + post_08 + ln_GDP_per_cap_cte + nominal_rate + fx_volatility + account_balance + vix_EUA
 
 ft1 <- for_ex_BC ~ debt_to_GDP + vix_EUA
 
