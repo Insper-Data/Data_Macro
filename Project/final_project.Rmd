@@ -28,13 +28,13 @@ text-align: justify}
 
 
 
-#Objective 
+# Objective 
 
 This study aims to investigate how a country’s level of public debt can be an obstacle to attract new foreign credit. If the country incurs high levels of debt, it is more likely that it will not be able to repay its creditor. Thus, in situations that a country’s level of public debt is too large, the creditors may choose to stop financing the country (Krugman, 1988), because of fearing a default. The objective is to verify the different effects of the level of public debt on the participation of foreign investors in government bonds and how the effects vary over time.
 
 
 
-#Introduction
+# Introduction
 
 In the past 50 years, emerging and developing economies experienced four big indebtedness waves, three of which ended up in financial crises. In the 1980s, the association of low real interest rates and growing debt market led certain economies to raise considerably their levels of indebtedness; the result was the well-known Latin America’s debt crisis. A decade later, the world would watch the Asian financial crisis, due to the liberalization of financial markets and capital flows, allowing these countries to acquire loans in foreign currencies. Finally, in 2007-09, both emerging and advanced economies faced major recessions as a result of the global financial crisis.
  
@@ -72,7 +72,7 @@ The concept of debt overhang refers to a debt burden so large that the country c
 
 
 
-#Data
+# Dataset
 
 The dataset used in this study is composed by the database provided by Arslanalp and Takahiro Tsuda, previously affiliated with the Monetary and Capital Markets Department of the International Monetary Fund. Arslanalp and Takahiro Tsuda provide estimates of investor holdings of government debt of 24 advanced economies and 24 emerging market economies. 
 
@@ -90,10 +90,8 @@ The methodology used in this study will consist of regressions with panel data. 
 The regression response variable will be the proportion of foreign participation in the total debt issued by a given country. Regarding the explanatory variables, the main one will be the debt-to-GDP ratio. The other variables to control the regression are macroeconomic fundamentals, such as inflation, the balance of payments, exchange rate volatility, and others.
 
 
+# Descriptive analysis
 
-# Dataset Description
-
-The dataset used in this study is composed by the database provided by Arslanalp and Takahiro Tsuda (2012 and 2014), which compiles comparable estimates of investor holdings of sovereign debt. In addition, data provided bt the World Economic Outlook from IMF and the WOrld Bank are used. The dataset is composed of 45 countries and covers sixteen years, from 2004 to 2019, quartely frequncy.  
 
 ```{r, echo=FALSE, message=FALSE} 
 
@@ -129,17 +127,16 @@ dataset_total_index <- read.csv("dataset_total_index.csv")
 ```
 
 
-
 ## Ranking 
 
 ```{r , echo=FALSE, message=FALSE}
 
   dataset_total %>%
-  filter(year %in% c(2006, 2010, 2014, 2019), !is.na(develop)) %>%
+  filter(year %in% c(2004, 2010, 2014, 2019), !is.na(develop)) %>%
   rename(Development = develop) %>% 
-  bar_chart(x = country, y = debt_to_GDP, facet = year, top_n = 15, fill = Development) +
+  bar_chart(x = country, y = debt_to_GDP, facet = year, top_n = 10, fill = Development) +
   labs( x = "", y = "Debt-to-GDP (%)",
-  title = "Top 15 Debt-to-GDP Ratio", fill = "Development") +
+  title = "Top 10 Debt-to-GDP Ratio", fill = "Development") +
   theme_classic() +
   scale_fill_manual("Development", values = c("EM" = "red4", "AM" = "navyblue"))+
   theme(legend.title = element_text(face = "bold", size = 10))
@@ -155,10 +152,10 @@ dataset_total_index <- read.csv("dataset_total_index.csv")
 dataset_total %>%
   mutate(foreign_debt_perc=(foreign_debt/total_debt)*100) %>% 
     rename(Development = develop) %>% 
-  filter(year %in% c(2004, 2009, 2014, 2019), !is.na(Development)) %>%
-  bar_chart(x = country, y = (foreign_debt_perc), facet = year, top_n = 15, fill = Development) +  
+  filter(year %in% c(2004, 2010, 2014, 2019), !is.na(Development)) %>%
+  bar_chart(x = country, y = (foreign_debt_perc), facet = year, top_n = 10, fill = Development) +  
   labs( x = "", y = "Foreign Investors (%)",
-  title = "Top 15 Countries with Debt Held by Foreign Investors", fill = "Development") +
+  title = "Top 10 Countries with Debt Held by Foreign Investors", fill = "Development") +
   theme_classic() +
   theme(legend.title = element_text(face = "bold", size = 10)) +
   scale_fill_manual("Development", values = c("EM" = "red4", "AM" = "navyblue"))
@@ -307,17 +304,20 @@ As the map shown above makes clear, countries around the world have contrasting 
 
 ## Advanced markets are more indebted than emerging markets
 
-```{r, echo=FALSE, message=FALSE}
- graph_debt_sep<-dataset_total %>% 
+```{r echo=FALSE, message=FALSE}
+ 
+table_debt_sep <-dataset_total %>% 
    filter(!is.na(develop)) %>% 
    rename(Development = develop) %>% 
   group_by(year, Development) %>% 
-  summarise(debt_to_GDP_mean = mean(debt_to_GDP)) %>% 
+  summarise(debt_to_GDP_mean = mean(debt_to_GDP)) 
+
+graph_debt_sep <- table_debt_sep %>% 
 ggplot(aes(x = year, y = debt_to_GDP_mean, color=Development )) +
    scale_color_manual(values = c("EM" = "red4", "AM" = "navyblue"))+
     geom_point() +
     geom_smooth()+
-    labs(x = "Year", y = "Debt-to-GDP ratio (%)", title = "Average Debt-to-GDP Ratio", subtitle = "Advanced and Emerging Markets") +
+    labs(x = "Year", y = "Debt-to-GDP Ratio (%)", title = "Average Debt-to-GDP Ratio", subtitle = "Advanced and Emerging Markets") +
       ylim(35,90)+
     theme_light()
 
@@ -326,9 +326,9 @@ graph_debt_sep
 ```
 
 
-In emerging markets after a sharp drop in the level of debt to GDP until 2010, the average debt to GDP of emerging countries has been incrising. 
+At the beginning of the period, government debt in emerging markets showed a sharp drop. However, after 2009, the average public debt increased from 38 percentage points of GDP to 48 percent of GDP at the end of 2019.
 
-In contrast, in advanced economies debt to gdp grew rapidly after 2008, reaching the highest levels between 2014 and 2015. After 2015 the average debt to GDP started to decrease. 
+In contrast, in advanced economies, debt to GDP grew rapidly after 2008, reaching the highest level in 2014 at 84 percent of GDP compared to 53 percent of GDP in 2008.
 
 
 ## Foreign investors have a preference for allocating their resources in advanced markets
@@ -350,6 +350,7 @@ ggplot(aes(x = year, y = debt_foreign_mean, color=Development )) +
   theme_bw()
 
 graph_debt_foreign_sep
+
 ```
 
 
@@ -382,6 +383,7 @@ The average foreign participation in the public debt of the advanced countries e
 Foreign participation in emerging markets suffered a sharp drop from the beginning of the period until mid-2010, when the decrease was reversed in a slight increase in foreign participation.
 
 Whereas in advanced countries foreign participation was increasing until 2015 and after that period the trend turned to a fall.
+
 
 
 ## The participation of domestic investors in the composition of debt it is not invariant over time
@@ -427,10 +429,6 @@ ggplot(aes(x = year, y = debt_nominal_mean, color=Development )) +
     theme_bw()
 
 graph_nominal_rate_sep
-
-
-
-
 
 ```
 
