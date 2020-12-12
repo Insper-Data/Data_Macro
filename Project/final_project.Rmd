@@ -254,7 +254,7 @@ graph_debt_lamerica <- dataset_total %>%
     geom_line()+
   geom_point()+
   labs(x = "Year", y = "Debt-to-GDP (%)", title = "Debt-to-GDP Ratio", subtitle = "Emerging Markets - Latin America") +
-     ylim(0,100)+
+     ylim(0,160)+
   theme_bw()
 
 
@@ -266,7 +266,7 @@ graph_debt_europe <- dataset_total %>%
     geom_line()+
   geom_point()+
   labs(x = "Year", y = "Debt-to-GDP (%)", title = "Debt-to-GDP Ratio", subtitle = "Emerging Markets - Europe") +
-   ylim(0,100)+
+   ylim(0,160)+
   theme_bw()
 
 
@@ -292,7 +292,7 @@ graph_debt_foreign_asia <- dataset_total %>%
   geom_line()+
   geom_point()+
   labs(x = "Year", y = "Foreign Investors (%)", title = "Total Debt Held by Foreign Investors", subtitle = "Emerging Markets - Asia e Africa") +
-    ylim(0,80)+
+    ylim(0,90)+
   theme_bw()
 
 
@@ -305,7 +305,7 @@ graph_debt_foreign_lamerica <- dataset_total %>%
   geom_line()+
   geom_point()+
   labs(x = "Year", y = "Foreign Investors (%)", title = "Total Debt Held by Foreign Investors", subtitle = "Emerging Markets - Latin America") +
-    ylim(0,80)+
+    ylim(0,90)+
   theme_bw()
 
 
@@ -461,6 +461,8 @@ graph_debt_interest
 
 
 ```{r}
+#install.packages("gifski") #if not already installed
+library(gifski)
 
 animated <- dataset_total %>% 
   mutate(share = (nonbank_foreign_debt + bank_foreign_debt)/total_debt) %>%
@@ -477,6 +479,8 @@ animated <- dataset_total %>%
 
 (gif_debt <- animated + transition_time(yearnum) +
   labs(title = "Year: {frame_time}"))
+
+anim_save("filenamehere.gif", gif_debt)
 
 ```
 
