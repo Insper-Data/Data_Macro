@@ -83,7 +83,7 @@ For this study, 45 of the 48 countries present at the base of Arslanalp and Tsud
 Macroeconomic and financial data were obtained from the World Economic Outlook Database published by the International Monetary Fund in April 2020. For countries where the nominal interest rate was incomplete on the basis of the IMF, the missing data was obtained on the website of the central banks in each country. 
 
 
-# Descriptive analysis
+# Stylized facts about the database
 
 
 ```{r, echo=FALSE, message=FALSE} 
@@ -228,8 +228,7 @@ The 2008 global financial crisis caused a sharp rise in aversion to global risks
 
 
 
-# ANEXOS (até eu terminar) 
-
+# ANEXOS
 
 ## Evolution of public debt in emerging markets
 
@@ -369,7 +368,7 @@ legend.title = element_text(colour="blue", size=10,
 As the map shown above makes clear, countries around the world have contrasting levels of debt to GDP. Nations in grey are not part of our sample. 
 
 
-## Foreign investors have a preference for allocating their resources in advanced markets
+### Foreign investors have a preference for allocating their resources in advanced markets
 
 ```{r, echo=FALSE, message=FALSE}
  
@@ -394,7 +393,7 @@ graph_debt_foreign_sep
 
 It is possible to observe that foreign investors have allocated much more resources in bonds from advanced markets. 
 
-## The participation of domestic investors in the composition of debt it is not invariant over time
+### The participation of domestic investors in the composition of debt it is not invariant over time
 
 ```{r, echo=FALSE, message=FALSE}
  
@@ -420,7 +419,7 @@ ggplot(aes(x = year, y = debt_domestic_mean, color=Development )) +
 In addition to the domestic participation in debt varying for both emerging and advanced countries, it is possible to infer that those variations are inverse.
 
 
-## There is no clear relationship between participation of foreign investor in government debt and inflation
+### There is no clear relationship between participation of foreign investor in government debt and inflation
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -440,7 +439,7 @@ graph_debt_inflation
 ```
 
 
-## There is no clear relationship between the participation of foreign investor in government debt and nominal interest rate
+### There is no clear relationship between the participation of foreign investor in government debt and nominal interest rate
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -460,14 +459,36 @@ graph_debt_interest
 ```
 
 
-# Methodology
+
+```{r}
+
+animated <- dataset_total %>% 
+  mutate(share = (nonbank_foreign_debt + bank_foreign_debt)/total_debt) %>%
+  group_by(country, yearnum) %>% 
+  mutate(media_debt_GDP = mean(debt_to_GDP)) %>% 
+  ggplot() +
+  geom_point(aes(x = debt_to_GDP, y = share), colour = "black") +
+  geom_text(aes(x = debt_to_GDP, y = share, colour = country, label = country, fontface = 2),
+            hjust = 0.5, vjust = -0.5, size = 3) +
+  theme_bw() +
+  theme(legend.position = "none", plot.title = element_text(size = 15)) +
+  xlab("Dívida/PIB") +
+  ylab("% Investidores estrangeiros")
+
+(gif_debt <- animated + transition_time(yearnum) +
+  labs(title = "Year: {frame_time}"))
+
+```
+
+
+## Methodology
 
 The methodology used in this study will consist of regressions with panel data. Within and pooled models will be used and compared in order to obtain the most appropriate model. The advantages of using panel data are the possibility to follow the evolution of several countries over time, being able to capture the specific effects of each country and each period of time.
 
 The regression response variable will be the proportion of foreign participation in the total debt issued by a given country. Regarding the explanatory variables, the main one will be the debt-to-GDP ratio. The other variables to control the regression are macroeconomic fundamentals, such as inflation, the balance of payments, exchange rate volatility, and others.
 
 
-#Econometrics
+## Econometrics
 
 -Type 1 regression: total foreign debt as response variable for all countries in the database
 -Type 2 regression: total foreign debt excluding official debt as response variable for all countries in the database
