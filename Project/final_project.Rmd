@@ -30,8 +30,7 @@ text-align: justify}
 
 # Objective 
 
-This study aims to investigate how a countryâ€™s level of public debt can be an obstacle to attract new foreign credit. If the country incurs high levels of debt, it is more likely that it will not be able to repay its creditor. Thus, in situations that a countryâ€™s level of public debt is too large, the creditors may choose to stop financing the country (Krugman, 1988), because of fearing a default. The objective is to verify the different effects of the level of public debt on the participation of foreign investors in government bonds and how the effects vary over time.
-
+This study aims to investigate the economic determinants of foreign participation in a country's public debt. Investors, when allocating resources in foreign countries, can look for different things such as stability, higher returns or just diversify assets. Each country can serve to fulfill one of these objectives and, depending on the macroeconomic fundamentals, they can be more or less attractive to investors. In addition, it is necessary to analyze emerging and advanced countries separately, considering that these two groups have very divergent characteristics.Thus, this work wants to understand which are the macroeconomic determinants that can attract or put away bondholders,  both for advanced or emerging countries.
 
 
 # Introduction
@@ -487,18 +486,118 @@ anim_save("filenamehere.gif", gif_debt)
 
 ## Methodology
 
-The methodology used in this study will consist of regressions with panel data. Within and pooled models will be used and compared in order to obtain the most appropriate model. The advantages of using panel data are the possibility to follow the evolution of several countries over time, being able to capture the specific effects of each country and each period of time.
+The methodology used in this study will consist of regressions with panel data. Within and pooled models will be used and compared in order to obtain the most appropriate model. The advantages of using panel data are the possibility to follow the evolution of several countries over time, being able to capture the specific effects of each country and each period of time. In addition, the database was divided between emerging and advanced countries, with the objective of carrying out econometric analysis for these two groups separately.
 
-The regression response variable will be the proportion of foreign participation in the total debt issued by a given country. Regarding the explanatory variables, the main one will be the debt-to-GDP ratio. The other variables to control the regression are macroeconomic fundamentals, such as inflation, the balance of payments, exchange rate volatility, and others.
+The regression response variable will be the proportion of foreign participation in the total debt issued by a given country, excluding official institutions. Regarding the explanatory variables are, essentially, macroeconomic fundamentals, such as inflation, policy rate, debt-to-GDP-ratio, the balance of payments, exchange rate volatility, and others. Moreover, dummies to control specific periods of the economy will be included in the model.
+
+The specification of the main model must follow the following equation:
+
+COLOCAR A EQUAÇÃO DA REGRESSÃO
+
+
 
 
 ## Econometrics
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+# Setando o painel:
 
--Type 1 regression: total foreign debt as response variable for all countries in the database
--Type 2 regression: total foreign debt excluding official debt as response variable for all countries in the database
--Type 3 regression: total foreign debt as response variable for advanced markets
--Type 4 regression: total foreign debt excluding official debt as response variable for advanced markets
--Type 5 regression: total foreign debt as response variable for emerging markets
--Type 6 regression: total foreign debt excluding official debt as response variable for emerging markets
+panel_dataset <- pdata.frame(dataset_total, index = c("country", "year"))
 
+panel_dataset <- panel_dataset %>% 
+  mutate(for_part = (foreign_debt/total_debt), for_ex_BC = ((nonbank_foreign_debt + bank_foreign_debt)/total_debt), for_nonbank_prop = (nonbank_foreign_debt/total_debt), develop = as.character(develop))
+
+
+#panel dataset_AM
+panel_dataset_AM <- panel_dataset %>% 
+  filter(develop == "AM",
+         country != "United States")  # Tirei os EUA!
+
+#panel dataset_EM
+panel_dataset_EM <- panel_dataset %>% 
+  filter(develop == "EM") 
+```
+
+
+### Regression Results for Advanced Markets
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+reg3.1.1 <- plm(ft1, data = panel_dataset_AM, model = "within", effect = "individual")
+
+reg3.1.2 <- plm(ft1, data = panel_dataset_AM, model = "within", effect = "time")
+
+reg3.1.3 <- plm(ft1, data = panel_dataset_AM, model = "within", effect = "twoways")
+
+reg3.1.4 <- plm(ft1, data = panel_dataset_AM, model = "pooling")
+
+
+
+# Clustering errors:
+reg3.1.1c <- coeftest(reg3.1.1, vcovHC.plm(reg3.1.1, type="sss", cluster = "group", method = "white2"))[,2]
+reg3.1.2c <- coeftest(reg3.1.2, vcovHC.plm(reg3.1.2, type="sss", cluster="group", method = "white2"))[,2]
+reg3.1.3c <- coeftest(reg3.1.3, vcovHC.plm(reg3.1.3, type="sss", cluster="group", method = "white2"))[,2]
+reg3.1.4c <- coeftest(reg3.1.4, vcovHC.plm(reg3.1.4, type="sss", cluster="group", method = "white2"))[,2]
+
+# Output:
+stargazer(reg3.1.1, 
+          reg3.1.2, 
+          reg3.1.3, 
+          reg3.1.4,
+          title = "Advanced Markets", type = "text", 
+          add.lines = list(c("Country FE", "YES", "NO", "YES", "NO"), c("Year FE", "NO", "YES", "YES", "NO")),
+          se = list(reg3.1.1c, reg3.1.2c, reg3.1.3c, reg3.1.4c),
+          omit.stat = "f",
+          dep.var.labels = c("Foreign participation on public debt"))
+```
+
+
+
+In view of the results, we must pay attention to those that proved to be significant in our model. Regarding the interest rate, it shows to have a positive effect, when significant, indicating that higher returns attract investors. The lending-borrowing rate has a negative effect, indicating that advanced countries that are creditors to the world receive a smaller flow of foreign capital. And, finally, we have the impact of the interaction between debt-to-GDP ratio and the 'post 2008' dummy with a negative effect, indicating a negative capital flow in post 2008 for advanced countries already more indebted. 
+
+
+### Regression Results for Emerging Markets
+
+```{r,  echo=FALSE, message=FALSE, warning=FALSE}
+
+ft2 <- for_ex_BC ~ debt_to_GDP + post_08 + ln_GDP_per_cap_cte + nominal_rate + fx_volatility + account_balance + vix_EUA
+
+
+
+# Regressoes em painel
+
+reg3.1.1 <- plm(ft2, data = panel_dataset_EM, model = "within", effect = "individual")
+
+reg3.1.2 <- plm(ft2, data = panel_dataset_EM, model = "within", effect = "time")
+
+reg3.1.3 <- plm(ft2, data = panel_dataset_EM, model = "within", effect = "twoways")
+
+reg3.1.4 <- plm(ft2, data = panel_dataset_EM, model = "pooling")
+
+
+
+# Clustering errors:
+reg3.1.1c <- coeftest(reg3.1.1, vcovHC.plm(reg3.1.1, type="sss", cluster = "group", method = "white2"))[,2]
+reg3.1.2c <- coeftest(reg3.1.2, vcovHC.plm(reg3.1.2, type="sss", cluster="group", method = "white2"))[,2]
+reg3.1.3c <- coeftest(reg3.1.3, vcovHC.plm(reg3.1.3, type="sss", cluster="group", method = "white2"))[,2]
+reg3.1.4c <- coeftest(reg3.1.4, vcovHC.plm(reg3.1.4, type="sss", cluster="group", method = "white2"))[,2]
+
+# Output:
+stargazer(reg3.1.1, 
+          reg3.1.2, 
+          reg3.1.3, 
+          reg3.1.4,
+          title = "Emerging Markets - Threshold comparison", type = "text", 
+          add.lines = list(c("Country FE", "YES", "NO", "YES", "NO"), c("Year FE", "NO", "YES", "YES", "NO")),
+          se = list(reg3.1.1c, reg3.1.2c, reg3.1.3c, reg3.1.4c),
+          omit.stat = "f",
+          dep.var.labels = c("Foreign participation on public debt"))
+
+```
+Países mais envidados afastam os investidores estrangeiros
+
+No pós 2008 houve uma entrada de investidores estrangeiros nos países emergentes
+
+
+Maiores retornos não atraem investidores estrangeiros
+
+Maior volatilidade afasta mais investidores  dos países emergentes
 
