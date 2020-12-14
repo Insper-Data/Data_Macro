@@ -375,7 +375,7 @@ stargazer(reg2.4.1c, reg2.4.2c, reg2.4.3c, reg2.4.4c,
 
 ###Regression 2.5 (todos os regressores e duas interações e com a "nominal rate" (mas dropando algumas observa��es))
 
-f2.5 <-  for_ex_BC ~  debt_to_GDP  + ln_GDP_per_cap_cur + debt_to_GDP*develop + vix_EUA  + nominal_rate +   develop + 
+f2.5 <-  for_ex_BC ~  debt_to_GDP  + ln_GDP_per_cap_cur + fx_volatility   + nominal_rate +  develop +post_08 + develop*post_08 +develop*debt_to_GDP
 
 
 reg2.5.1 <- plm(f2.5, data = panel_dataset, model="within", effect="individual")
@@ -404,7 +404,7 @@ stargazer(reg2.5.1c, reg2.5.2c, reg2.5.3c, reg2.5.4c,
 ##Type 2 regression
 ###Regression 2.5 (todos os regressores tirando o "post-08"; duas interações; com a "nominal rate" (mas dropando algumas observações))
 
-f2.5 <- for_ex_BC ~  debt_to_GDP + fx_volatility + ln_GDP_per_cap_cur + debt_to_GDP*develop  + vix_EUA  + nominal_rate + lending_borroeing_rate + account_balance + inflation_mean + develop 
+f2.5 <- for_ex_BC ~  debt_to_GDP + fx_volatility + ln_GDP_per_cap_cur + debt_to_GDP*develop  + vix_EUA  + nominal_rate + lending_borroeing_rate + account_balance + inflation_mean + develop
 
 
 

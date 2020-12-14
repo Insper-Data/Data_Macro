@@ -28,13 +28,12 @@ text-align: justify}
 
 
 
-#Objective 
+# Objective 
 
-This study aims to investigate how a country’s level of public debt can be an obstacle to attract new foreign credit. If the country incurs high levels of debt, it is more likely that it will not be able to repay its creditor. Thus, in situations that a country’s level of public debt is too large, the creditors may choose to stop financing the country (Krugman, 1988), because of fearing a default. The objective is to verify the different effects of the level of public debt on the participation of foreign investors in government bonds and how the effects vary over time.
+This study aims to investigate the economic determinants of foreign participation in a country's public debt. Investors, when allocating resources in foreign countries, can look for different things such as stability, higher returns or just diversify assets. Each country can serve to fulfill one of these objectives and, depending on the macroeconomic fundamentals, they can be more or less attractive to investors. In addition, it is necessary to analyze emerging and advanced countries separately, considering that these two groups have very divergent characteristics.Thus, this work wants to understand which are the macroeconomic determinants that can attract or put away bondholders,  both for advanced or emerging countries.
 
 
-
-#Introduction
+# Introduction
 
 In the past 50 years, emerging and developing economies experienced four big indebtedness waves, three of which ended up in financial crises. In the 1980s, the association of low real interest rates and growing debt market led certain economies to raise considerably their levels of indebtedness; the result was the well-known Latin America’s debt crisis. A decade later, the world would watch the Asian financial crisis, due to the liberalization of financial markets and capital flows, allowing these countries to acquire loans in foreign currencies. Finally, in 2007-09, both emerging and advanced economies faced major recessions as a result of the global financial crisis.
  
@@ -60,7 +59,7 @@ Therefore, a worldwide analysis will be conducted using the database provided by
 
 Discussions on how indebtedness can affect the macroeconomic variables of a country are widely addressed in the literature. The main topics are related to foreign investors; growth; debt overhang and debt tolerance.
 
-More initially, countries’ ability to attract non-local investors was studied by Burger and Warnok (2005). The study showed that countries with a history of low inflation tend to have a more developed bond market.  Subsequently, Brutti and Sarué (2012) studied the importance of a derivatives market for the quality of a bond market.
+More initially, countries’ ability to attract non-local investors was studied by Burger and Warnok (2005). The study showed that countries with a history of low inflation tend to have a more developed bond market.  Subsequently, Brutti and Sauré (2012) studied the importance of a derivatives market for the quality of a bond market.
 
 In this study, it is important to highlight the developed literature Arslanap and Tsuda (2014). The authors, in addition to having compiled the database used in this article, carried out several analyzes on foreign participation in the bond market.  It was noted that, as of 2010, there was a great flow of foreign capital to the emerging securities market. In addition, they concluded that countries with a lower debt-to-GDP rate are more attractive to foreign investors.
 
@@ -71,14 +70,20 @@ Thinking about debt tolerance, Reinhart, Rogoff and Savastano (2003) introduce t
 The concept of debt overhang refers to a debt burden so large that the country can not take any additional debt to finance itself. Krugman (1988) discussed the tradeoff for creditors when facing a debt overhang: financing or forgiving. Deshpande (1995) discusses how a situation of debt overhang can discourage investment. Reinhart, Reinhart, and Rogoff (2012) punctuated the main episodes in history about debt overhang.
 
 
-#Data
 
-The dataset used in this study is composed by the database provided by Arslanalp and Takahiro Tsuda, previously affiliated with the Monetary and Capital Markets Department of the International Monetary Fund. Arslanalp and Takahiro Tsuda provide estimates of investor holdings of government debt of 24 advanced economies and 24 emerging market economies. The investor base is grouped under six classes: domestic central bank, domestic banks, domestic nonbanks, foreign official sector, foreign banks, and foreign nonbanks. Macroeconomic and financial data have been obtained from the World Economic Outlook database published by the IMF. The dataset is composed of annual data and the sample period used covers the years 2004 to 2019.
+# Dataset
+
+The dataset used in this study is composed by the database provided by Arslanalp and Takahiro Tsuda, previously affiliated with the Monetary and Capital Markets Department of the International Monetary Fund. Arslanalp and Takahiro Tsuda provide estimates of investor holdings of government debt of 24 advanced economies and 24 emerging market economies. 
+
+The investor base is grouped under six classes: domestic central bank, domestic banks, domestic nonbanks, foreign official sector, foreign banks, and foreign nonbanks. Banks include depository institutions other than central banks, based on the definition used in the IMF’s International Financial Statistics (IFS). Nonbanks include other investors, including insurance companies, pension funds, and investment funds. Investment funds could be mutual funds, exchange-traded funds (ETFs), or sovereign wealth funds (SWFs). The foreign official sector for Emerging Markets includes official loans and foreign central bank holdings of EM government debt as reserve assets, and for Advanced Markets includes foreign central banks and other foreign official creditors. 
+
+For this study, 45 of the 48 countries present at the base of Arslanalp and Tsuda are used. The data are annualized through the fourth quarter of each year and the sample period used covers the years 2004 to 2019.
+
+Macroeconomic and financial data were obtained from the World Economic Outlook Database published by the International Monetary Fund in April 2020. For countries where the nominal interest rate was incomplete on the basis of the IMF, the missing data was obtained on the website of the central banks in each country. 
 
 
-# Dataset Description
+# Stylized facts about the database
 
-The dataset used in this study is composed by the database provided by Arslanalp and Takahiro Tsuda (2012 and 2014), which compiles comparable estimates of investor holdings of sovereign debt. In addition, data provided bt the World Economic Outlook from IMF and the WOrld Bank are used. The dataset is composed of 45 countries and covers sixteen years, from 2004 to 2019, quartely frequncy.  
 
 ```{r, echo=FALSE, message=FALSE} 
 
@@ -114,44 +119,115 @@ dataset_total_index <- read.csv("dataset_total_index.csv")
 ```
 
 
+Given the recovery of economies affected by the Asian financial crisis (1990s), global indebtedness resumed at an accelerated pace. This coincided with a period of rapid expansion for banks based in the United States and the European Union (Arteta and Kasyanenko 2019). The third global debt wave that started in 2002 was represented by a sharp increase in loans from emerging markets in international debt markets, due to low global interest rates. In 2004, 6 emerging markets were among the 10 countries with the highest levels of debt to GDP (graph 1). In contrast, emerging markets had the largest share of foreign investors, in 2004, they were not the most indebted countries (graph 2).
 
-## Ranking 
 
 ```{r , echo=FALSE, message=FALSE}
 
   dataset_total %>%
-  filter(year %in% c(2006, 2010, 2014, 2019), !is.na(develop)) %>%
+  filter(year %in% c(2004, 2010, 2014, 2019), !is.na(develop)) %>%
   rename(Development = develop) %>% 
-  bar_chart(x = country, y = debt_to_GDP, facet = year, top_n = 15, fill = Development) +
+  bar_chart(x = country, y = debt_to_GDP, facet = year, top_n = 10, fill = Development) +
   labs( x = "", y = "Debt-to-GDP (%)",
-  title = "Top 15 Debt-to-GDP Ratio", fill = "Development") +
+  title = "Graph 1: Top 10 Debt-to-GDP Ratio", fill = "Development") +
   theme_classic() +
   scale_fill_manual("Development", values = c("EM" = "#0887c0", "AM" = "black"))+
   theme(legend.title = element_text(face = "bold", size = 10))
 
-
-
-```
-
-
-
-```{r , echo=FALSE, message=FALSE}
-
 dataset_total %>%
   mutate(foreign_debt_perc=(foreign_debt/total_debt)*100) %>% 
     rename(Development = develop) %>% 
-  filter(year %in% c(2004, 2009, 2014, 2019), !is.na(Development)) %>%
-  bar_chart(x = country, y = (foreign_debt_perc), facet = year, top_n = 15, fill = Development) +  
+  filter(year %in% c(2004, 2010, 2014, 2019), !is.na(Development)) %>%
+  bar_chart(x = country, y = (foreign_debt_perc), facet = year, top_n = 10, fill = Development) +  
   labs( x = "", y = "Foreign Investors (%)",
-  title = "Top 15 Countries with Debt Held by Foreign Investors", fill = "Development") +
+  title = "Graph 2: Top 10 Countries with Debt Held by Foreign Investors", fill = "Development") +
   theme_classic() +
   theme(legend.title = element_text(face = "bold", size = 10)) +
-  scale_fill_manual("Development", values = c("EM" = "#0887c0", "AM" = "black"))
+  scale_fill_manual("Development", values = c("EM" = "red4", "AM" = "navyblue"))
 
 
 ```
 
 
+In addition, low inflation and fiscal stabilization in many emerging markets have contributed to an increase in the credibility of macroeconomic policies (Kose and Ohnsorge, 2019), contributing to the development of the bond market in these countries. Thus, the third wave of debt had a lesser effect on the emerging markets, which even showed a reversal in the level of debt over GDP, given the improvement in fiscal balances and debt management, which lasted until the period of the global financial crisis. (graph 3).
+
+
+```{r echo=FALSE, message=FALSE}
+ 
+table_debt_sep <-dataset_total %>% 
+   filter(!is.na(develop)) %>% 
+   rename(Development = develop) %>% 
+  group_by(year, Development) %>% 
+  summarise(debt_to_GDP_mean = mean(debt_to_GDP)) 
+
+graph_debt_sep <- table_debt_sep %>% 
+ggplot(aes(x = year, y = debt_to_GDP_mean, color=Development )) +
+   scale_color_manual(values = c("EM" = "red4", "AM" = "navyblue"))+
+    geom_point() +
+    geom_smooth()+
+    labs(x = "Year", y = "Debt-to-GDP Ratio (%)", title = "Graph 3: Average Debt-to-GDP Ratio", subtitle = "Advanced and Emerging Markets") +
+      ylim(35,90)+
+    theme_light()
+
+graph_debt_sep
+
+```
+
+
+
+In 2010, the fourth and current global debt wave began, its characteristics are similar to the previous ones, low global interest rates (graph 4) and changes in the financial markets that allowed for rapid debt contraction in both advanced and emerging markets. In 2009, emerging markets debt to GDP averaged 38 percent of GDP reaching 48 percent at the end of 2019, while advanced markets grew by around 30 percentage points between 2008 and 2014 when they peaked at an average of 84 percent of GDP (graph 3).
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+graph_nominal_rate_sep <- dataset_total %>% 
+   filter(!is.na(develop)) %>% 
+   filter(!is.na(nominal_rate)) %>% 
+   rename(Development = develop) %>% 
+  group_by(year, Development) %>% 
+  summarise(debt_nominal_mean = mean(nominal_rate)) %>% 
+ggplot(aes(x = year, y = debt_nominal_mean, color=Development )) +
+   scale_color_manual(values = c("EM" = "red4", "AM" = "navyblue"))+
+    geom_point() +
+    geom_line()+
+    labs(x = "Year", y = "Nominal Rate (%)", title = " Graph 4: Nominal Rate (%) ", subtitle = "Advanced and Emerging Markets" ) +
+    theme_bw()
+
+graph_nominal_rate_sep
+
+```
+
+
+Foreign participation in domestic public debt, since 2005, is higher in advanced markets, due to the greater financial strength and credibility of these countries, therefore, foreign investors are more willing to access these markets (graph 5). In addition, advanced markets are more tolerant of foreign participation because there are rarely abrupt reversals of capital, as in emerging countries.
+
+
+```{r, echo=FALSE, message=FALSE}
+ 
+graph_debt_foreign_pp <- dataset_total %>% 
+   filter(!is.na(develop)) %>% 
+   rename(Development = develop) %>% 
+  mutate(foreign_debt_perc=(foreign_debt/total_debt)*100) %>% 
+  group_by(year, Development) %>% 
+  summarise(debt_foreign_pp_mean = mean(foreign_debt_perc)) %>% 
+ggplot(aes(x = year, y = debt_foreign_pp_mean, color=Development )) +
+   scale_color_manual(values = c("EM" = "red4", "AM" = "navyblue"))+
+    geom_point() +
+    geom_smooth()+
+    labs(x = "Year", y = "Foreign Investors (%)", title = "Graph 5: Total Debt Held by Foreign Investors", subtitle = "Advanced and Emerging Markets") +
+      ylim(30,50)+
+    theme_light()
+
+graph_debt_foreign_pp
+
+```
+
+
+The 2008 global financial crisis caused a sharp rise in aversion to global risks, as well as a reduction in international liquidity. As a result, there was a reversal of capital flows to securities markets in emerging markets and, consequently, a reduction in foreign participation in these markets, which had been observed since 2004 (graph 5). However, shortly after the crisis, international flows to emerging countries resumed, with the result that governments in emerging markets considerably increased the issuance of sovereign debt securities, and consequently increased foreign participation in the local debt market, however, making those countries most vulnerable to shocks in investor confidence.
+
+
+
+
+# ANEXOS
 
 ## Evolution of public debt in emerging markets
 
@@ -162,7 +238,8 @@ graph_debt_asia <- dataset_total %>%
   rename(Countries = country) %>% 
   filter(develop=="EM", continent %in% c("Asia", "Africa")) %>% 
   ggplot(aes(x = year, y = debt_to_GDP, color=Countries)) +
-  geom_smooth(se = FALSE)+
+    geom_line()+
+  geom_point()+
   labs(x = "Year", y = "Debt-to-GDP (%)", title = "Debt-to-GDP Ratio", subtitle = "Emerging Markets - Asia e Africa") +
      ylim(0,160)+
   theme_bw()
@@ -173,9 +250,10 @@ graph_debt_lamerica <- dataset_total %>%
   rename(Countries = country) %>% 
   filter(develop=="EM", continent%in% c("South America", "North America")) %>% 
   ggplot(aes(x = year, y = debt_to_GDP, color=Countries)) +
-  geom_smooth(se = FALSE)+
+    geom_line()+
+  geom_point()+
   labs(x = "Year", y = "Debt-to-GDP (%)", title = "Debt-to-GDP Ratio", subtitle = "Emerging Markets - Latin America") +
-     ylim(0,100)+
+     ylim(0,160)+
   theme_bw()
 
 
@@ -184,9 +262,10 @@ graph_debt_europe <- dataset_total %>%
     rename(Countries = country) %>% 
   filter(develop=="EM", continent=="Europe") %>% 
   ggplot(aes(x = year, y = debt_to_GDP, color=Countries)) +
-  geom_smooth(se = FALSE)+
+    geom_line()+
+  geom_point()+
   labs(x = "Year", y = "Debt-to-GDP (%)", title = "Debt-to-GDP Ratio", subtitle = "Emerging Markets - Europe") +
-   ylim(0,100)+
+   ylim(0,160)+
   theme_bw()
 
 
@@ -209,9 +288,10 @@ graph_debt_foreign_asia <- dataset_total %>%
   filter(develop=="EM", continent %in% c("Asia", "Africa")) %>% 
   mutate(foreign_debt_perc=(foreign_debt/total_debt)*100) %>% 
   ggplot(aes(x = year, y = foreign_debt_perc, color=Countries)) +
-  geom_smooth(se = FALSE)+
+  geom_line()+
+  geom_point()+
   labs(x = "Year", y = "Foreign Investors (%)", title = "Total Debt Held by Foreign Investors", subtitle = "Emerging Markets - Asia e Africa") +
-    ylim(0,80)+
+    ylim(0,90)+
   theme_bw()
 
 
@@ -221,9 +301,10 @@ graph_debt_foreign_lamerica <- dataset_total %>%
   filter(develop=="EM", continent%in% c("South America", "North America")) %>% 
   mutate(foreign_debt_perc=(foreign_debt/total_debt)*100) %>% 
   ggplot(aes(x = year, y = foreign_debt_perc, color=Countries)) +
-  geom_smooth(se = FALSE)+
+  geom_line()+
+  geom_point()+
   labs(x = "Year", y = "Foreign Investors (%)", title = "Total Debt Held by Foreign Investors", subtitle = "Emerging Markets - Latin America") +
-    ylim(0,80)+
+    ylim(0,90)+
   theme_bw()
 
 
@@ -233,9 +314,10 @@ graph_debt_foreign_europe <- dataset_total %>%
   filter(develop=="EM", continent=="Europe") %>% 
   mutate(foreign_debt_perc=(foreign_debt/total_debt)*100) %>% 
   ggplot(aes(x = year, y = foreign_debt_perc, color=Countries)) +
-  geom_smooth(se = FALSE)+
+  geom_line()+
+  geom_point()+
   labs(x = "Year", y = "Foreign Investors (%)", title = "Total Debt Held by Foreign Investors", subtitle = "Emerging Markets - Europe") +
-      ylim(0,80)+
+      ylim(0,90)+
   theme_bw()
 
 
@@ -246,10 +328,6 @@ graph_debt_foreign_asia
 
 ```
 
-
-# Stylized Facts
-
-Firstly, some stylized facts will be explained in relation to our dataset.
 
 
 ## Countries have different indebtedness levels
@@ -268,16 +346,16 @@ mundo <- mundo %>%
 
 mundo %>% 
   ggplot() +
-  geom_sf(data = mundo, aes(geometry = geom), fill = "lightgrey") +
+  geom_sf(data = mundo, aes(geometry = geom), fill = "gray1") +
   geom_sf(aes(fill = debt_to_GDP)) +
-  scale_fill_viridis_c(name = "(%)", option = "magma", trans = "sqrt", direction = -1) +
+  scale_fill_viridis_c(name = "(%)", option = "C", trans = "sqrt", direction = -1) +
   ggtitle("Debt to GDP") +
   labs(subtitle = "Mean of 2004 to 2019") +
   theme_map() +
   theme(panel.background = element_rect(fill = "white"),
         legend.title = element_text(face = "bold", size = 10),
         legend.background = element_rect(fill = NA),
-        plot.title = element_text(face = "bold", size = 17)) +
+        plot.title = element_text(face = "bold", size = 15)) +
       coord_sf(ylim = c(-50, 90))
 
 legend.title = element_text(colour="blue", size=10, 
@@ -289,34 +367,7 @@ legend.title = element_text(colour="blue", size=10,
 As the map shown above makes clear, countries around the world have contrasting levels of debt to GDP. Nations in grey are not part of our sample. 
 
 
-
-## Advanced markets are more indebted than emerging markets
-
-```{r, echo=FALSE, message=FALSE}
- graph_debt_sep<-dataset_total %>% 
-   filter(!is.na(develop)) %>% 
-   rename(Development = develop) %>% 
-  group_by(year, Development) %>% 
-  summarise(debt_to_GDP_mean = mean(debt_to_GDP)) %>% 
-ggplot(aes(x = year, y = debt_to_GDP_mean, color=Development )) +
-   scale_color_manual(values = c("EM" = "#0887c0", "AM" = "black"))+
-    geom_point() +
-    geom_smooth()+
-    labs(x = "Year", y = "Debt-to-GDP ratio (%)", title = "Average Debt-to-GDP Ratio", subtitle = "Advanced and Emerging Markets") +
-      ylim(35,90)+
-    theme_light()
-
-graph_debt_sep
-
-```
-
-
-In emerging markets after a sharp drop in the level of debt to GDP until 2010, the average debt to GDP of emerging countries has been incrising. 
-
-In contrast, in advanced economies debt to gdp grew rapidly after 2008, reaching the highest levels between 2014 and 2015. After 2015 the average debt to GDP started to decrease. 
-
-
-## Foreign investors have a preference for allocating their resources in advanced markets
+### Foreign investors have a preference for allocating their resources in advanced markets
 
 ```{r, echo=FALSE, message=FALSE}
  
@@ -335,41 +386,13 @@ ggplot(aes(x = year, y = debt_foreign_mean, color=Development )) +
   theme_bw()
 
 graph_debt_foreign_sep
+
 ```
 
 
 It is possible to observe that foreign investors have allocated much more resources in bonds from advanced markets. 
 
-###
-```{r, echo=FALSE, message=FALSE}
- 
-graph_debt_foreign_pp <- dataset_total %>% 
-   filter(!is.na(develop)) %>% 
-   rename(Development = develop) %>% 
-  mutate(foreign_debt_perc=(foreign_debt/total_debt)*100) %>% 
-  group_by(year, Development) %>% 
-  summarise(debt_foreign_pp_mean = mean(foreign_debt_perc)) %>% 
-ggplot(aes(x = year, y = debt_foreign_pp_mean, color=Development )) +
-   scale_color_manual(values = c("EM" = "#0887c0", "AM" = "black"))+
-    geom_point() +
-    geom_smooth()+
-    labs(x = "Year", y = "Foreign Investors (%)", title = "Total Debt Held by Foreign Investors", subtitle = "Advanced and Emerging Markets") +
-      ylim(30,50)+
-    theme_bw()
-
-graph_debt_foreign_pp
-
-```
-
-
-The average foreign participation in the public debt of the advanced countries exceeded the average of the emerging countries in 2005.
-
-Foreign participation in emerging markets suffered a sharp drop from the beginning of the period until mid-2010, when the decrease was reversed in a slight increase in foreign participation.
-
-Whereas in advanced countries foreign participation was increasing until 2015 and after that period the trend turned to a fall.
-
-
-## The participation of domestic investors in the composition of debt it is not invariant over time
+### The participation of domestic investors in the composition of debt it is not invariant over time
 
 ```{r, echo=FALSE, message=FALSE}
  
@@ -395,32 +418,7 @@ ggplot(aes(x = year, y = debt_domestic_mean, color=Development )) +
 In addition to the domestic participation in debt varying for both emerging and advanced countries, it is possible to infer that those variations are inverse.
 
 
-
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
-
-graph_nominal_rate_sep <- dataset_total %>% 
-   filter(!is.na(develop)) %>% 
-   filter(!is.na(nominal_rate)) %>% 
-   rename(Development = develop) %>% 
-  group_by(year, Development) %>% 
-  summarise(debt_nominal_mean = mean(nominal_rate)) %>% 
-ggplot(aes(x = year, y = debt_nominal_mean, color=Development )) +
-   scale_color_manual(values = c("EM" = "#0887c0", "AM" = "black"))+
-    geom_point() +
-    geom_line()+
-    labs(x = "Year", y = "Nominal Rate (%)", title = "Nominal Rate (%) ", subtitle = "Advanced and Emerging Markets" ) +
-    theme_bw()
-
-graph_nominal_rate_sep
-
-
-
-
-
-```
-
-
-## There is no clear relationship between participation of foreign investor in government debt and inflation
+### There is no clear relationship between participation of foreign investor in government debt and inflation
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -440,7 +438,7 @@ graph_debt_inflation
 ```
 
 
-## There is no clear relationship between the participation of foreign investor in government debt and nominal interest rate
+### There is no clear relationship between the participation of foreign investor in government debt and nominal interest rate
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 
@@ -461,19 +459,145 @@ graph_debt_interest
 
 
 
-#Econometrics
+```{r}
+#install.packages("gifski") #if not already installed
+library(gifski)
 
--Type 1 regression: total foreign debt as response variable for all countries in the database
--Type 2 regression: total foreign debt excluding official debt as response variable for all countries in the database
--Type 3 regression: total foreign debt as response variable for advanced markets
--Type 4 regression: total foreign debt excluding official debt as response variable for advanced markets
--Type 5 regression: total foreign debt as response variable for emerging markets
--Type 6 regression: total foreign debt excluding official debt as response variable for emerging markets
+animated <- dataset_total %>% 
+  mutate(share = (nonbank_foreign_debt + bank_foreign_debt)/total_debt) %>%
+  group_by(country, yearnum) %>% 
+  mutate(media_debt_GDP = mean(debt_to_GDP)) %>% 
+  ggplot() +
+  geom_point(aes(x = debt_to_GDP, y = share), colour = "black") +
+  geom_text(aes(x = debt_to_GDP, y = share, colour = country, label = country, fontface = 2),
+            hjust = 0.5, vjust = -0.5, size = 3) +
+  theme_bw() +
+  theme(legend.position = "none", plot.title = element_text(size = 15)) +
+  xlab("Dívida/PIB") +
+  ylab("% Investidores estrangeiros")
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
+(gif_debt <- animated + transition_time(yearnum) +
+  labs(title = "Year: {frame_time}"))
 
-
-
+anim_save("filenamehere.gif", gif_debt)
 
 ```
+
+
+## Methodology
+
+The methodology used in this study will consist of regressions with panel data. Within and pooled models will be used and compared in order to obtain the most appropriate model. The advantages of using panel data are the possibility to follow the evolution of several countries over time, being able to capture the specific effects of each country and each period of time. In addition, the database was divided between emerging and advanced countries, with the objective of carrying out econometric analysis for these two groups separately.
+
+The regression response variable will be the proportion of foreign participation in the total debt issued by a given country, excluding official institutions. Regarding the explanatory variables are, essentially, macroeconomic fundamentals, such as inflation, policy rate, debt-to-GDP-ratio, the balance of payments, exchange rate volatility, and others. Moreover, dummies to control specific periods of the economy will be included in the model.
+
+The specification of the main model must follow the following equation:
+
+COLOCAR A EQUA??O DA REGRESS?O
+
+
+
+
+## Econometrics
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+# Setando o painel:
+
+panel_dataset <- pdata.frame(dataset_total, index = c("country", "year"))
+
+panel_dataset <- panel_dataset %>% 
+  mutate(for_part = (foreign_debt/total_debt), for_ex_BC = ((nonbank_foreign_debt + bank_foreign_debt)/total_debt), for_nonbank_prop = (nonbank_foreign_debt/total_debt), develop = as.character(develop))
+
+
+#panel dataset_AM
+panel_dataset_AM <- panel_dataset %>% 
+  filter(develop == "AM",
+         country != "United States")  # Tirei os EUA!
+
+#panel dataset_EM
+panel_dataset_EM <- panel_dataset %>% 
+  filter(develop == "EM") 
+```
+
+
+### Regression Results for Advanced Markets
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+reg3.1.1 <- plm(ft1, data = panel_dataset_AM, model = "within", effect = "individual")
+
+reg3.1.2 <- plm(ft1, data = panel_dataset_AM, model = "within", effect = "time")
+
+reg3.1.3 <- plm(ft1, data = panel_dataset_AM, model = "within", effect = "twoways")
+
+reg3.1.4 <- plm(ft1, data = panel_dataset_AM, model = "pooling")
+
+
+
+# Clustering errors:
+reg3.1.1c <- coeftest(reg3.1.1, vcovHC.plm(reg3.1.1, type="sss", cluster = "group", method = "white2"))[,2]
+reg3.1.2c <- coeftest(reg3.1.2, vcovHC.plm(reg3.1.2, type="sss", cluster="group", method = "white2"))[,2]
+reg3.1.3c <- coeftest(reg3.1.3, vcovHC.plm(reg3.1.3, type="sss", cluster="group", method = "white2"))[,2]
+reg3.1.4c <- coeftest(reg3.1.4, vcovHC.plm(reg3.1.4, type="sss", cluster="group", method = "white2"))[,2]
+
+# Output:
+stargazer(reg3.1.1, 
+          reg3.1.2, 
+          reg3.1.3, 
+          reg3.1.4,
+          title = "Advanced Markets", type = "text", 
+          add.lines = list(c("Country FE", "YES", "NO", "YES", "NO"), c("Year FE", "NO", "YES", "YES", "NO")),
+          se = list(reg3.1.1c, reg3.1.2c, reg3.1.3c, reg3.1.4c),
+          omit.stat = "f",
+          dep.var.labels = c("Foreign participation on public debt"))
+```
+
+
+
+In view of the results, we must pay attention to those that proved to be significant in our model. Regarding the interest rate, it shows to have a positive effect, when significant, indicating that higher returns attract investors. The lending-borrowing rate has a negative effect, indicating that advanced countries that are creditors to the world receive a smaller flow of foreign capital. And, finally, we have the impact of the interaction between debt-to-GDP ratio and the 'post 2008' dummy with a negative effect, indicating a negative capital flow in post 2008 for advanced countries already more indebted. 
+
+
+### Regression Results for Emerging Markets
+
+```{r,  echo=FALSE, message=FALSE, warning=FALSE}
+
+ft2 <- for_ex_BC ~ debt_to_GDP + post_08 + ln_GDP_per_cap_cte + nominal_rate + fx_volatility + account_balance + vix_EUA
+
+
+
+# Regressoes em painel
+
+reg3.1.1 <- plm(ft2, data = panel_dataset_EM, model = "within", effect = "individual")
+
+reg3.1.2 <- plm(ft2, data = panel_dataset_EM, model = "within", effect = "time")
+
+reg3.1.3 <- plm(ft2, data = panel_dataset_EM, model = "within", effect = "twoways")
+
+reg3.1.4 <- plm(ft2, data = panel_dataset_EM, model = "pooling")
+
+
+
+# Clustering errors:
+reg3.1.1c <- coeftest(reg3.1.1, vcovHC.plm(reg3.1.1, type="sss", cluster = "group", method = "white2"))[,2]
+reg3.1.2c <- coeftest(reg3.1.2, vcovHC.plm(reg3.1.2, type="sss", cluster="group", method = "white2"))[,2]
+reg3.1.3c <- coeftest(reg3.1.3, vcovHC.plm(reg3.1.3, type="sss", cluster="group", method = "white2"))[,2]
+reg3.1.4c <- coeftest(reg3.1.4, vcovHC.plm(reg3.1.4, type="sss", cluster="group", method = "white2"))[,2]
+
+# Output:
+stargazer(reg3.1.1, 
+          reg3.1.2, 
+          reg3.1.3, 
+          reg3.1.4,
+          title = "Emerging Markets - Threshold comparison", type = "text", 
+          add.lines = list(c("Country FE", "YES", "NO", "YES", "NO"), c("Year FE", "NO", "YES", "YES", "NO")),
+          se = list(reg3.1.1c, reg3.1.2c, reg3.1.3c, reg3.1.4c),
+          omit.stat = "f",
+          dep.var.labels = c("Foreign participation on public debt"))
+
+```
+Pa?ses mais envidados afastam os investidores estrangeiros
+
+No p?s 2008 houve uma entrada de investidores estrangeiros nos pa?ses emergentes
+
+
+Maiores retornos n?o atraem investidores estrangeiros
+
+Maior volatilidade afasta mais investidores  dos pa?ses emergentes
 
