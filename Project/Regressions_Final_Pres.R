@@ -6,6 +6,11 @@ library(stargazer)
 library(lmtest)
 
 
+
+#dados
+dataset_total <- read.csv("dataset_total.csv")
+
+
 # Setando o painel:
 
 panel_dataset <- pdata.frame(dataset_total, index = c("country", "year"))
