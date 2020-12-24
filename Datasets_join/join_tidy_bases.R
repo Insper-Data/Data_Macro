@@ -37,6 +37,9 @@ continents <- read.csv("continents.csv")
 
 volatilidade_cambio <- read.csv("volatilidade_cambio.csv")
 
+real_interest_rates <- readxl::read_xlsx("real_interest_rates.xlsx")
+
+International_Liquidity <- readxl::read_xlsx("International_Liquidity.xlsx")
 
 #arrumando base da volatilidade do cambio
 
@@ -336,6 +339,55 @@ dataset_total <- dataset_total %>%
          bet_60_80 = as.factor(ifelse(debt_to_GDP >= 40, ifelse(debt_to_GDP < 80, "YES", "NO"), "NO")),
          bet_80_100 = as.factor(ifelse(debt_to_GDP >= 60, ifelse(debt_to_GDP < 100, "YES", "NO"), "NO")),
          more_100 = as.factor(ifelse(debt_to_GDP >= 100, "YES", "NO")))
+
+
+
+
+# Adicionando Retorno do FX:
+
+dataset_total <- dataset_total %>%
+  group_by(country) %>% 
+  mutate(fx_return = (lag(fx)-lag(fx, n = 2))/lag(fx))
+
+
+
+# Adicionando o real interest rate na base:
+
+real_interest_rates <- real_interest_rates %>% 
+  rename(year = Year) %>% 
+  mutate(country = str_replace_all(string = country, pattern = "Egypt, Arab Rep.", replacement = "Egypt")) %>%
+  mutate(country = str_replace_all(string = country, pattern = "Russian Federation", replacement = "Russia")) %>%
+  mutate(country = str_replace_all(string = country, pattern = "Korea, Rep.", replacement = "Korea"))
+
+
+dataset_total <- dataset_total %>% 
+  left_join(real_interest_rates, by = c("year", "country")) %>% 
+  select(country, year, real_interest_rate, everything()) %>% 
+  na_if("..")
+
+                      # numero_de_NAs <- dataset_total %>% filter(is.na(real_interest_rate))
+
+
+
+# Adicionando as reservas internacionais:
+
+International_Liquidity <- International_Liquidity %>% 
+  select(-Scale) %>% 
+  na_if("...") %>% 
+  pivot_longer(-Country, names_to = "year", values_to = "int_liq") %>% 
+  filter(str_length(year) <= 4) %>% 
+  rename(country = Country)
+
+International_Liquidity <- International_Liquidity %>%
+  mutate(year = as.numeric(year),
+         int_liq = as.numeric(int_liq))
+
+dataset_total <- dataset_total %>% 
+  left_join(International_Liquidity, by = c("year", "country"))
+
+             # numero_de_NAs <- dataset_total %>% filter(is.na(int_liq)) %>% select(country, year)
+
+
 
 
 
