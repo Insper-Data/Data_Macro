@@ -41,7 +41,7 @@ real_interest_rates <- readxl::read_xlsx("real_interest_rates.xlsx")
 
 International_Liquidity <- readxl::read_xlsx("International_Liquidity.xlsx")
 
-#arrumando base da volatilidade do cambio
+# arrumando base da volatilidade do cambio
 
 volatilidade_cambio <- volatilidade_cambio %>% 
   mutate(country=as.character(country)) 
@@ -169,13 +169,13 @@ dataset_total <- dataset_total %>%
 
 # VIX
 
-vix<-vix %>% 
+vix <- vix %>% 
   separate(year, into = c("year", "m", "d"), sep = "-", remove = TRUE)
   
 vix <- vix %>% 
   select(1,4,5)
 
-vix<- vix %>% 
+vix <- vix %>% 
   mutate(year = as.numeric(year))
   
 
@@ -225,7 +225,7 @@ dataset_total <- dataset_total %>%
   left_join(continents, by="country")
   
 dataset_total <-dataset_total %>% 
-  mutate(nominal_rate=as.numeric(nominal_rate))
+  mutate(nominal_rate = as.numeric(nominal_rate))
 
 
 # GDP per cap
