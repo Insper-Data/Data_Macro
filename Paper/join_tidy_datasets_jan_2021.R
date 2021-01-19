@@ -378,6 +378,19 @@ EMAM_id <- EMAM_id %>%
 dataset_total <- dataset_total %>% 
   left_join(EMAM_id, by = c("year", "country"))
 
+#--------------------------------------------------------------------------------------------
+
+# Adding variants to Tsuda's variables (foreign participation etc)
+dataset_total <- dataset_total %>% 
+  mutate(foreign_participation_percent_GDP = foreign_debt/GDP_cur_billions,
+         foreign_ex_officials_participation_percent_GDP = (nonbank_foreign_debt + bank_foreign_debt)/GDP_cur_billions,
+         foreign_nonbank_participation_percent_GDP = nonbank_foreign_debt/GDP_cur_billions) %>% 
+  select(1:16, 
+          foreign_participation_percent_GDP, 
+          foreign_ex_officials_participation_percent_GDP,
+          foreign_nonbank_participation_percent_GDP,
+          everything())
+
 
 #--------------------------------------------------------------------------------------------
       # LAST ARRANGEMENTS
