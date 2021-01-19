@@ -209,7 +209,7 @@ ggplot(aes(x = year, y = debt_foreign_pp_mean, color=Development )) +
    scale_color_manual(values = c("EM" = "red4", "AM" = "navyblue"))+
     geom_point() +
     geom_smooth()+
-    labs(x = "Year", y = "Foreign Investors (%)", title = "Graph 5: Total Debt Held by Foreign Investors", subtitle = "Advanced and Emerging Markets") +
+    labs(x = "Year", y = "Foreign Investors (%)", title = "Graph 2: Total Debt Held by Foreign Investors", subtitle = "Advanced and Emerging Markets") +
       ylim(30,50)+
     theme_light()
 
