@@ -85,8 +85,8 @@ weo_oct_2020 <- weo_oct_2020 %>%
          sub_notes == "GDP is expressed in current U.S. dollars per person. Data are derived by first converting GDP in national currency to U.S. dollars and then dividing it by total population." |
          sub_notes == "Expressed as a ratio of total investment in current local currency and GDP in current local currency. Investment or gross capital formation is measured by the total value of the gross fixed capital formation and changes in inventories and acquisitions less disposals of valuables for a unit or sector. [SNA 1993]" |
          sub_notes == "Expressed as a ratio of gross national savings in current local currency and GDP in current local currency. Gross national saving is gross disposable income less final consumption expenditure after taking account of an adjustment for pension funds. [SNA 1993] For many countries, the estimates of national saving are built up from national accounts data on gross domestic investment and from balance of payments-based data on net foreign investment." |
-         sub_notes == "Expressed in averages for the year, not end-of-period data. A consumer price index (CPI) measures changes in the prices of goods and services that households consume. Such changes affect the real purchasing power of consumers' incomes and their welfare. As the prices of different goods and services do not all change at the same rate, a price index can only reflect their average movement. A price index is typically assigned a value of unity, or 100, in some reference period and the values of the index for other periods of time are intended to indicate the average proportionate, or percentage, change in prices from this price reference period. Price indices can also be used to measure differences in price levels between different cities, regions or countries at the same point in time. [CPI Manual 2004, Introduction] For euro countries, consumer prices are calculated based on harmonized prices. For more information see http://epp.eurostat.ec.europa.eu/cache/ITY_OFFPUB/KS-BE-04-001/EN/KS-BE-04-001-EN.PDF.]" |
-         sub_notes == "Expressed in end of the period, not annual average data. A consumer price index (CPI) measures changes in the prices of goods and services that households consume. Such changes affect the real purchasing power of consumers' incomes and their welfare. As the prices of different goods and services do not all change at the same rate, a price index can only reflect their average movement. A price index is typically assigned a value of unity, or 100, in some reference period and the values of the index for other periods of time are intended to indicate the average proportionate, or percentage, change in prices from this price reference period. Price indices can also be used to measure differences in price levels between different cities, regions or countries at the same point in time. [CPI Manual 2004, Introduction] For euro countries, consumer prices are calculated based on harmonized prices. For more information see http://epp.eurostat.ec.europa.eu/cache/ITY_OFFPUB/KS-BE-04-001/EN/KS-BE-04-001-EN.PDF." |
+         sub_notes == "Annual percentages of average consumer prices are year-on-year changes." |
+         sub_notes == "Annual percentages of end of period consumer prices are year-on-year changes." |
          sub_notes == "Unemployment rate can be defined by either the national definition, the ILO harmonized definition, or the OECD harmonized definition. The OECD harmonized unemployment rate gives the number of unemployed persons as a percentage of the labor force (the total number of people employed plus unemployed). [OECD Main Economic Indicators, OECD, monthly] As defined by the International Labour Organization, unemployed workers are those who are currently not working but are willing and able to work for pay, currently available to work, and have actively searched for work. [ILO, http://www.ilo.org/public/english/bureau/stat/res/index.htm]" |
          sub_notes == "Revenue consists of taxes, social contributions, grants receivable, and other revenue. Revenue increases government's net worth, which is the difference between its assets and liabilities (GFSM 2001, paragraph 4.20). Note: Transactions that merely change the composition of the balance sheet do not change the net worth position, for example, proceeds from sales of nonfinancial and financial assets or incurrence of liabilities." |
          sub_notes == "Total expenditure consists of total expense and the net acquisition of nonfinancial assets. Note: Apart from being on an accrual basis, total expenditure differs from the GFSM 1986 definition of total expenditure in the sense that it also takes the disposals of nonfinancial assets into account." |
@@ -110,10 +110,10 @@ weo_oct_2020 <- weo_oct_2020 %>%
                                   "total_investment_percent_GDP", sub_description),
          sub_description = ifelse(sub_notes == "Expressed as a ratio of gross national savings in current local currency and GDP in current local currency. Gross national saving is gross disposable income less final consumption expenditure after taking account of an adjustment for pension funds. [SNA 1993] For many countries, the estimates of national saving are built up from national accounts data on gross domestic investment and from balance of payments-based data on net foreign investment.",
                                   "gross_national_savings_percent_GDP", sub_description),
-         sub_description = ifelse(sub_notes == "Expressed in averages for the year, not end-of-period data. A consumer price index (CPI) measures changes in the prices of goods and services that households consume. Such changes affect the real purchasing power of consumers' incomes and their welfare. As the prices of different goods and services do not all change at the same rate, a price index can only reflect their average movement. A price index is typically assigned a value of unity, or 100, in some reference period and the values of the index for other periods of time are intended to indicate the average proportionate, or percentage, change in prices from this price reference period. Price indices can also be used to measure differences in price levels between different cities, regions or countries at the same point in time. [CPI Manual 2004, Introduction] For euro countries, consumer prices are calculated based on harmonized prices. For more information see http://epp.eurostat.ec.europa.eu/cache/ITY_OFFPUB/KS-BE-04-001/EN/KS-BE-04-001-EN.PDF.]",
-                                  "inflation_average_index", sub_description),
-         sub_description = ifelse(sub_notes == "Expressed in end of the period, not annual average data. A consumer price index (CPI) measures changes in the prices of goods and services that households consume. Such changes affect the real purchasing power of consumers' incomes and their welfare. As the prices of different goods and services do not all change at the same rate, a price index can only reflect their average movement. A price index is typically assigned a value of unity, or 100, in some reference period and the values of the index for other periods of time are intended to indicate the average proportionate, or percentage, change in prices from this price reference period. Price indices can also be used to measure differences in price levels between different cities, regions or countries at the same point in time. [CPI Manual 2004, Introduction] For euro countries, consumer prices are calculated based on harmonized prices. For more information see http://epp.eurostat.ec.europa.eu/cache/ITY_OFFPUB/KS-BE-04-001/EN/KS-BE-04-001-EN.PDF.",
-                                  "inflation_end_index", sub_description),
+         sub_description = ifelse(sub_notes == "Annual percentages of average consumer prices are year-on-year changes.",
+                                  "inflation_average", sub_description),
+         sub_description = ifelse(sub_notes == "Annual percentages of end of period consumer prices are year-on-year changes.",
+                                  "inflation_end", sub_description),
          sub_description = ifelse(sub_notes == "Unemployment rate can be defined by either the national definition, the ILO harmonized definition, or the OECD harmonized definition. The OECD harmonized unemployment rate gives the number of unemployed persons as a percentage of the labor force (the total number of people employed plus unemployed). [OECD Main Economic Indicators, OECD, monthly] As defined by the International Labour Organization, unemployed workers are those who are currently not working but are willing and able to work for pay, currently available to work, and have actively searched for work. [ILO, http://www.ilo.org/public/english/bureau/stat/res/index.htm]",
                                   "unemployment_rate", sub_description),
          sub_description = ifelse(sub_notes == "Revenue consists of taxes, social contributions, grants receivable, and other revenue. Revenue increases government's net worth, which is the difference between its assets and liabilities (GFSM 2001, paragraph 4.20). Note: Transactions that merely change the composition of the balance sheet do not change the net worth position, for example, proceeds from sales of nonfinancial and financial assets or incurrence of liabilities." & Units == "National currency",
@@ -148,8 +148,8 @@ weo_oct_2020 <- weo_oct_2020 %>%
          GDP_percapita_cur_USD = GDP_percapita_cur_USD/1000,
          total_investment_percent_GDP = total_investment_percent_GDP/1000,
          gross_national_savings_percent_GDP = gross_national_savings_percent_GDP/1000,
-         inflation_average_index = inflation_average_index/1000,
-         inflation_end_index = inflation_end_index/1000,
+         inflation_average = inflation_average/1000,
+         inflation_end = inflation_end/1000,
          unemployment_rate = unemployment_rate/1000,
          general_gov_revenue_billions = general_gov_revenue_billions/1000,
          general_gov_revenue_percent_GDP = general_gov_revenue_percent_GDP/1000,
@@ -390,6 +390,18 @@ dataset_total <- dataset_total %>%
           foreign_ex_officials_participation_percent_GDP,
           foreign_nonbank_participation_percent_GDP,
           everything())
+
+#--------------------------------------------------------------------------------------------
+
+# Adding US nominal rate as regressor
+US_rate <- dataset_total %>%
+  filter(country == "United States") %>%
+  group_by() %>% 
+  select(year, nominal_rate) %>% 
+  rename(US_nominal_rate = nominal_rate)
+
+dataset_total <- dataset_total %>% 
+  left_join(US_rate, by = "year")
 
 
 #--------------------------------------------------------------------------------------------
