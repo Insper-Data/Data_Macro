@@ -44,7 +44,7 @@ panel_dataset_EM <- panel_dataset %>%
 #--------------------------------------------------------------------------------------------
 
 # Formula:
-formula_AM <- foreign_ex_officials_participation_percent_GDP ~ debt_to_GDP + ln_GDP_percapita_cur_USD + nominal_rate + inflation_end +  current_account_percent_GDP + fx_volatility + vix_EUA + US_nominal_rate
+formula_AM <- foreign_ex_officials_participation_percent_GDP ~ debt_to_GDP + ln_GDP_percapita_cur_USD + nominal_rate + inflation_end + current_account_percent_GDP + fx_volatility + vix_EUA + US_nominal_rate
 
 # Panel regressions:
 reg1.AM <- plm(formula_AM, data = panel_dataset_AM, model = "within", effect = "individual")
@@ -64,12 +64,12 @@ stargazer(reg1.AM,
           reg2.AM, 
           reg3.AM, 
           reg4.AM,
-          title = "Advanced Markets", type = "latex", 
+          title = "Advanced Markets", type = "text", 
           add.lines = list(c("Country FE", "YES", "NO", "YES", "NO"), c("Year FE", "NO", "YES", "YES", "NO")),
           se = list(reg1.AMc, reg2.AMc, reg3.AMc, reg4.AMc),
           omit.stat = "f",
-           covariate.labels = c("Debt-to-GDP", "ln(GDP per capita)", "Nominal Interest", "Inflation", "Current Account Balance",
-                                "FX Volatility", "VIX EUA", "US Nominal Rate"),
+           covariate.labels = c("Debt-to-GDP", "ln(GDP per capita)", "Nominal Interest", "Inflation",
+                                "Current Account Balance", "FX Volatility", "VIX EUA", "US Nominal Rate"),
           dep.var.labels = c("Foreign participation on public debt divided by GDP"))
 
 
@@ -78,7 +78,7 @@ stargazer(reg1.AM,
 #--------------------------------------------------------------------------------------------
 
 # Formula:
-formula_EM <- foreign_ex_officials_participation_percent_GDP ~ debt_to_GDP + ln_GDP_percapita_cur_USD + nominal_rate + inflation_end +  current_account_percent_GDP + fx_volatility + vix_EUA + US_nominal_rate
+formula_EM <- foreign_ex_officials_participation_percent_GDP ~ debt_to_GDP + ln_GDP_percapita_cur_USD + nominal_rate + inflation_end +  current_account_percent_GDP + fx_volatility + vix_EUA + US_nominal_rate 
 
 # Panel regressions:
 reg1.EM <- plm(formula_EM, data = panel_dataset_EM, model = "within", effect = "individual")
@@ -98,7 +98,7 @@ stargazer(reg1.EM,
           reg2.EM, 
           reg3.EM, 
           reg4.EM,
-          title = "Emerging Markets", type = "latex", 
+          title = "Emerging Markets", type = "text", 
           add.lines = list(c("Country FE", "YES", "NO", "YES", "NO"), c("Year FE", "NO", "YES", "YES", "NO")),
           se = list(reg1.EMc, reg2.EMc, reg3.EMc, reg4.EMc),
           omit.stat = "f",

@@ -28,16 +28,30 @@ dataset_total_jan_2021 <- read.csv("https://raw.githubusercontent.com/Insper-Dat
 countries_table_EM <- dataset_total_jan_2021 %>% 
   filter(develop == "EM") %>% 
   group_by(country) %>%
-  distinct(country)
+  distinct(country) %>% 
+  rename("Emerging Markets" = country)
 
 countries_table_AM <- dataset_total_jan_2021 %>% 
   filter(develop == "AM") %>% 
   group_by(country) %>%
-  distinct(country)
+  distinct(country) %>% 
+  rename("Advanced Markets" = country)
+
+countries_table <- countries_table_AM %>% 
+  left_join(countries_table_EM, by = row_number('Emerging Makets'))
+
 
 # Table 2 - sum stats:
 sum_stats_variables <- dataset_total_jan_2021 %>%
-  select(-c(1, 2, 34:36, 41:47, 50:64)) # ommiting variables that do not appear in table 2
+  select(c(5, 15, 16, 23, 27, 34, 36, 41, 43, 45, 47, 49, 51)) %>%  # ommiting variables that do not appear in table 2
+  select(c(1:6, 9:12, everything()))
 
-sum_stats <- stargazer(sum_stats_variables, title = "Summarized Statistics", omit.summary.stat = c("p25", "p75"))
+sum_stats <- stargazer(sum_stats_variables, title = "Summarized Statistics", omit.summary.stat = c("p25", "p75"),
+                       type = "latex",
+                       covariate.labels = c("Debt-to-GDP (%)", "Foreign Debt Participation (% of GDP)",
+                                            "Foreign Part. Except Officials (% of GDP)",
+                                            "GDP per capita (USD)", "Inflation (%)",
+                                            "(+) Lending (-) Borrowing (% of GDP)", "Nominal Interest Rate (%)",
+                                            "Control of Corruption", "Political Stability",
+                                            "Rule of Law", "Current Account (% of GDP)", "VIX EUA", "FX Volatility"))
 
