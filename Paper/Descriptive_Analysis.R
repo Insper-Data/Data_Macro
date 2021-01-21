@@ -32,7 +32,7 @@ debt_to_gdp_graph <- dataset_total %>%
   geom_point() +
   geom_line()+
   labs(x = "Year", y = "Debt-to-GDP Ratio (%)", title = "", subtitle = "") +
-  scale_x_continuous(limits = c(2004, 2019), seq(2004,2019,by=2), name = "Debt-to-GDP Ratio (%)") +
+  scale_x_continuous(limits = c(2004, 2019), seq(2004,2019,by=2), name = "Year") +
   ylim(30,90)+
   theme_bw()
 
@@ -62,7 +62,7 @@ graph_debt_foreign_pp <- dataset_total %>%
   geom_point() +
   geom_line()+
   labs(x = "Year", y = "Foreign Participation in Sovereign Debt in Terms of GDP (%)", title = "", subtitle = "") +
-  scale_x_continuous(limits = c(2004, 2019), seq(2004,2019,by=2), name = "Foreign Participation in Sovereign Debt in Terms of GDP (%)") +
+  scale_x_continuous(limits = c(2004, 2019), seq(2004,2019,by=2), name = "Year") +
   ylim(50,160)+
   theme_light()
 
