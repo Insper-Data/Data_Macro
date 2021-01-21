@@ -1,5 +1,6 @@
 #instalando as libraries
 library(scales)
+library(dplyr)
 library(ggthemes)
 library(spData)
 library(readr)
@@ -13,12 +14,13 @@ library(ggrepel)
 library(cowplot)
 
 #puxando a base de dados completa
-#setwd("C:/Users/gabri/Documents/Insper_Data/Macro/projeto_econometria/Data_Macro/Paper")
+setwd("C:/Users/gabri/Documents/Insper_Data/Macro/projeto_econometria/Data_Macro/Paper")
 
 dataset_total <- read.csv("dataset_total_jan_2021.csv") 
 
 # Stylized Facts About the Database
 
+######################################THE IMPORTANCE OF DEBT#####################################################################################################
 #1
 
 debt_to_gdp_graph <- dataset_total %>% 
@@ -28,8 +30,9 @@ debt_to_gdp_graph <- dataset_total %>%
   ggplot(aes(x = year, y = debt_to_GDP, color=Development )) +
   scale_color_manual(values = c("EM" = "red4", "AM" = "navyblue"))+
   geom_point() +
-  geom_smooth()+
-  labs(x = "Year", y = "Debt-to-GDP ratio", title = "Figure 1: average debt-to-GDP ratio", subtitle = "Advanced and Emerging Markets") +
+  geom_line()+
+  labs(x = "Year", y = "Debt-to-GDP Ratio (%)", title = "", subtitle = "") +
+  scale_x_continuous(limits = c(2004, 2019), seq(2004,2019,by=2), name = "Debt-to-GDP Ratio (%)") +
   ylim(30,90)+
   theme_bw()
 
@@ -41,8 +44,8 @@ dataset_total %>%
   filter(year %in% c(2004, 2010, 2014, 2019), !is.na(develop)) %>%
   rename(Development = develop) %>% 
   bar_chart(x = country, y = debt_to_GDP, facet = year, top_n = 10, fill = Development) +
-  labs( x = "", y = "Debt-to-GDP (%)",
-        title = "Figure 2: top 10 debt-to-GDP ratio", fill = "Development") +
+  labs( x = "", y = "Debt-to-GDP Ratio (%)",
+        title = "", fill = "Development") +
   theme_classic() +
   scale_fill_manual("Development", values = c("EM" = "red4", "AM" = "navyblue"))+
   theme(legend.title = element_text(face = "bold", size = 10))
@@ -52,15 +55,15 @@ dataset_total %>%
 graph_debt_foreign_pp <- dataset_total %>% 
   filter(!is.na(develop)) %>% 
   rename(Development = develop) %>% 
-  mutate(foreign_debt_perc=(foreign_debt/total_debt)*100) %>% 
   group_by(year, Development) %>% 
-  summarise(debt_foreign_pp_mean = mean(foreign_debt_perc)) %>% 
-  ggplot(aes(x = year, y = debt_foreign_pp_mean, color=Development )) +
+  summarise(foreign_participation_percent_GDP = mean(foreign_participation_percent_GDP)) %>% 
+  ggplot(aes(x = year, y = foreign_participation_percent_GDP, color=Development )) +
   scale_color_manual(values = c("EM" = "red4", "AM" = "navyblue"))+
   geom_point() +
-  geom_smooth()+
-  labs(x = "Year", y = "Foreign Investors (%)", title = "Figure 3: average foreign participation in sovereign debt", subtitle = "Advanced and Emerging Markets") +
-  ylim(30,45)+
+  geom_line()+
+  labs(x = "Year", y = "Foreign Participation in Sovereign Debt in Terms of GDP (%)", title = "", subtitle = "") +
+  scale_x_continuous(limits = c(2004, 2019), seq(2004,2019,by=2), name = "Foreign Participation in Sovereign Debt in Terms of GDP (%)") +
+  ylim(50,160)+
   theme_light()
 
 graph_debt_foreign_pp
@@ -70,36 +73,113 @@ graph_debt_foreign_pp
 #4
 
 dataset_total %>%
-  mutate(foreign_debt_perc=(foreign_debt/total_debt)*100) %>% 
   rename(Development = develop) %>% 
   filter(year %in% c(2004, 2010, 2014, 2019), !is.na(Development)) %>%
-  bar_chart(x = country, y = (foreign_debt_perc), facet = year, top_n = 10, fill = Development) +  
-  labs( x = "", y = "Foreign Investors (%)",
-        title = "Figure 4: top 10 sovereign debt held by foreign agents", fill = "Development") +
+  bar_chart(x = country, y = (foreign_participation_percent_GDP), facet = year, top_n = 10, fill = Development) +  
+  labs( x = "", y = "Foreign Participation in Sovereign Debt in Terms of GDP (%)",
+        title = "", fill = "Development") +
   theme_classic() +
   theme(legend.title = element_text(face = "bold", size = 10)) +
   scale_fill_manual("Development", values = c("EM" = "red4", "AM" = "navyblue"))
 
 
 
+################################################FUNDAMENTALS################################################################################################################
+
+ 
 
 
--------------------------------------
-
-
-
-#5
-  
-dataset_total %>% 
-  filter(!is.na(develop)) %>% 
-  rename(Development = develop) %>% 
-  filter(Development != "AM") %>% 
-  group_by(year) %>% 
-  summarise(foreign_participation_percent_GDP = mean(foreign_participation_percent_GDP, vix_EUA=mean(vix_EUA))) %>% 
-  ggplot(aes(x = vix_EUA, y = foreign_participation_percent_GDP )) +
-  geom_point() +
-  labs(x = "Year", y = "Nominal Rate (%)", title = " Graph 4: Nominal Rate (%) ", subtitle = "Advanced and Emerging Markets" ) +
+dataset_total %>%
+  filter(develop == "AM") %>%
+  ggplot(aes(x = fx_volatility, y = foreign_participation_percent_GDP)) +
+  geom_point(color="navyblue")+
+  labs(x = "Exchange Rate Volatility", y = "Foreign Participation in Sovereign Debt in Terms of GDP (%)") +
+  xlim(0,1)+
   theme_bw()
+
+dataset_total %>%
+  filter(develop == "EM" ) %>%
+  ggplot(aes(x = fx_volatility, y = foreign_participation_percent_GDP)) +
+  geom_point(color="red4")+
+  labs(x = "Exchange Rate Volatility", y = "Foreign Participation in Sovereign Debt in Terms of GDP (%)") +
+  xlim(0,1)+
+  theme_bw()
+
+##################################EXTERNAL FACTORS##############################################################
+  
+  
+dataset_total2 <- dataset_total %>% 
+select(vix_EUA, foreign_participation_percent_GDP, year, develop, country) 
+
+dataset_total2 <- dataset_total2 %>% 
+group_by(year) %>% 
+mutate(VIX=mean(vix_EUA))
+
+dataset_total2 <- dataset_total2 %>% 
+group_by(year, develop) %>% 
+mutate(foreign_GDP=mean(foreign_participation_percent_GDP))
+
+dataset_total2 <- dataset_total2 %>% 
+select(3,4,6,7)
+
+dataset_total2 <- dataset_total2 %>% 
+  distinct()
+
+
+dataset3 <- dataset_total2 
+
+dataset3 <- dataset3 %>% 
+  mutate(foreign_AM = ifelse(develop =="AM", foreign_GDP, 0))
+
+dataset3 <- dataset3 %>% 
+  filter(foreign_AM != 0)
+
+
+dataset4 <- dataset_total2
+
+dataset4 <- dataset4 %>% 
+  mutate(foreign_EM = ifelse(develop =="EM", foreign_GDP, 0))
+
+dataset4 <- dataset4 %>% 
+  filter(foreign_EM != 0)
+
+dataset3 <- dataset3 %>% 
+  select(1,3,5)
+
+dataset4 <- dataset4 %>% 
+  select(1,3,5)
+
+dataset4 <- dataset4 %>% 
+  left_join(dataset3, by="year")
+
+dataset4 <- dataset4 %>%
+  select(2,3,4,7)
+
+
+library(tidyr)
+library(dplyr)
+
+dataset4 <- dataset4 %>% 
+  rename(VIX=2, 
+          AM= 4,
+          EM = 3 ) %>% 
+          mutate(VIX=(VIX*5))
+
+dataset4 <- dataset4 %>%
+  select(year, VIX, AM, EM) %>%
+  gather(key = "variable", value = "value", -year)
+
+
+ggplot(dataset4, aes(x = year, y = value)) + 
+  geom_line(aes(color = variable), size = 1) +
+  scale_color_manual(values = c("navyblue", "red4" , "black")) +
+  labs(x = "Year", y = "", title = "", subtitle = "") +
+  scale_x_continuous(limits = c(2004, 2019), seq(2004,2019,by=2), name = "Year") +
+  scale_y_continuous(breaks=NULL) +
+  theme_bw()
+
+
+
 
 
 
