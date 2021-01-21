@@ -44,14 +44,18 @@ countries_table <- countries_table_AM %>%
 # Table 2 - sum stats:
 sum_stats_variables <- dataset_total_jan_2021 %>%
   select(c(5, 15, 16, 23, 27, 34, 36, 41, 43, 45, 47, 49, 51)) %>%  # ommiting variables that do not appear in table 2
+  mutate(foreign_participation_percent_GDP = foreign_participation_percent_GDP*100,
+         foreign_ex_officials_participation_percent_GDP = foreign_ex_officials_participation_percent_GDP*100,
+         current_account_percent_GDP = current_account_percent_GDP*100,
+         GDP_percapita_cur_USD = GDP_percapita_cur_USD/1000) %>% 
   select(c(1:6, 9:12, everything()))
 
 sum_stats <- stargazer(sum_stats_variables, title = "Summarized Statistics", omit.summary.stat = c("p25", "p75"),
                        type = "latex",
                        covariate.labels = c("Debt-to-GDP (%)", "Foreign Debt Participation (% of GDP)",
-                                            "Foreign Part. Except Officials (% of GDP)",
-                                            "GDP per capita (USD)", "Inflation (%)",
-                                            "(+) Lending (-) Borrowing (% of GDP)", "Nominal Interest Rate (%)",
-                                            "Control of Corruption", "Political Stability",
-                                            "Rule of Law", "Current Account (% of GDP)", "VIX EUA", "FX Volatility"))
+                                             "Foreign Part. Except Officials (% of GDP)",
+                                             "GDP per capita (thousand USD)", "Inflation (%)",
+                                             "(+) Lending (-) Borrowing (% of GDP)", "Nominal Interest Rate (%)",
+                                             "Control of Corruption", "Political Stability",
+                                             "Rule of Law", "Current Account (% of GDP)", "US VIX", "FX Volatility"))
 
