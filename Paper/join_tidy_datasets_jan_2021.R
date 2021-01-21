@@ -67,14 +67,19 @@ debt_prop <- debt_prop %>%
 
 # Tidying WEO Oct 2020
 weo_oct_2020 <- weo_oct_2020 %>%
-  select(-c('2022':'Estimates Start After')) %>% 
-  pivot_longer('2002':'2021', names_to = "year", values_to = "value")
-
-weo_oct_2020 <- weo_oct_2020 %>%
+  select(-c('2022':'Estimates Start After')) %>%
   na_if('--') %>% 
   na_if('n/a') %>%
-  rename(sub_description = `Subject Descriptor`, sub_notes = `Subject Notes`, country = Country) %>% 
-  mutate(value = str_replace_all(string = value, pattern = ",", replacement = "")) 
+  pivot_longer('2002':'2021', names_to = "year", values_to = "value") %>% 
+  mutate(value = str_replace_all(string = value, pattern = ",", replacement = ""))
+
+x <- weo_oct_2020$value
+stri_sub(x, -3, -4) <- "." 
+
+weo_oct_2020 <- weo_oct_2020 %>%  
+  mutate(value = ifelse(str_detect(value, "\\."), value, x)) %>%
+  mutate(value = as.numeric(value)) %>% 
+  rename(sub_description = `Subject Descriptor`, sub_notes = `Subject Notes`, country = Country)
   
 weo_oct_2020 <- weo_oct_2020 %>%
   filter(sub_notes == "Expressed in billions of national currency units; the base year is country-specific. Expenditure-based GDP is total final expenditures at purchasers' prices (including the f.o.b. value of exports of goods and services), less the f.o.b. value of imports of goods and services. [SNA 1993]" | 
@@ -140,25 +145,6 @@ weo_oct_2020 <- weo_oct_2020 %>%
 weo_oct_2020 <- weo_oct_2020 %>%
   select(`WEO Country Code`, country, year, sub_description, value) %>% 
   pivot_wider(names_from = sub_description, values_from = value)
-
-weo_oct_2020 <- weo_oct_2020 %>%
-  mutate(GDP_cte_billions = GDP_cte_billions/1000,
-         GDP_cur_billions = GDP_cur_billions/1000,
-         GDP_cur_USD_billions = GDP_cur_USD_billions/1000,
-         GDP_percapita_cur_USD = GDP_percapita_cur_USD/1000,
-         total_investment_percent_GDP = total_investment_percent_GDP/1000,
-         gross_national_savings_percent_GDP = gross_national_savings_percent_GDP/1000,
-         inflation_average = inflation_average/1000,
-         inflation_end = inflation_end/1000,
-         unemployment_rate = unemployment_rate/1000,
-         general_gov_revenue_billions = general_gov_revenue_billions/1000,
-         general_gov_revenue_percent_GDP = general_gov_revenue_percent_GDP/1000,
-         general_gov_expenditures_billions = general_gov_expenditures_billions/1000,
-         general_gov_expenditures_percent_GDP = general_gov_expenditures_percent_GDP/1000,
-         lending_borrowing_billions = lending_borrowing_billions/1000,
-         lending_borrowing_percent_GDP = lending_borrowing_percent_GDP/1000,
-         current_account_billions = current_account_billions/1000,
-         current_account_percent_GDP = current_account_percent_GDP/1000)
 
 weo_oct_2020 <- weo_oct_2020 %>%
   mutate(ln_GDP_cte_billions = log(GDP_cte_billions),
@@ -418,3 +404,4 @@ dataset_total <- dataset_total %>%
 #--------------------------------------------------------------------------------------------
 
 write_csv(dataset_total, "dataset_total_jan_2021.csv", append = F)
+
