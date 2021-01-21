@@ -1,4 +1,14 @@
-#instalando as libraries
+
+# JANUARY 2021  
+
+# Script to generate figures used in our paper
+
+# Authors: Augusto Netto, Gabriela Garcia, Maria Clara Drzeviechi and Victor H. Alexandrino
+
+
+#--------------------------------------------------------------------------------------------
+
+# Libraries
 library(scales)
 library(dplyr)
 library(ggthemes)
@@ -12,17 +22,19 @@ library(viridis)
 library(ggcharts)
 library(ggrepel)
 library(cowplot)
+library(tidyr)
+library(dplyr)
+library(grid)
 
-#puxando a base de dados completa
-setwd("C:/Users/gabri/Documents/Insper_Data/Macro/projeto_econometria/Data_Macro/Paper")
+# Calling our dataset
+dataset_total_jan_2021 <- read.csv("https://raw.githubusercontent.com/Insper-Data/Data_Macro/master/Paper/dataset_total_jan_2021.csv") 
+dataset_total <- dataset_total_jan_2021 
 
-dataset_total <- read.csv("dataset_total_jan_2021.csv") 
+#--------------------------------------------------------------------------------------------
+#     STYLIZED FACTS ABOUT THE DATABASE
+#--------------------------------------------------------------------------------------------
 
-# Stylized Facts About the Database
-
-######################################THE IMPORTANCE OF DEBT#####################################################################################################
-#1
-
+# 1. The importance of debt
 debt_to_gdp_graph <- dataset_total %>% 
   rename(Development = develop) %>% 
   group_by(Development, year) %>% 
@@ -38,7 +50,7 @@ debt_to_gdp_graph <- dataset_total %>%
 
 debt_to_gdp_graph
 
-#2
+# 2. 
 
 dataset_total %>%
   filter(year %in% c(2004, 2010, 2014, 2019), !is.na(develop)) %>%
@@ -50,7 +62,7 @@ dataset_total %>%
   scale_fill_manual("Development", values = c("EM" = "red4", "AM" = "navyblue"))+
   theme(legend.title = element_text(face = "bold", size = 10))
 
-#3
+# 3.
 
 graph_debt_foreign_pp <- dataset_total %>% 
   filter(!is.na(develop)) %>% 
@@ -70,7 +82,7 @@ graph_debt_foreign_pp
 
 
 
-#4
+# 4.
 
 dataset_total %>%
   rename(Development = develop) %>% 
@@ -84,7 +96,7 @@ dataset_total %>%
 
 
 
-################################################FUNDAMENTALS################################################################################################################
+################################################ FUNDAMENTALS ################################################################################################################
 
  
 
@@ -105,7 +117,7 @@ dataset_total %>%
   xlim(0,1)+
   theme_bw()
 
-##################################EXTERNAL FACTORS##############################################################
+################################## EXTERNAL FACTORS ##############################################################
   
   
 dataset_total2 <- dataset_total %>% 
@@ -113,14 +125,14 @@ select(vix_EUA, foreign_participation_percent_GDP, year, develop, country)
 
 dataset_total2 <- dataset_total2 %>% 
 group_by(year) %>% 
-mutate(VIX=mean(vix_EUA))
+mutate(VIX = mean(vix_EUA))
 
 dataset_total2 <- dataset_total2 %>% 
 group_by(year, develop) %>% 
-mutate(foreign_GDP=mean(foreign_participation_percent_GDP))
+mutate(foreign_GDP = mean(foreign_participation_percent_GDP))
 
 dataset_total2 <- dataset_total2 %>% 
-select(3,4,6,7)
+  select(3,4,6,7)
 
 dataset_total2 <- dataset_total2 %>% 
   distinct()
@@ -129,7 +141,7 @@ dataset_total2 <- dataset_total2 %>%
 dataset3 <- dataset_total2 
 
 dataset3 <- dataset3 %>% 
-  mutate(foreign_AM = ifelse(develop =="AM", foreign_GDP, 0))
+  mutate(foreign_AM = ifelse(develop == "AM", foreign_GDP, 0))
 
 dataset3 <- dataset3 %>% 
   filter(foreign_AM != 0)
@@ -155,15 +167,11 @@ dataset4 <- dataset4 %>%
 dataset4 <- dataset4 %>%
   select(2,3,4,7)
 
-
-library(tidyr)
-library(dplyr)
-
 dataset4 <- dataset4 %>% 
-  rename(VIX=2, 
-          AM= 4,
+  rename(VIX = 2, 
+          AM = 4,
           EM = 3 ) %>% 
-          mutate(VIX=(VIX*5))
+          mutate(VIX = (VIX*5))
 
 dataset4 <- dataset4 %>%
   select(year, VIX, AM, EM) %>%
@@ -174,13 +182,43 @@ ggplot(dataset4, aes(x = year, y = value)) +
   geom_line(aes(color = variable), size = 1) +
   scale_color_manual(values = c("navyblue", "red4" , "black")) +
   labs(x = "Year", y = "", title = "", subtitle = "") +
-  scale_x_continuous(limits = c(2004, 2019), seq(2004,2019,by=2), name = "Year") +
+  scale_x_continuous(limits = c(2004, 2019), seq(2004, 2019, by=2), name = "Year") +
   scale_y_continuous(breaks=NULL) +
   theme_bw()
 
+# Another way to display the same graph:
+dataset5 <- dataset_total %>% 
+  select(year, vix_EUA) %>% 
+  filter(row_number() <= 16) %>% 
+  rename(value = vix_EUA) %>% 
+  mutate(variable = "VIX")
 
+dataset6 <- dataset_total %>% 
+  group_by(year, develop) %>% 
+  mutate(foreign_GDP = mean(foreign_participation_percent_GDP)) %>%
+  select(c(year, foreign_GDP)) %>% 
+  rename(variable = develop, value = foreign_GDP)
 
+p1 <- dataset5 %>% 
+  ggplot() +
+  geom_line(aes(x = year, y = value, colour = variable), size = 1) +
+  scale_color_manual(values = c("black")) +
+  labs(x = "Year", y = "VIX EUA", title = "", subtitle = "") +
+  scale_x_continuous(limits = c(2004, 2019), seq(2004, 2019, by=2), name = "Year") +
+  #scale_y_continuous(breaks=NULL) +
+  theme_bw()
+  
+p2 <- dataset6 %>% 
+  ggplot() +
+  geom_line(aes(x = year, y = value, colour = variable), size = 1) +
+  scale_color_manual(values = c("navyblue", "red4")) +
+  labs(x = "Year", y = "Foreign Participation", title = "", subtitle = "") +
+  scale_x_continuous(limits = c(2004, 2019), seq(2004, 2019, by=2), name = "Year") +
+  #scale_y_continuous(breaks=NULL) +
+  theme_bw()
 
-
-
+grid.newpage()
+grid.draw(rbind(ggplotGrob(p2),
+                ggplotGrob(p1),
+                size = "last"))
 
