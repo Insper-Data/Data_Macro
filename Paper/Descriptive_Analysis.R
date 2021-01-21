@@ -75,7 +75,7 @@ graph_debt_foreign_pp <- dataset_total %>%
   geom_line()+
   labs(x = "Year", y = "Foreign Participation in Sovereign Debt in Terms of GDP (%)", title = "", subtitle = "") +
   scale_x_continuous(limits = c(2004, 2019), seq(2004,2019,by=2), name = "Year") +
-  ylim(50,160)+
+  #ylim(50,160)+
   theme_light()
 
 graph_debt_foreign_pp
@@ -98,9 +98,6 @@ dataset_total %>%
 
 ################################################ FUNDAMENTALS ################################################################################################################
 
- 
-
-
 dataset_total %>%
   filter(develop == "AM") %>%
   ggplot(aes(x = fx_volatility, y = foreign_participation_percent_GDP)) +
@@ -115,6 +112,20 @@ dataset_total %>%
   geom_point(color="red4")+
   labs(x = "Exchange Rate Volatility", y = "Foreign Participation in Sovereign Debt in Terms of GDP (%)") +
   xlim(0,1)+
+  theme_bw()
+
+
+dataset_total %>%
+  filter(!is.na(inflation_end)) %>% 
+  group_by(country) %>% 
+  mutate(mean_inflation = mean(inflation_end)) %>% 
+  #filter(develop == "EM") %>%
+  ggplot() +
+  geom_point(aes(x = mean_inflation, y = foreign_participation_percent_GDP, colour = develop,
+                 size = nominal_rate))+
+  labs(x = "ln(GDP per capita USD)", y = "Foreign Participation in Sovereign Debt in Terms of GDP (%)") +
+  scale_color_manual(values = c("navyblue", "red4")) +
+  #ylim(0,1)+
   theme_bw()
 
 ################################## EXTERNAL FACTORS ##############################################################
@@ -171,7 +182,7 @@ dataset4 <- dataset4 %>%
   rename(VIX = 2, 
           AM = 4,
           EM = 3 ) %>% 
-          mutate(VIX = (VIX*5))
+          mutate(VIX = (VIX/100))
 
 dataset4 <- dataset4 %>%
   select(year, VIX, AM, EM) %>%
@@ -191,34 +202,50 @@ dataset5 <- dataset_total %>%
   select(year, vix_EUA) %>% 
   filter(row_number() <= 16) %>% 
   rename(value = vix_EUA) %>% 
-  mutate(variable = "VIX")
+  mutate(variable = "US VIX")
 
-dataset6 <- dataset_total %>% 
-  group_by(year, develop) %>% 
-  mutate(foreign_GDP = mean(foreign_participation_percent_GDP)) %>%
+dataset6 <- dataset_total %>%
+  filter(!is.na(foreign_participation_percent_GDP)) %>% 
+  group_by(year, develop) %>%
+  summarise(foreign_GDP = mean(foreign_participation_percent_GDP), year = year) %>%
   select(c(year, foreign_GDP)) %>% 
+  distinct() %>% 
   rename(variable = develop, value = foreign_GDP)
 
 p1 <- dataset5 %>% 
   ggplot() +
   geom_line(aes(x = year, y = value, colour = variable), size = 1) +
   scale_color_manual(values = c("black")) +
-  labs(x = "Year", y = "VIX EUA", title = "", subtitle = "") +
+  labs(x = "", y = "US VIX", title = "", subtitle = "") +
   scale_x_continuous(limits = c(2004, 2019), seq(2004, 2019, by=2), name = "Year") +
   #scale_y_continuous(breaks=NULL) +
-  theme_bw()
+  theme_light() +
+  theme(legend.title = element_blank(),
+        axis.title.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        axis.line.x = element_line(color = "black"),
+        panel.border = element_blank(),
+        plot.caption = element_blank(),
+        axis.text.y = element_text(margin = margin(l = 8)))
   
-p2 <- dataset6 %>% 
-  ggplot() +
-  geom_line(aes(x = year, y = value, colour = variable), size = 1) +
-  scale_color_manual(values = c("navyblue", "red4")) +
-  labs(x = "Year", y = "Foreign Participation", title = "", subtitle = "") +
-  scale_x_continuous(limits = c(2004, 2019), seq(2004, 2019, by=2), name = "Year") +
+(p2 <- dataset6 %>% 
+  ggplot(aes(x = year, y = value, fill = variable)) +
+  geom_col(position = "dodge") +
+  scale_fill_manual(values = c("navyblue", "red4")) +
+  labs(x = "Year", y = "Foreign Participation in \nSovereign Debt (% of GDP)", title = "", subtitle = "") +
+  scale_x_continuous(limits = c(2003, 2020), seq(2004, 2019, by = 2), name = "Year") +
   #scale_y_continuous(breaks=NULL) +
-  theme_bw()
+  theme_light() +
+  theme(legend.title = element_blank(),
+        plot.title = element_blank(),
+        axis.line.x = element_line(color = "black"),
+        panel.border = element_blank(),
+        plot.subtitle = element_blank(),
+        axis.text.y = element_text(margin = margin(l = 8))))
 
 grid.newpage()
-grid.draw(rbind(ggplotGrob(p2),
-                ggplotGrob(p1),
+grid.draw(rbind(ggplotGrob(p1),
+                ggplotGrob(p2),
                 size = "last"))
 
