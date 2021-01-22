@@ -25,6 +25,7 @@ library(cowplot)
 library(tidyr)
 library(dplyr)
 library(grid)
+library(forecast)
 
 # Calling our dataset
 dataset_total_jan_2021 <- read.csv("https://raw.githubusercontent.com/Insper-Data/Data_Macro/master/Paper/dataset_total_jan_2021.csv") 
@@ -114,19 +115,76 @@ dataset_total %>%
   xlim(0,1)+
   theme_bw()
 
-
+# 5.1 Mostra a relação da inflação com a participação na dívida e o tamanho da bolinha é o PIB percapita (note que ele vai diminuindo)
 dataset_total %>%
-  filter(!is.na(inflation_end)) %>% 
   group_by(country) %>% 
-  mutate(mean_inflation = mean(inflation_end)) %>% 
-  #filter(develop == "EM") %>%
+  mutate(mean_indebt = mean(debt_to_GDP),
+         mean_inflation = mean(inflation_end),
+         mean_fiscal = mean(lending_borrowing_percent_GDP),
+         mean_percapita = mean(GDP_percapita_cur_USD),
+         upper = max(foreign_participation_percent_GDP),
+         lower = min(foreign_participation_percent_GDP)) %>% 
   ggplot() +
   geom_point(aes(x = mean_inflation, y = foreign_participation_percent_GDP, colour = develop,
-                 size = nominal_rate))+
-  labs(x = "ln(GDP per capita USD)", y = "Foreign Participation in Sovereign Debt in Terms of GDP (%)") +
+                 size = GDP_percapita_cur_USD), alpha = .2) +
+  #geom_errorbar(aes(ymin = lower, ymax = upper), width = .2) +
+  #labs(x = "ln(GDP per capita USD)", y = "Foreign Participation in Sovereign Debt in Terms of GDP (%)") +
   scale_color_manual(values = c("navyblue", "red4")) +
-  #ylim(0,1)+
-  theme_bw()
+  theme_light()
+
+# 5.2 Mesmo que no de cima, mas colorindo por país
+dataset_total %>%
+  group_by(country) %>% 
+  mutate(mean_indebt = mean(debt_to_GDP),
+         mean_inflation = mean(inflation_end),
+         mean_fiscal = mean(lending_borrowing_percent_GDP),
+         mean_percapita = mean(GDP_percapita_cur_USD)) %>% 
+  ggplot() +
+  geom_point(aes(x = mean_inflation, y = foreign_participation_percent_GDP, colour = country,
+                 size = GDP_percapita_cur_USD), alpha = .5)+
+  #labs(x = "ln(GDP per capita USD)", y = "Foreign Participation in Sovereign Debt in Terms of GDP (%)") +
+  scale_color_viridis_d(option = "magma") +
+  theme_light() +
+  theme(legend.position = "none")
+
+# 5.3 Relação entre volatilidade do crescimento real e a participação
+dataset_total %>%
+  group_by(country) %>% 
+  mutate(mean_indebt = mean(debt_to_GDP),
+         mean_inflation = mean(inflation_end),
+         mean_fiscal = mean(lending_borrowing_percent_GDP),
+         mean_percapita = mean(GDP_percapita_cur_USD),
+         GDP_growth = (GDP_cte_billions - lag(GDP_cte_billions, k = 1))/lag(GDP_cte_billions, k = 1),
+         sd_GDP_growth = sd(GDP_growth, na.rm = T),
+         mean_share = mean(foreign_participation_percent_GDP)) %>%
+  ggplot() +
+  geom_label(aes(x = sd_GDP_growth, y = mean_share, colour = develop,
+                 size = mean_indebt, label = country), alpha = .3) +
+  #labs(x = "ln(GDP per capita USD)", y = "Foreign Participation in Sovereign Debt in Terms of GDP (%)") +
+  scale_color_manual(values = c("navyblue", "red4")) +
+  theme_light() +
+  facet_wrap(~develop) +
+  theme(legend.position = "none")
+
+# 5.4 Relação entre média do crescimento real e a participação - sensibilizando por SD
+dataset_total %>%
+  group_by(country) %>% 
+  mutate(mean_indebt = mean(debt_to_GDP),
+         mean_inflation = mean(inflation_end),
+         mean_fiscal = mean(lending_borrowing_percent_GDP),
+         mean_percapita = mean(GDP_percapita_cur_USD),
+         GDP_growth = (GDP_cte_billions - lag(GDP_cte_billions, k = 1))/lag(GDP_cte_billions, k = 1),
+         mean_GDP_growth = mean(GDP_growth, na.rm = T),
+         sd_GDP_growth = sd(GDP_growth, na.rm = T),
+         mean_share_ex_off = mean(foreign_ex_officials_participation_percent_GDP)) %>%
+  ggplot() +
+  geom_label(aes(x = mean_GDP_growth, y = mean_share_ex_off, colour = develop,
+                       size = sd_GDP_growth, label = country), alpha = .3) +
+  #labs(x = "ln(GDP per capita USD)", y = "Foreign Participation in Sovereign Debt in Terms of GDP (%)") +
+  scale_color_manual(values = c("navyblue", "red4")) +
+  theme_light() +
+  facet_wrap(~develop) +
+  theme(legend.position = "none")
 
 ################################## EXTERNAL FACTORS ##############################################################
   
