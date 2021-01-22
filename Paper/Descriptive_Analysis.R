@@ -125,14 +125,19 @@ dataset_total %>%
          mean_fiscal = mean(lending_borrowing_percent_GDP, na.rm = T),
          mean_percapita = mean(GDP_percapita_cur_USD, na.rm = T),
          upper = max(foreign_participation_percent_GDP),
-         lower = min(foreign_participation_percent_GDP)) %>% 
+         lower = min(foreign_participation_percent_GDP),
+         GDP_percapita_cur_USD = GDP_percapita_cur_USD/1000) %>%
   ggplot() +
   geom_point(aes(x = mean_inflation, y = foreign_participation_percent_GDP, colour = develop,
                  size = GDP_percapita_cur_USD), alpha = .2) +
   #geom_errorbar(aes(ymin = lower, ymax = upper), width = .2) +
-  #labs(x = "ln(GDP per capita USD)", y = "Foreign Participation in Sovereign Debt in Terms of GDP (%)") +
+  labs(x = "Mean Inflation Between 2004-2019 (%)", y = "Foreign Participation in Sovereign\n Debt in Terms of GDP (%)") +
   scale_color_manual(values = c("navyblue", "red4")) +
-  theme_light()
+  guides(col=guide_legend(""),
+         size=guide_legend("GDP per capita \n(thousand USD)")) +
+  theme_light() +
+  theme(axis.text.y = element_text(margin = margin(l = 8)),
+        axis.text.x = element_text(margin = margin(b = 8)))
 
 # 5.4 Mesmo que no de cima, mas colorindo por país
 dataset_total %>%
@@ -187,6 +192,83 @@ dataset_total %>%
   theme_light() +
   facet_wrap(~develop) +
   theme(legend.position = "none")
+
+# 5.7 Relação entre volatilidade do cambio e a participação - sensibilizando por debt-to-gdp
+dataset_5.7_int <- dataset_total %>%
+  filter(country == "United States") %>%
+  group_by() %>% 
+  select(year, inflation_end) %>% 
+  rename(US_inflation_rate = inflation_end)
+
+dataset_5.7 <- dataset_total %>% 
+  left_join(dataset_5.7_int, by = "year")
+
+
+dataset_5.7 %>%
+  group_by(country) %>%
+  mutate(mean_indebt = mean(debt_to_GDP, na.rm = T),
+         mean_inflation = mean(inflation_end, na.rm = T),
+         mean_fiscal = mean(lending_borrowing_percent_GDP, na.rm = T),
+         mean_percapita = mean(GDP_percapita_cur_USD, na.rm = T),
+         GDP_growth = (GDP_cte_billions - lag(GDP_cte_billions, k = 1))/lag(GDP_cte_billions, k = 1),
+         mean_GDP_growth = mean(GDP_growth, na.rm = T),
+         sd_GDP_growth = sd(GDP_growth, na.rm = T),
+         x = US_inflation_rate/inflation_end,
+         fx_vol_real = mean(x, na.rm = T),
+         mean_share_ex_off = mean(foreign_ex_officials_participation_percent_GDP)) %>%
+  ggplot() +
+  geom_point(aes(x = log(fx_volatility*10000), y = foreign_participation_percent_GDP, colour = develop,
+                 size = debt_to_GDP), alpha = .3) +
+  #labs(x = "ln(GDP per capita USD)", y = "Foreign Participation in Sovereign Debt in Terms of GDP (%)") +
+  scale_color_manual(values = c("navyblue", "red4")) +
+  theme_light() #+
+  facet_wrap(~develop) +
+  theme(legend.position = "none")
+
+# 5.8 Níveis de inflação dividindo por desenvolvimento
+x_order <- c("From -1 to 2.5", "From 2.5 to 5", "From 5 to 7.5", "From 7.5 to 10", "From 10 to 12.5",
+             "From 12.5 to 15", "15 +")  
+
+dataset_total %>%
+  mutate(inflation_level = ifelse(inflation_end > - 1 & inflation_end <= 2.5, "From -1 to 2.5",
+                                  ifelse(inflation_end < 5, "From 2.5 to 5",
+                                         ifelse(inflation_end < 7.5, "From 5 to 7.5",
+                                                ifelse(inflation_end < 10, "From 7.5 to 10",
+                                                       ifelse(inflation_end < 12.5, "From 10 to 12.5",
+                                                              ifelse(inflation_end < 15, "From 12.5 to 15", "15 +"))))))) %>%
+  filter(!is.na(inflation_level)) %>% 
+  ggplot() +
+  geom_violin(aes(factor(inflation_level, levels = x_order), foreign_participation_percent_GDP, fill = develop,
+                  colour = develop)) +
+  scale_color_manual(values = c("navyblue", "red4")) +
+  scale_fill_manual(values = c("navyblue", "red4")) +
+  theme_light() +
+  xlab("Inflation Levels (%)") +
+  facet_wrap(~develop)
+
+# 5.8 Níveis de inflação
+x_order <- c("From -1 to 2.5", "From 2.5 to 5", "From 5 to 7.5", "From 7.5 to 10", "From 10 to 12.5",
+             "From 12.5 to 15", "15 +")  
+
+dataset_total %>%
+  mutate(inflation_level = ifelse(inflation_end > - 1 & inflation_end <= 2.5, "From -1 to 2.5",
+                                  ifelse(inflation_end < 5, "From 2.5 to 5",
+                                         ifelse(inflation_end < 7.5, "From 5 to 7.5",
+                                                ifelse(inflation_end < 10, "From 7.5 to 10",
+                                                       ifelse(inflation_end < 12.5, "From 10 to 12.5",
+                                                              ifelse(inflation_end < 15, "From 12.5 to 15", "15 +"))))))) %>%
+  filter(!is.na(inflation_level)) %>% 
+  ggplot() +
+  geom_violin(aes(factor(inflation_level, levels = x_order), foreign_participation_percent_GDP), fill = "black") +
+  scale_color_manual(values = c("navyblue", "red4")) +
+  scale_fill_manual(values = c("navyblue", "red4")) +
+  theme_light() +
+  xlab("Inflation Levels (%)")
+
+
+
+  
+  
 
 ################################## EXTERNAL FACTORS ##############################################################
   
