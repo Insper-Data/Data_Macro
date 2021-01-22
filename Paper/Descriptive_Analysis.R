@@ -29,6 +29,7 @@ library(forecast)
 
 # Calling our dataset
 dataset_total_jan_2021 <- read.csv("https://raw.githubusercontent.com/Insper-Data/Data_Macro/master/Paper/dataset_total_jan_2021.csv") 
+
 dataset_total <- dataset_total_jan_2021 
 
 #--------------------------------------------------------------------------------------------
@@ -267,7 +268,35 @@ dataset_total %>%
 
 
 
-  
+# 5.9 Relação entre volatilidade do cambio e a participação - sensibilizando por rule of law
+dataset_5.9_int <- dataset_total %>%
+  filter(country == "United States") %>%
+  group_by() %>% 
+  select(year, inflation_end) %>% 
+  rename(US_inflation_rate = inflation_end)
+
+dataset_5.9 <- dataset_total %>% 
+  left_join(dataset_5.9_int, by = "year")
+
+
+dataset_5.9 %>%
+  group_by(country) %>%
+  mutate(mean_indebt = mean(debt_to_GDP, na.rm = T),
+         mean_inflation = mean(inflation_end, na.rm = T),
+         mean_fiscal = mean(lending_borrowing_percent_GDP, na.rm = T),
+         mean_percapita = mean(GDP_percapita_cur_USD, na.rm = T),
+         GDP_growth = (GDP_cte_billions - lag(GDP_cte_billions, k = 1))/lag(GDP_cte_billions, k = 1),
+         mean_GDP_growth = mean(GDP_growth, na.rm = T),
+         sd_GDP_growth = sd(GDP_growth, na.rm = T),
+         x = US_inflation_rate/inflation_end,
+         fx_vol_real = mean(x, na.rm = T),
+         mean_share_ex_off = mean(foreign_ex_officials_participation_percent_GDP)) %>%
+  ggplot() +
+  geom_point(aes(x = log(fx_volatility*10000), y = foreign_participation_percent_GDP, colour = develop,
+                 size = rule_of_law_rank), alpha = .3) +
+  scale_color_manual(values = c("navyblue", "red4")) +
+  theme_light() 
+
   
 
 ################################## EXTERNAL FACTORS ##############################################################
