@@ -99,6 +99,7 @@ dataset_total %>%
 
 ################################################ FUNDAMENTALS ################################################################################################################
 
+# 5.1
 dataset_total %>%
   filter(develop == "AM") %>%
   ggplot(aes(x = fx_volatility, y = foreign_participation_percent_GDP)) +
@@ -107,6 +108,7 @@ dataset_total %>%
   xlim(0,1)+
   theme_bw()
 
+# 5.2
 dataset_total %>%
   filter(develop == "EM" ) %>%
   ggplot(aes(x = fx_volatility, y = foreign_participation_percent_GDP)) +
@@ -115,13 +117,13 @@ dataset_total %>%
   xlim(0,1)+
   theme_bw()
 
-# 5.1 Mostra a relação da inflação com a participação na dívida e o tamanho da bolinha é o PIB percapita (note que ele vai diminuindo)
+# 5.3 Mostra a relação da inflação com a participação na dívida e o tamanho da bolinha é o PIB percapita (note que ele vai diminuindo)
 dataset_total %>%
   group_by(country) %>% 
-  mutate(mean_indebt = mean(debt_to_GDP),
-         mean_inflation = mean(inflation_end),
-         mean_fiscal = mean(lending_borrowing_percent_GDP),
-         mean_percapita = mean(GDP_percapita_cur_USD),
+  mutate(mean_indebt = mean(debt_to_GDP, na.rm = T),
+         mean_inflation = mean(inflation_end, na.rm = T),
+         mean_fiscal = mean(lending_borrowing_percent_GDP, na.rm = T),
+         mean_percapita = mean(GDP_percapita_cur_USD, na.rm = T),
          upper = max(foreign_participation_percent_GDP),
          lower = min(foreign_participation_percent_GDP)) %>% 
   ggplot() +
@@ -132,28 +134,28 @@ dataset_total %>%
   scale_color_manual(values = c("navyblue", "red4")) +
   theme_light()
 
-# 5.2 Mesmo que no de cima, mas colorindo por país
+# 5.4 Mesmo que no de cima, mas colorindo por país
 dataset_total %>%
   group_by(country) %>% 
-  mutate(mean_indebt = mean(debt_to_GDP),
-         mean_inflation = mean(inflation_end),
-         mean_fiscal = mean(lending_borrowing_percent_GDP),
-         mean_percapita = mean(GDP_percapita_cur_USD)) %>% 
+  mutate(mean_indebt = mean(debt_to_GDP, na.rm = T),
+         mean_inflation = mean(inflation_end, na.rm = T),
+         mean_fiscal = mean(lending_borrowing_percent_GDP, na.rm = T),
+         mean_percapita = mean(GDP_percapita_cur_USD, na.rm = T)) %>% 
   ggplot() +
   geom_point(aes(x = mean_inflation, y = foreign_participation_percent_GDP, colour = country,
-                 size = GDP_percapita_cur_USD), alpha = .5)+
+                 size = political_stability_rank), alpha = .5)+
   #labs(x = "ln(GDP per capita USD)", y = "Foreign Participation in Sovereign Debt in Terms of GDP (%)") +
-  scale_color_viridis_d(option = "magma") +
+  #scale_color_viridis_d("magma") +
   theme_light() +
   theme(legend.position = "none")
 
-# 5.3 Relação entre volatilidade do crescimento real e a participação
+# 5.5 Relação entre volatilidade do crescimento real e a participação
 dataset_total %>%
   group_by(country) %>% 
-  mutate(mean_indebt = mean(debt_to_GDP),
-         mean_inflation = mean(inflation_end),
-         mean_fiscal = mean(lending_borrowing_percent_GDP),
-         mean_percapita = mean(GDP_percapita_cur_USD),
+  mutate(mean_indebt = mean(debt_to_GDP, na.rm = T),
+         mean_inflation = mean(inflation_end, na.rm = T),
+         mean_fiscal = mean(lending_borrowing_percent_GDP, na.rm = T),
+         mean_percapita = mean(GDP_percapita_cur_USD, na.rm = T),
          GDP_growth = (GDP_cte_billions - lag(GDP_cte_billions, k = 1))/lag(GDP_cte_billions, k = 1),
          sd_GDP_growth = sd(GDP_growth, na.rm = T),
          mean_share = mean(foreign_participation_percent_GDP)) %>%
@@ -166,13 +168,13 @@ dataset_total %>%
   facet_wrap(~develop) +
   theme(legend.position = "none")
 
-# 5.4 Relação entre média do crescimento real e a participação - sensibilizando por SD
+# 5.6 Relação entre média do crescimento real e a participação - sensibilizando por SD
 dataset_total %>%
   group_by(country) %>% 
-  mutate(mean_indebt = mean(debt_to_GDP),
-         mean_inflation = mean(inflation_end),
-         mean_fiscal = mean(lending_borrowing_percent_GDP),
-         mean_percapita = mean(GDP_percapita_cur_USD),
+  mutate(mean_indebt = mean(debt_to_GDP, na.rm = T),
+         mean_inflation = mean(inflation_end, na.rm = T),
+         mean_fiscal = mean(lending_borrowing_percent_GDP, na.rm = T),
+         mean_percapita = mean(GDP_percapita_cur_USD, na.rm = T),
          GDP_growth = (GDP_cte_billions - lag(GDP_cte_billions, k = 1))/lag(GDP_cte_billions, k = 1),
          mean_GDP_growth = mean(GDP_growth, na.rm = T),
          sd_GDP_growth = sd(GDP_growth, na.rm = T),
