@@ -174,7 +174,7 @@ dataset_total %>%
   facet_wrap(~develop) +
   theme(legend.position = "none")
 
-# 5.6 Relação entre média do crescimento real e a participação - sensibilizando por SD
+# 5.6 Relação entre média do crescimento real e a participação - sensibilizando por Rule of Law
 dataset_total %>%
   group_by(country) %>% 
   mutate(mean_indebt = mean(debt_to_GDP, na.rm = T),
@@ -184,15 +184,19 @@ dataset_total %>%
          GDP_growth = (GDP_cte_billions - lag(GDP_cte_billions, k = 1))/lag(GDP_cte_billions, k = 1),
          mean_GDP_growth = mean(GDP_growth, na.rm = T),
          sd_GDP_growth = sd(GDP_growth, na.rm = T),
+         mean_rule = mean(rule_of_law_rank, na.rm = T),
          mean_share_ex_off = mean(foreign_ex_officials_participation_percent_GDP)) %>%
   ggplot() +
   geom_label(aes(x = mean_GDP_growth, y = mean_share_ex_off, colour = develop,
-                       size = sd_GDP_growth, label = country), alpha = .3) +
-  #labs(x = "ln(GDP per capita USD)", y = "Foreign Participation in Sovereign Debt in Terms of GDP (%)") +
+                       size = mean_rule, label = country), alpha = .3) +
+  guides(size = guide_legend("Rule of\nLaw"),
+         colour = FALSE) +
+  labs(x = "Mean GDP Growth Between 2004-2019 (%)", y = "Mean Foreign Participation in\nSovereign Debt in Terms of GDP (%)") +
   scale_color_manual(values = c("navyblue", "red4")) +
   theme_light() +
-  facet_wrap(~develop) +
-  theme(legend.position = "none")
+  theme(axis.text.y = element_text(margin = margin(l = 8)),
+        axis.text.x = element_text(margin = margin(b = 8))) +
+  facet_wrap(~develop)
 
 # 5.7 Relação entre volatilidade do cambio e a participação - sensibilizando por debt-to-gdp
 dataset_5.7_int <- dataset_total %>%
@@ -240,12 +244,29 @@ dataset_total %>%
   filter(!is.na(inflation_level)) %>% 
   ggplot() +
   geom_violin(aes(factor(inflation_level, levels = x_order), foreign_participation_percent_GDP, fill = develop,
-                  colour = develop)) +
+                  colour = develop), trim = T) +
+  geom_vline(xintercept = 1.5, 
+             color = "black", size = .6) +
+  geom_vline(xintercept = 2.5, 
+             color = "black", size = .6) +
+  geom_vline(xintercept = 3.5, 
+             color = "black", size = .6) +
+  geom_vline(xintercept = 4.5, 
+             color = "black", size = .6) +
+  geom_vline(xintercept = 5.5, 
+             color = "black", size = .6) +
+  geom_vline(xintercept = 6.5, 
+             color = "black", size = .6) +
   scale_color_manual(values = c("navyblue", "red4")) +
   scale_fill_manual(values = c("navyblue", "red4")) +
+  guides(fill = guide_legend(""),
+         color = guide_legend("")) +
   theme_light() +
-  xlab("Inflation Levels (%)") +
-  facet_wrap(~develop)
+  labs(x = "Inflation Level (%)", y = "Foreign Participation in Sovereign\n Debt in Terms of GDP (%)") + 
+  theme(axis.line.x = element_line(colour = "black", size = .6),
+        axis.line.y = element_line(colour = "black", size = .6),
+        axis.text.y = element_text(margin = margin(l = 8)),
+        axis.text.x = element_text(margin = margin(b = 8)))
 
 # 5.8 Níveis de inflação
 x_order <- c("From -1 to 2.5", "From 2.5 to 5", "From 5 to 7.5", "From 7.5 to 10", "From 10 to 12.5",
@@ -293,10 +314,14 @@ dataset_5.9 %>%
          mean_share_ex_off = mean(foreign_ex_officials_participation_percent_GDP)) %>%
   ggplot() +
   geom_point(aes(x = log(fx_volatility*10000), y = foreign_participation_percent_GDP, colour = develop,
-                 size = rule_of_law_rank), alpha = .3) +
+                 size = rule_of_law_rank), alpha = .4) +
+  labs(x = "FX Volatility*", y = "Foreign Participation in Sovereign\n Debt in Terms of GDP (%)") +
   scale_color_manual(values = c("navyblue", "red4")) +
-  theme_light() 
-
+  guides(col=guide_legend(""),
+         size=guide_legend("Rule of\nLaw Rank")) +
+  theme_light() +
+  theme(axis.text.y = element_text(margin = margin(l = 8)),
+        axis.text.x = element_text(margin = margin(b = 8)))
   
 
 ################################## EXTERNAL FACTORS ##############################################################
