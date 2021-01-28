@@ -46,7 +46,6 @@ sum_stats_variables <- dataset_total_jan_2021 %>%
   select(c(5, 15, 16, 23, 27, 34, 36, 41, 43, 45, 47, 49, 51)) %>%  # ommiting variables that do not appear in table 2
   mutate(foreign_participation_percent_GDP = foreign_participation_percent_GDP*100,
          foreign_ex_officials_participation_percent_GDP = foreign_ex_officials_participation_percent_GDP*100,
-         current_account_percent_GDP = current_account_percent_GDP*100,
          GDP_percapita_cur_USD = GDP_percapita_cur_USD/1000) %>% 
   select(c(1:6, 9:12, everything()))
 

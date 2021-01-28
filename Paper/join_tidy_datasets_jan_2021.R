@@ -59,7 +59,8 @@ debt_prop <- debt_prop_Q %>%
 
 # Tidying debt_prop dataset (it will be the base dataset for joins)
 debt_prop <- debt_prop %>% 
-  mutate(year = as.numeric(year), quarter = as.integer(quarter))
+  mutate(year = as.numeric(year), quarter = as.integer(quarter),
+         country = as.character(country))
 
 debt_prop <- debt_prop %>% 
   filter(quarter == 4)
@@ -215,7 +216,9 @@ dataset_total <- dataset_total %>%
 # Tidying continents dataset
 continents <- continents %>% 
   rename(continent=1) %>% 
-  rename(country=2)
+  rename(country=2) %>% 
+  mutate(country = as.character(country),
+         continent = as.character(continent))
 
 # Joining continents with dataset_total
 dataset_total <- dataset_total %>% 
@@ -231,18 +234,18 @@ gov_index <- gov_index %>%
 gov_index <- gov_index %>% 
   rename(year=1, country=2, control_corruption_rank=3, gov_effectiveness_rank=4, political_stability_rank=5, regulatory_quality_rank=6, rule_of_law_rank=7, voice_rank=8)
 
-# Joining continents with dataset_total
-dataset_total <- dataset_total %>% 
-  left_join(gov_index, by = c("country", "year"))
-
-# For some reason we cannot explain, variables joined as characters. We changed it below
-dataset_total <- dataset_total %>% 
+# For some reason we cannot explain, variables are as characters. We changed it below
+gov_index <- gov_index %>% 
   mutate(control_corruption_rank = as.numeric(control_corruption_rank)) %>% 
   mutate(gov_effectiveness_rank = as.numeric(gov_effectiveness_rank)) %>% 
   mutate(political_stability_rank = as.numeric(political_stability_rank)) %>% 
   mutate(regulatory_quality_rank = as.numeric(regulatory_quality_rank)) %>% 
   mutate(rule_of_law_rank = as.numeric(rule_of_law_rank)) %>% 
   mutate(voice_rank=as.numeric(voice_rank))
+
+# Joining continents with dataset_total
+dataset_total <- dataset_total %>% 
+  left_join(gov_index, by = c("country", "year"))
 
 #--------------------------------------------------------------------------------------------
 
@@ -261,7 +264,7 @@ fx_volatility <- fx_volatility %>%
 # Joining FX volatility with dataset_total
 
 dataset_total <- dataset_total %>% 
-  left_join(fx_volatility, by=c("country", "year"))
+  left_join(fx_volatility, by = c("country", "year"))
 
 dataset_total <- dataset_total %>% 
   group_by() %>% 
