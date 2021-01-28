@@ -57,9 +57,9 @@ debt_prop <- debt_prop_Q %>%
 
 #--------------------------------------------------------------------------------------------
 
-# Tidying debt_prop dataset (it will be base dataset for joins)
+# Tidying debt_prop dataset (it will be the base dataset for joins)
 debt_prop <- debt_prop %>% 
-  mutate(year = as.integer(year), quarter = as.integer(quarter))
+  mutate(year = as.numeric(year), quarter = as.integer(quarter))
 
 debt_prop <- debt_prop %>% 
   filter(quarter == 4)
@@ -225,7 +225,8 @@ dataset_total <- dataset_total %>%
 
 # Tidying governance indicators (WB) dataset
 gov_index <- gov_index %>% 
-  select(1, 3, 7, 13, 19, 25, 31, 37)
+  select(1, 3, 7, 13, 19, 25, 31, 37) %>% 
+  na_if("..")
 
 gov_index <- gov_index %>% 
   rename(year=1, country=2, control_corruption_rank=3, gov_effectiveness_rank=4, political_stability_rank=5, regulatory_quality_rank=6, rule_of_law_rank=7, voice_rank=8)
@@ -283,7 +284,9 @@ real_interest_rates <- real_interest_rates %>%
   rename(year = Year) %>% 
   mutate(country = str_replace_all(string = country, pattern = "Egypt, Arab Rep.", replacement = "Egypt")) %>%
   mutate(country = str_replace_all(string = country, pattern = "Russian Federation", replacement = "Russia")) %>%
-  mutate(country = str_replace_all(string = country, pattern = "Korea, Rep.", replacement = "Korea"))
+  mutate(country = str_replace_all(string = country, pattern = "Korea, Rep.", replacement = "Korea")) %>% 
+  na_if("..") %>% 
+  mutate(real_interest_rate = as.numeric(real_interest_rate))
 
 # Joining real interest rates with dataset_total
 dataset_total <- dataset_total %>% 
