@@ -65,12 +65,12 @@ stargazer(reg1.AM,
           reg3.AM, 
           reg4.AM,
           title = "Advanced Markets", type = "latex", style = "qje", 
-          add.lines = list(c("Country FE", "YES", "NO", "YES", "NO"), c("Year FE", "NO", "YES", "YES", "NO")),
+          add.lines = list(c("Country FE", "Yes", "No", "Yes", "No"), c("Year FE", "No", "Yes", "Yes", "No")),
           se = list(reg1.AMc, reg2.AMc, reg3.AMc, reg4.AMc),
           omit.stat = "f",
            covariate.labels = c("Debt-to-GDP", "ln(GDP per capita)", "Nominal Interest", "Inflation",
                                 "Current Account Balance", "FX Volatility", "VIX EUA", "US Nominal Rate"),
-          dep.var.labels = c("Foreign participation on public debt divided by GDP"))
+          dep.var.labels = c("Foreign Participation in Sovereign Debt (% GDP)"))
 
 
 #--------------------------------------------------------------------------------------------
@@ -99,11 +99,11 @@ stargazer(reg1.EM,
           reg3.EM, 
           reg4.EM,
           title = "Emerging Markets", type = "latex", style = "qje",
-          add.lines = list(c("Country FE", "YES", "NO", "YES", "NO"), c("Year FE", "NO", "YES", "YES", "NO")),
+          add.lines = list(c("Country FE", "Yes", "No", "Yes", "No"), c("Year FE", "No", "Yes", "Yes", "No")),
           se = list(reg1.EMc, reg2.EMc, reg3.EMc, reg4.EMc),
           omit.stat = "f",
           covariate.labels = c("Debt-to-GDP", "ln(GDP per capita)", "Nominal Interest",
                                "Inflation", "Current Account Balance",
                                "FX Volatility", "VIX EUA", "US Nominal Rate"),
-          dep.var.labels = c("Foreign participation on public debt divided by GDP"))
+          dep.var.labels = c("Foreign Participation in Sovereign Debt (% GDP)"))
 
