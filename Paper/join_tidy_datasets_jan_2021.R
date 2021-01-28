@@ -28,6 +28,7 @@ fx_volatility <- read.csv("volatilidade_cambio.csv")
 real_interest_rates <- readxl::read_xlsx("real_interest_rates.xlsx")
 International_Liquidity <- readxl::read_xlsx("International_Liquidity.xlsx")
 interest_rates <- readxl::read_xlsx("Interest_Rate_Nom.xlsx")
+GBI_raw <- readxl::read_xlsx("GBI.xlsx")
 
 
 #--------------------------------------------------------------------------------------------
@@ -307,6 +308,28 @@ International_Liquidity <- International_Liquidity %>%
 # Joining international reserves with dataset_total
 dataset_total <- dataset_total %>% 
   left_join(International_Liquidity, by = c("year", "country"))
+
+#--------------------------------------------------------------------------------------------
+
+# Tidying GBI EM BROAD
+GBI <- GBI_raw
+
+GBI_tidy <- GBI %>%
+  select(-c(4, 22)) %>% 
+  pivot_longer(-Date, names_to = "desc", values_to = "GBI_weight") %>%
+  separate(Date, into = c("Year", "Month", "Day"), sep = "-") %>% 
+  mutate(year = Year) %>%
+  unite("date", Year:Day, sep = "-") %>% 
+  separate(desc, into = c("country", "c1", "c2", "c3", "c4", "c5",
+                          "c6", "c7", "c8", "c9"), sep = " ") %>% 
+  mutate(country = ifelse(c1 == "Africa", "South Africa", country),
+         maturity = "1-3 years",
+         year = as.numeric(year)) %>%
+  select(year, country, GBI_weight)
+
+# Joining international reserves with dataset_total
+dataset_total <- dataset_total %>% 
+  left_join(GBI_tidy, by = c("year", "country"))
 
 
 #--------------------------------------------------------------------------------------------
