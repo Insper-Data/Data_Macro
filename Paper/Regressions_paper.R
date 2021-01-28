@@ -20,7 +20,7 @@ library(plm)
 library(lmtest)
 
 # Calling our dataset
-dataset_total_jan_2021 <- read.csv("https://raw.githubusercontent.com/Insper-Data/Data_Macro/master/Paper/dataset_total_jan_2021.csv")
+dataset_total_jan_2021 <- read.csv("https://raw.githubusercontent.com/Insper-Data/Data_Macro/master/Paper/Datasets/dataset_total_jan_2021.csv")
 
 
 #--------------------------------------------------------------------------------------------
