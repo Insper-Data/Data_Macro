@@ -8,7 +8,7 @@
 #--------------------------------------------------------------------------------------------
 
 # Cleaning environment:
-rm(list=ls())
+# rm(list=ls())
 
 # Libraries
 library(tidyverse)
@@ -425,7 +425,10 @@ dataset_total <- dataset_total %>%
 
 dataset_total <- dataset_total %>% 
   select(-c(yearQ, quarter, `WEO Country Code`, Scale, ticker)) %>% 
-  mutate(taxes = as.numeric(taxes))
+  mutate(taxes = as.numeric(taxes),
+         foreign_participation_percent_GDP = foreign_participation_percent_GDP*100,
+         foreign_ex_officials_participation_percent_GDP = foreign_ex_officials_participation_percent_GDP*100,
+        foreign_nonbank_participation_percent_GDP = foreign_nonbank_participation_percent_GDP*100)
 
 
 #--------------------------------------------------------------------------------------------
@@ -433,4 +436,3 @@ dataset_total <- dataset_total %>%
 #--------------------------------------------------------------------------------------------
 
 write_csv(dataset_total, "dataset_total_jan_2021.csv", append = F)
-

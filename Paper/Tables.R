@@ -50,7 +50,7 @@ sum_stats_variables <- dataset_total_jan_2021 %>%
   select(c(1:6, 9:12, everything()))
 
 sum_stats <- stargazer(sum_stats_variables, title = "Summarized Statistics", omit.summary.stat = c("p25", "p75"),
-                       type = "latex",
+                       type = "text",
                        covariate.labels = c("Debt-to-GDP (%)", "Foreign Debt Participation (% of GDP)",
                                              "Foreign Part. Except Officials (% of GDP)",
                                              "GDP per capita (thousand USD)", "Inflation (%)",
