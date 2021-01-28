@@ -43,17 +43,24 @@ GBI_raw <- readxl::read_xlsx("GBI.xlsx")
 debt_prop <- debt_prop_Q %>% 
   separate(yearQ, into = c("year", "quarter"), sep = "Q", remove = FALSE) %>% 
   group_by(country, year) %>% 
-  mutate(total_debt= mean(total_debt), 
-         debt_to_GDP=mean(debt_to_GDP),
-         fx=mean(fx),
-         nonbank_domestic_debt=mean(nonbank_domestic_debt),
-         bank_domestic_debt=mean(bank_domestic_debt),
-         official_domestic_debt=mean(official_domestic_debt),
-         domestic_debt=mean(domestic_debt),
-         nonbank_foreign_debt=mean(nonbank_foreign_debt),
-         bank_foreign_debt=mean(bank_foreign_debt),
-         official_foreign_debt=mean(official_foreign_debt),
-         foreign_debt=mean(foreign_debt))
+  mutate(total_debt = mean(total_debt), 
+         debt_to_GDP = mean(debt_to_GDP),
+         fx = mean(fx),
+         nonbank_domestic_debt = mean(nonbank_domestic_debt),
+         bank_domestic_debt = mean(bank_domestic_debt),
+         official_domestic_debt = mean(official_domestic_debt),
+         domestic_debt = mean(domestic_debt),
+         nonbank_foreign_debt = mean(nonbank_foreign_debt),
+         bank_foreign_debt = mean(bank_foreign_debt),
+         official_foreign_debt = mean(official_foreign_debt),
+         foreign_debt = mean(foreign_debt),
+         delta = mean(delta),
+         x = mean(x),
+         y = mean(y),
+         kappa = mean(kappa),
+         alpha = mean(alpha)
+         ) %>% 
+  select(-c(16:21))
 
 #--------------------------------------------------------------------------------------------
 
@@ -428,7 +435,7 @@ dataset_total <- dataset_total %>%
   mutate(taxes = as.numeric(taxes),
          foreign_participation_percent_GDP = foreign_participation_percent_GDP*100,
          foreign_ex_officials_participation_percent_GDP = foreign_ex_officials_participation_percent_GDP*100,
-        foreign_nonbank_participation_percent_GDP = foreign_nonbank_participation_percent_GDP*100)
+         foreign_nonbank_participation_percent_GDP = foreign_nonbank_participation_percent_GDP*100)
 
 
 #--------------------------------------------------------------------------------------------
