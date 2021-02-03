@@ -8,7 +8,7 @@
 #--------------------------------------------------------------------------------------------
 
 # Cleaning environment:
-# rm(list=ls())
+#rm(list=ls())
 
 # Libraries
 library(tidyverse)
@@ -29,7 +29,7 @@ real_interest_rates <- readxl::read_xlsx("real_interest_rates.xlsx")
 International_Liquidity <- readxl::read_xlsx("International_Liquidity.xlsx")
 interest_rates <- readxl::read_xlsx("Interest_Rate_Nom.xlsx")
 GBI_raw <- readxl::read_xlsx("GBI.xlsx")
-
+DXY <- read.csv("DXY.csv")
 
 #--------------------------------------------------------------------------------------------
       # TIDYING & JOINING USED DATASETS
@@ -344,6 +344,13 @@ GBI_tidy <- GBI %>%
 dataset_total <- dataset_total %>% 
   left_join(GBI_tidy, by = c("year", "country"))
 
+
+# Joining DXY with dataset_total
+DXY <- DXY %>% 
+  rename(year=1)
+
+dataset_total <- dataset_total %>% 
+  left_join(DXY, by = c("year"))
 
 #--------------------------------------------------------------------------------------------
 # CREATING NEW VARIABLES  
