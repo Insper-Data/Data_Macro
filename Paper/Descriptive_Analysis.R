@@ -4,8 +4,6 @@
 # Script to generate figures used in our paper
 
 # Authors: Augusto Netto, Gabriela Garcia, Maria Clara Drzeviechi and Victor H. Alexandrino
-
-
 #--------------------------------------------------------------------------------------------
 
 # Libraries
@@ -445,3 +443,58 @@ grid.draw(rbind(ggplotGrob(p1),
                 ggplotGrob(p2),
                 size = "last"))
 
+
+
+#DXY
+
+# 3.
+dataset7 <- dataset_total %>% 
+  select(year, dxy) %>% 
+  filter(row_number() <= 16) %>% 
+  rename(value = dxy) %>% 
+  mutate(variable = "DXY")
+
+dataset8 <- dataset_total %>%
+  filter(!is.na(foreign_participation_percent_GDP)) %>% 
+  group_by(year, develop) %>%
+  summarise(foreign_GDP = mean(foreign_participation_percent_GDP), year = year) %>%
+  select(c(year, foreign_GDP)) %>% 
+  distinct() %>% 
+  rename(variable = develop, value = foreign_GDP)
+
+p3 <- dataset7 %>% 
+  ggplot() +
+  geom_line(aes(x = year, y = value, colour = variable), size = 1) +
+  scale_color_manual(values = c("black")) +
+  labs(x = "", y = "DXY", title = "", subtitle = "") +
+  scale_x_continuous(limits = c(2004, 2019), seq(2004, 2019, by=2), name = "Year") +
+  #scale_y_continuous(breaks=NULL) +
+  theme_light() +
+  theme(legend.title = element_blank(),
+        axis.title.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        axis.line.x = element_line(color = "black"),
+        panel.border = element_blank(),
+        plot.caption = element_blank(),
+        axis.text.y = element_text(margin = margin(l = 8)))
+
+(p4 <- dataset8 %>% 
+    ggplot(aes(x = year, y = value, fill = variable)) +
+    geom_col(position = "dodge") +
+    scale_fill_manual(values = c("navyblue", "red4")) +
+    labs(x = "Year", y = "Foreign Participation in \nSovereign Debt (% of GDP)", title = "", subtitle = "") +
+    scale_x_continuous(limits = c(2003, 2020), seq(2004, 2019, by = 2), name = "Year") +
+    #scale_y_continuous(breaks=NULL) +
+    theme_light() +
+    theme(legend.title = element_blank(),
+          plot.title = element_blank(),
+          axis.line.x = element_line(color = "black"),
+          panel.border = element_blank(),
+          plot.subtitle = element_blank(),
+          axis.text.y = element_text(margin = margin(l = 8))))
+
+grid.newpage()
+grid.draw(rbind(ggplotGrob(p3),
+                ggplotGrob(p4),
+                size = "last"))
